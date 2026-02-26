@@ -1016,7 +1016,7 @@ function renderQuestion() {
   if (q.lo) meta.innerHTML += `<span class="tag tag-lo">${q.lo}</span>`;
 
   // Question text
-  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-text').innerHTML = formatQuestion(q.q);
 
   // Options
   const opts = document.getElementById('options');
@@ -1177,7 +1177,7 @@ function buildReview() {
       }
     }
     div.innerHTML = `
-      <div class="review-q"><strong style="color:var(--muted);font-size:0.75rem;font-family:'Space Mono',monospace">Q${i+1}</strong> &nbsp; ${a.q.q}</div>
+      <div class="review-q"><strong style="color:var(--muted);font-size:0.75rem;font-family:'Space Mono',monospace">Q${i+1}</strong> &nbsp; ${formatQuestion(a.q.q)}</div>
       <div class="review-answers">${answerLine}</div>
       ${a.q.exp && !a.correct ? `<div style="margin-top:0.6rem;font-size:0.8rem;color:var(--muted);line-height:1.55">${formatExplanation(a.q.exp)}</div>` : ''}
     `;
@@ -1194,6 +1194,56 @@ function retryWrong() {
 // ============================================================
 // HELPERS
 // ============================================================
+function formatQuestion(text) {
+  // Pattern: "intro text: 1. item  2. item  /  A. item  B. item"
+  // Split on the slash separator between numbered list and lettered list
+  if (!text.includes('/')) {
+    // Also handle plain numbered lists without slash
+    return formatInlineList(text);
+  }
+
+  const parts = text.split(/\s*\/\s*/);
+  const intro_and_nums = parts[0];
+  const letters_part = parts[1] || '';
+
+  // Extract intro (everything before "1.")
+  const introMatch = intro_and_nums.match(/^(.*?)(?=\s*1\.)/s);
+  const intro = introMatch ? introMatch[1].trim() : '';
+
+  // Extract numbered items: 1. ... 2. ... etc.
+  const numItems = [...intro_and_nums.matchAll(/(\d+)\.\s*(.*?)(?=\s+\d+\.|$)/g)]
+    .map(m => `<li>${m[2].trim()}</li>`).join('');
+
+  // Extract lettered items: A. ... B. ... etc.
+  const letItems = letters_part
+    ? [...letters_part.matchAll(/([A-Z])\.\s*(.*?)(?=\s+[A-Z]\.|$)/g)]
+        .map(m => `<li><strong>${m[1]}.</strong> ${m[2].trim()}</li>`).join('')
+    : '';
+
+  let html = '';
+  if (intro) html += `<span style="display:block;margin-bottom:0.6rem">${intro}</span>`;
+  if (numItems) html += `<ol style="margin:0.4rem 0 0.6rem 1.4rem;line-height:1.8">${numItems}</ol>`;
+  if (letItems) {
+    html += `<span style="display:block;margin:0.4rem 0 0.3rem;font-size:0.85rem;color:var(--muted)">Test activities:</span>`;
+    html += `<ul style="margin:0 0 0 1.4rem;line-height:1.8;list-style:none">${letItems}</ul>`;
+  }
+  return html || text;
+}
+
+function formatInlineList(text) {
+  // Handle "question: 1. x 2. y 3. z" inline numbered lists
+  if (/\s1\.\s/.test(text)) {
+    const introMatch = text.match(/^(.*?)(?=\s*1\.)/s);
+    const intro = introMatch ? introMatch[1].trim() : '';
+    const items = [...text.matchAll(/(\d+)\.\s*(.*?)(?=\s+\d+\.|$)/g)]
+      .map(m => `<li>${m[2].trim()}</li>`).join('');
+    if (items) {
+      return `${intro ? `<span style="display:block;margin-bottom:0.5rem">${intro}</span>` : ''}<ol style="margin:0.3rem 0 0 1.4rem;line-height:1.8">${items}</ol>`;
+    }
+  }
+  return text;
+}
+
 function formatExplanation(text) {
   // Split on answer labels: a) b) c) d) e) — even mid-sentence
   const parts = text.split(/(?=\b[a-e]\)\s)/i).filter(p => p.trim());
