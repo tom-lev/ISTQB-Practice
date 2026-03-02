@@ -3527,7 +3527,7 @@
     "exp": "a) Is not correct. It is impossible to prove that there are no defects anymore in the system under test (see testing principle 1). b) Is not correct. See testing principle 7. c) Is correct. Testing finds defects and failures which reduces the level of risk and at the same time gives more confidence in the quality level of the test object. d) Is not correct. It is impossible to test all combinations of inputs (see testing principle 2).",
     "lo": "FL-1.1.1",
     "k": "K1",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following options shows an example of test activities that contribute to success?",
@@ -3541,7 +3541,7 @@
     "exp": "a) Is correct. It is important that testers are involved from the beginning of the SDLC. It will increase understanding of design decisions and will detect defects early. b) Is not correct. Both developers and testers will have more understanding of each other's work products. c) Is not correct. End users will not help testers in increasing the quality of defect reports; also, users usually do not participate in low-level testing. d) Is not correct. Being certified does not automatically mean that the tester will be better in test design.",
     "lo": "FL-1.2.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "You have been assigned as a tester to a team producing a new system incrementally. You have noticed that no changes have been made to the existing regression test cases for several iterations and no new regression defects were identified. Your manager is happy, but you are not. Which testing principle explains your skepticism?",
@@ -3555,7 +3555,7 @@
     "exp": "a) Is correct. This principle means that if the same tests are repeated over and over again, eventually these tests no longer find any new defects. This is probably why the tests all passed in this release as well. b) Is not correct. This principle says about the mistaken belief that just finding and fixing a large number of defects will ensure the success of a system. c) Is not correct. This principle says that a small number of components usually contain most of the defects. d) Is not correct. This principle states that testing all combinations of inputs and preconditions is not feasible.",
     "lo": "FL-1.3.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "You work in a team that develops a mobile application for food ordering. In the current iteration the team decided to implement the payment functionality. Which of the following activities is a part of test analysis?",
@@ -3569,7 +3569,7 @@
     "exp": "a) Is not correct. Estimating the test effort is part of test planning. b) Is correct. This is an example of defining test conditions which is a part of test analysis. c) Is not correct. Using test techniques to derive coverage items is a part of test design. d) Is not correct. Reporting defects found during dynamic testing is a part of test execution.",
     "lo": "FL-1.4.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following factors have a SIGNIFICANT influence on the test approach? i. The SDLC  ii. The number of defects detected in previous projects  iii. The identified product risks  iv. New regulatory requirements forcing formal white-box testing  v. The test environment setup",
@@ -3583,7 +3583,7 @@
     "exp": "i. Is true. The SDLC has an influence on the test approach. ii. Is false. The number of defects detected in previous projects may have some influence, but this is not as significant. iii. Is true. The identified product risks are one of the most important factors. iv. Is true. Regulatory requirements are important factors. v. Is false. The test environment has no significant influence on the test approach.",
     "lo": "FL-1.4.2",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which TWO of the following tasks belong MAINLY to a testing role?",
@@ -3598,7 +3598,7 @@
     "exp": "a) Is correct. This is done by the testers. b) Is not correct. The product backlog is built and maintained by the product owner. c) Is not correct. This is done by the development team. d) Is not correct. This is a managerial role. e) Is correct. This is done by the testers since it is a technical task done as part of test analysis.",
     "lo": "FL-1.4.5",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following skills (i-v) are the MOST important skills of a tester? i. Having domain knowledge  ii. Creating a product vision  iii. Being a good team player  iv. Planning and organizing the work of the team  v. Critical thinking",
@@ -3612,7 +3612,7 @@
     "exp": "i. Is true. Having domain knowledge is an important tester skill. ii. Is false. This is a task of the business analyst together with the business representative. iii. Is true. Being a good team player is an important skill. iv. Is false. Planning and organizing the work of the team is a task of the test manager, not just the tester. v. Is true. Critical thinking is one of the most important skills of testers.",
     "lo": "FL-1.5.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "How is the whole team approach present in the interactions between testers and business representatives?",
@@ -3626,7 +3626,7 @@
     "exp": "a) Is not correct. The test automation approach is defined by testers with the help of developers and business representatives. b) Is not correct. The test strategy is decided in collaboration with the developers. c) Is not correct. Testers, developers, and business representatives are all part of the whole team approach. d) Is correct. Testers will work closely with business representatives to ensure desired quality levels are achieved, including supporting and collaborating with them to help create suitable acceptance tests.",
     "lo": "FL-1.5.2",
     "k": "K1",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Consider the following rule: 'for every SDLC activity there is a corresponding test activity'. In which SDLC models does this rule hold?",
@@ -3640,7 +3640,7 @@
     "exp": "d) Is correct. This rule holds for all SDLC models.",
     "lo": "FL-2.1.2",
     "k": "K1",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following statements BEST describes the acceptance test-driven development (ATDD) approach?",
@@ -3654,7 +3654,7 @@
     "exp": "a) Is not correct. The given/when/then format is more often used in behavior-driven development (BDD). b) Is not correct. This is the description of test-driven development (TDD). c) Is correct. In ATDD, tests are written from acceptance criteria as part of the design process. d) Is not correct. This is used in BDD.",
     "lo": "FL-2.1.3",
     "k": "K1",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following is NOT an example of the shift-left approach?",
@@ -3668,7 +3668,7 @@
     "exp": "a) Is not correct. Early review is an example of the shift-left approach. b) Is not correct. TDD is an example of the shift-left approach. c) Is not correct. Early non-functional testing is an example of the shift-left approach. d) Is correct. Test scripts should be subject to configuration management, so it makes no sense to create them before this process is set up.",
     "lo": "FL-2.1.5",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the arguments below would you use to convince your manager to organize retrospectives at the end of each release cycle?",
@@ -3682,7 +3682,7 @@
     "exp": "a) Is not correct. Retrospectives are more useful for identifying improvement opportunities and have little importance for clients. b) Is not correct. Retrospectives are not aimed to collect feedback about the product, but about the process. c) Is correct. Regularly conducted retrospectives, when appropriate follow-up activities occur, are critical to continual improvement of development and testing. d) Is not correct. Courage and respect are values of Extreme Programming and are not closely related to retrospectives.",
     "lo": "FL-2.1.6",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which types of failures (1-4) fit which test levels (A-D) BEST? 1. Failures in system behavior as it deviates from the user's business needs  2. Failures in communication between components  3. Failures in logic in the code  4. Failures in not correctly implemented business rules  /  A. Component testing  B. Component integration testing  C. System testing  D. Acceptance testing",
@@ -3696,7 +3696,7 @@
     "exp": "The test basis for acceptance testing is the user's business needs (1-D). Communication between components is tested during component integration testing (2-B). Failures in logic can be found during component testing (3-A). Business rules are the test basis for system testing (4-C).",
     "lo": "FL-2.2.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "You are testing a user story with three acceptance criteria: AC1 (TC1), AC2 (TC2), AC3 (TC3). Execution 1: TC1 Failed, TC2 Passed, TC3 Failed. Execution 2: TC1 Passed, TC2 Failed, TC3 Failed. Execution 3: TC1 Passed, TC2 Passed, TC3 Passed. Tests are repeated once all defects found are corrected. Which of the above tests are executed as regression tests?",
@@ -3710,7 +3710,7 @@
     "exp": "Because TC1 and TC3 failed in Execution 1 (tests 1 and 3), tests 4 and 6 are confirmation tests. Because TC2 and TC3 failed in Execution 2 (tests 5 and 6), tests 8 and 9 are also confirmation tests. TC2 passed in Execution 1 (test 2), so test 5 is a regression test. TC1 passed in Execution 2 (test 4), so test 7 is also a regression test.",
     "lo": "FL-2.2.3",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following is NOT a benefit of static testing?",
@@ -3724,7 +3724,7 @@
     "exp": "a) Is correct (NOT a benefit). Defect management is no less expensive. Finding and fixing defects later in the SDLC is actually more costly. b), c), d) Are all genuine benefits of static testing.",
     "lo": "FL-3.1.2",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following is a benefit of early and frequent feedback?",
@@ -3738,7 +3738,7 @@
     "exp": "a) Is not correct. Feedback can improve the test process, but if one only wants to improve future projects, the feedback does not need to come early or frequently. b) Is not correct. Feedback is not used to prioritize requirements. c) Is not correct. There is no one recommended way to measure quality of changes. d) Is correct. Early and frequent feedback can prevent misunderstandings about requirements.",
     "lo": "FL-3.2.1",
     "k": "K1",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "The reviews being used in your organization have the following attributes: there is the role of a scribe, the main purpose is to evaluate quality, the meeting is led by the author of the work product, there is individual preparation, a review report is produced. Which of the following review types is MOST likely being used?",
@@ -3752,7 +3752,7 @@
     "exp": "A scribe is specified for walkthroughs, technical reviews, and inspections — so this cannot be an informal review. The purpose of evaluating quality is one of the most important objectives of a walkthrough. The meeting being led by the author is not allowed for inspections and is typically not done in technical reviews, but is characteristic of walkthroughs.",
     "lo": "FL-3.2.4",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of these statements is NOT a factor that contributes to successful reviews?",
@@ -3766,7 +3766,7 @@
     "exp": "a), b), c) Are all genuine success factors for reviews. d) Is correct (NOT a success factor). During reviews one can find defects, not failures. The statement incorrectly uses the term 'failures' instead of 'defects'.",
     "lo": "FL-3.2.5",
     "k": "K1",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following is a characteristic of experience-based test techniques?",
@@ -3780,7 +3780,7 @@
     "exp": "a) Is not correct. This is a characteristic of white-box test techniques. b) Is not correct. This is a characteristic of white-box test techniques (coverage measurement). c) Is correct. This knowledge and experience includes expected use of the software, its environment, likely defects, and their distribution. d) Is not correct. This is a characteristic of black-box test techniques.",
     "lo": "FL-4.1.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "You are testing a simplified apartment search form with floor (ground floor; first floor; second or higher floor) and garden type (no garden; small garden; large garden). Ground floor apartments have a garden, higher floors don't. What is the minimal number of test cases to achieve 100% EP coverage for valid partitions?",
@@ -3794,7 +3794,7 @@
     "exp": "'Small garden' and 'large garden' can go only with 'ground floor', so we need two test cases with 'ground floor' covering these two garden type partitions. We need two more test cases to cover the two other floor partitions. The 'no garden' partition is covered by these tests. Total: TC1 (ground floor, small garden), TC2 (ground floor, large garden), TC3 (first floor, no garden), TC4 (second or higher floor, no garden).",
     "lo": "FL-4.2.1",
     "k": "K3",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "You are testing a system that calculates final course grade: 0-50 failed, 51-60 fair, 61-70 satisfactory, 71-80 good, 81-90 very good, 91-100 excellent. Test cases: TC1=91, TC2=50, TC3=81, TC4=60, TC5=70, TC6=80. What is the 2-value BVA coverage for the final result?",
@@ -3808,7 +3808,7 @@
     "exp": "There are 12 boundary values: 0, 50, 51, 60, 61, 70, 71, 80, 81, 90, 91, and 100. The test cases cover six of them: TC1=91, TC2=50, TC3=81, TC4=60, TC5=70, TC6=80. Therefore coverage = 6/12 = 50%.",
     "lo": "FL-4.2.2",
     "k": "K3",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "A bicycle rental CRM: members get 20% discount (unless deadline missed); after 15 rentals members get a T-Shirt gift. Decision table R1-R8 (Being a member T/F, Missed deadline T/F, 15th rental T/F). Based ONLY on the feature description, which rule describes an impossible situation?",
@@ -3822,7 +3822,7 @@
     "exp": "R8 = non-member, missed deadline, 15th rental. A non-member gets no discount (correct) but the T-Shirt gift is only for members. Therefore R8 shows an impossible action: a non-member cannot receive a T-Shirt gift regardless of the number of rentals.",
     "lo": "FL-4.2.3",
     "k": "K3",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "You test a system whose lifecycle is modeled by a state transition diagram. The system starts in the INIT state and ends in the OFF state. What is the MINIMAL number of test cases to achieve valid transitions coverage?",
@@ -3836,7 +3836,7 @@
     "exp": "'test' and 'error' transitions cannot occur in one test case. Neither can both 'done' transitions. This means we need at least three test cases. For example: TC1: test, done. TC2: run, error, done. TC3: run, pause, resume, pause, done.",
     "lo": "FL-4.2.4",
     "k": "K3",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Your test suite achieved 100% statement coverage. What is the consequence of this fact?",
@@ -3850,7 +3850,7 @@
     "exp": "a) Is correct. Since 100% statement coverage is achieved, every statement, including those with defects, must have been executed at least once. b) Is not correct. Coverage depends on what is tested, not on the number of test cases. c) Is not correct. If there is a loop in the code there may be an infinite number of paths. d) Is not correct. Exhaustive testing is not possible.",
     "lo": "FL-4.3.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following is NOT true for white-box testing?",
@@ -3864,7 +3864,7 @@
     "exp": "a), b), c) Are all true for white-box testing. d) Is correct (NOT true). This is a weakness of white-box test techniques — they are not able to identify missing implementation because they are based solely on the test object structure, not on the requirements specification.",
     "lo": "FL-4.3.3",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following BEST describes the concept behind error guessing?",
@@ -3878,7 +3878,7 @@
     "exp": "a) Is correct. The basic concept behind error guessing is that the tester tries to guess what errors may have been made by the developer and what defects may be in the test object based on past experience. b) Is not correct. Error guessing is not based solely on prior development experience. c) Is not correct. Error guessing is not a usability technique. d) Is not correct. Duplicating the development task is impractical and is not error guessing.",
     "lo": "FL-4.4.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "In your project there has been a delay in the release of a brand-new application and test execution started late, but you have very detailed domain knowledge and good analytical skills. The full list of requirements has not yet been shared with the team, but management is asking for some test results. Which test technique fits BEST?",
@@ -3892,7 +3892,7 @@
     "exp": "a) Is not correct. This is a new product; you probably do not have a checklist yet and test conditions might not be known. b) Is not correct. This is a new product; you probably do not have enough information to make correct error guesses. c) Is correct. Exploratory testing is most useful when there are few known specifications and/or there is a pressing timeline. d) Is not correct. Branch testing is time-consuming and does not leverage domain knowledge effectively.",
     "lo": "FL-4.4.2",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following BEST describes the way acceptance criteria can be documented?",
@@ -3906,7 +3906,7 @@
     "exp": "a) Is not correct. Retrospectives are for process improvement, not for documenting acceptance criteria. b) Is correct. This is the standard way to document acceptance criteria. c) Is not correct. Verbal communication does not allow physically documenting acceptance criteria. d) Is not correct. Acceptance criteria are the conditions for completion, not risks.",
     "lo": "FL-4.5.2",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "User story: As an Editor I want to review content before it is published. Acceptance criteria: log in with Editor role, view/edit pages, add markup comments, save changes, reassign to content owner. Which is the BEST example of an ATDD test for this user story?",
@@ -3920,7 +3920,7 @@
     "exp": "a) Is correct. This test covers two acceptance criteria: editing the document and saving changes. b) Is not correct. Acceptance criteria cover the editor activities, not the content owner. c) Is not correct. Scheduling for publication is not covered by the acceptance criteria. d) Is not correct. Acceptance criteria state reassigning from editor to content owner, not to another editor.",
     "lo": "FL-4.5.3",
     "k": "K3",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "How do testers add value to iteration and release planning?",
@@ -3934,7 +3934,7 @@
     "exp": "a) Is not correct. Priorities for user stories are determined by the business representative together with the development team. b) Is not correct. Testers focus on both functional and non-functional aspects. c) Is correct. According to the syllabus, this is one of the ways testers add value to iteration and release planning. d) Is not correct. Early test design is not part of release planning and does not automatically guarantee quality.",
     "lo": "FL-5.1.2",
     "k": "K1",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which TWO of the following options are the exit criteria for testing a system?",
@@ -3949,7 +3949,7 @@
     "exp": "a) Is not correct. Test environment readiness is a resource availability criterion (entry criteria). b) Is not correct. This is also an entry criterion. c) Is correct. Estimated defect density is a measure of diligence — exit criteria. d) Is not correct. Testable requirements belong to entry criteria. e) Is correct. Automation of regression tests is a completion criterion — exit criteria.",
     "lo": "FL-5.1.3",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Your team uses the three-point estimation technique. Most optimistic: 2 person-hours, most likely: 11 person-hours, most pessimistic: 14 person-hours. What is the final estimate?",
@@ -3963,7 +3963,7 @@
     "exp": "Three-point estimation formula: E = (optimistic + 4*most likely + pessimistic) / 6 = (2 + 4*11 + 14) / 6 = (2 + 44 + 14) / 6 = 60 / 6 = 10 person-hours.",
     "lo": "FL-5.1.4",
     "k": "K3",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Test cases: TC001 (Select food, priority 3, no dep), TC002 (Select restaurant, priority 2, dep TC001), TC003 (Get direction, priority 1, dep TC002), TC004 (Call restaurant, priority 2, dep TC002), TC005 (Make reservation, priority 3, dep TC002). Which test case should be executed as the THIRD one?",
@@ -3977,7 +3977,7 @@
     "exp": "TC001 must come first (no dependencies). TC002 comes second (depends on TC001). After TC002, TC003 has the highest priority (priority 1) among remaining tests, so it runs third. Order: TC001 → TC002 → TC003 → TC004 → TC005.",
     "lo": "FL-5.1.5",
     "k": "K3",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Match test categories to agile testing quadrants: 1. Usability testing  2. Component testing  3. Functional testing  4. Reliability testing  /  A=Q1 technology-facing supporting dev  B=Q2 business-facing supporting dev  C=Q3 business-facing critique product  D=Q4 technology-facing critique product",
@@ -3991,7 +3991,7 @@
     "exp": "Usability testing is business-facing and critiques the product → Q3 (C). Component testing is technology-facing and supports development → Q1 (A). Functional testing is business-facing and supports development → Q2 (B). Reliability testing is technology-facing and critiques the product → Q4 (D).",
     "lo": "FL-5.1.7",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Risk: Response time too long for reports. Likelihood: medium, Impact: high. Response: independent team performs performance testing during system testing + end users perform alpha/beta testing before release. What measure is proposed?",
@@ -4005,7 +4005,7 @@
     "exp": "a) Is not correct. We do not accept the risk; concrete actions are proposed. b) Is not correct. No contingency plans are proposed. c) Is correct. The proposed actions are related to testing, which is a form of risk mitigation — actively working to reduce the likelihood or impact of the risk. d) Is not correct. Risk is not transferred to another party but mitigated through testing.",
     "lo": "FL-5.2.4",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which work product can be used by an agile team to show the amount of work that has been completed and the amount of total work remaining for a given iteration?",
@@ -4019,7 +4019,7 @@
     "exp": "a) Is not correct. Acceptance criteria are conditions to decide if a user story is ready; they cannot show work progress. b) Is not correct. Defect reports inform about defects, not work progress. c) Is not correct. Test completion report is created after the iteration is finished, so it does not show continuous progress within an iteration. d) Is correct. Burndown charts are a graphical representation of work left to do versus time remaining, updated daily.",
     "lo": "FL-5.3.3",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "You need to update one of the automated test scripts to be in line with a new requirement. Which process indicates that you create a new version of the test script in the test repository?",
@@ -4033,7 +4033,7 @@
     "exp": "a) Is not correct. Traceability is the relationship between two or more work products, not between different versions of the same work product. b) Is not correct. Maintenance testing is about testing changes, not related closely to versioning. c) Is correct. Configuration management may involve the version control of all test items, including test scripts. d) Is not correct. Requirements engineering is about elicitation, documentation, and management of requirements.",
     "lo": "FL-5.4.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "A defect report states: 'Application hangs up after entering Test input: $ä in the Name field. Tried with test_admin01 and other admin accounts. No error message; log contains fatal error. Based on TC-1305, application should accept input and create the user. Please fix with high priority, related to REQ-0012.' Developers say it is not reproducible. What critical information is MISSING?",
@@ -4047,7 +4047,7 @@
     "exp": "a) Is not correct. Expected result ('should accept input and create user') and actual result ('application hangs up') are both present. b) Is not correct. References (TC-1305, REQ-0012) and defect status (Rejected) are present. c) Is correct. We do not know in which test environment the anomaly was detected, nor which application version is affected — this is critical for reproduction. d) Is not correct. Priority (high) is stated, and severity can be inferred from the impact described.",
     "lo": "FL-5.5.1",
     "k": "K3",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which test activity does a data preparation tool support?",
@@ -4061,7 +4061,7 @@
     "exp": "a) Is not correct. Test monitoring involves checking activities and comparing actual progress against the plan — no test data preparation occurs. b) Is not correct. Test analysis includes identifying and prioritizing test conditions — no data preparation. c) Is correct. Test design and implementation can include the identification, creation, or acquisition of testware necessary for test execution, such as test data. d) Is not correct. Test completion activities occur at project milestones — too late for preparing test data.",
     "lo": "FL-6.1.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which item correctly identifies a potential risk of performing test automation?",
@@ -4075,7 +4075,7 @@
     "exp": "a) Is not correct. Test automation does not introduce unknown regressions in production. b) Is correct. Wrong allocation of effort to maintain testware is a genuine risk of test automation. c) Is not correct. Test tools must be selected so that they can be relied upon. d) Is not correct. Reducing manual testing is actually a benefit of test automation, not a risk.",
     "lo": "FL-6.2.1",
     "k": "K1",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "You were given a task to analyze and fix causes of failures in a new system to be released. Which activity are you performing?",
@@ -4089,7 +4089,7 @@
     "exp": "a) Is correct. Debugging is the process of finding, analyzing, and removing the causes of failures in a component or system. b) Is not correct. Testing is about planning, preparation and evaluation — not about fixing causes. c) Is not correct. Requirement elicitation is gathering and capturing requirements. d) Is not correct. Defect management is recognizing, recording, classifying, investigating, resolving, and disposing of defects — not fixing the root cause.",
     "lo": "FL-1.1.2",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "In many software organizations the test department is called the Quality Assurance (QA) department. Is this sentence correct or not and why?",
@@ -4103,7 +4103,7 @@
     "exp": "Testing and quality assurance are not the same. Testing is the process consisting of all SDLC activities, both static and dynamic, concerned with planning, preparation and evaluation of a component or system. Quality assurance is focused on establishing, introducing, monitoring, improving, and adhering to quality-related processes.",
     "lo": "FL-1.2.2",
     "k": "K1",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "A phone ringing distracts a programmer causing him to improperly program the logic that checks the upper boundary of an input variable. Later, a tester notices that the input field accepts invalid values. Which of the following correctly describes an incorrectly coded upper bound?",
@@ -4117,7 +4117,7 @@
     "exp": "a) Is not correct. The root cause is the distraction the programmer experienced. b) Is not correct. Accepting invalid inputs is the failure (observable incorrect behavior). c) Is not correct. The error is the mistake in thinking that put the defect in the code. d) Is correct. The incorrectly coded upper bound in the code is the defect (fault/bug).",
     "lo": "FL-1.2.3",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Consider the following testware — Test Charter #04.018, Session time: 1h, Explore: Registration page, With: Different sets of incorrect input data, To discover: Defects related to accepting the registration process with incorrect input. Which test activity produces this testware as an output?",
@@ -4131,7 +4131,7 @@
     "exp": "The testware under consideration is a test charter. Test charters are the output from test design.",
     "lo": "FL-1.4.3",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following is the BEST example of how traceability supports testing?",
@@ -4145,7 +4145,7 @@
     "exp": "a) Is not correct. Impact analysis helps select test cases, not assess completion. b) Is not correct. Traceability to test results alone doesn't give residual risk information unless traced to risks. c) Is correct. Performing impact analysis of changes helps in selecting the right test cases for regression testing. d) Is not correct. Selecting test data is more related to test analysis and implementation, not traceability.",
     "lo": "FL-1.4.4",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following BEST explains a benefit of independence of testing?",
@@ -4159,7 +4159,7 @@
     "exp": "a) Is not correct. Quality should be the responsibility of everyone, not solely the test team. b) Is not correct. External teams still need to meet delivery deadlines. c) Is not correct. Working in complete isolation and restricting communication is bad practice. d) Is correct. Specifications are never perfect; an independent tester can challenge and verify assumptions and interpretations made by the developer.",
     "lo": "FL-1.5.3",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "You are working as a tester in the team that follows the V-model. Which TWO of the following activities CAN be performed in the initial phases of the SDLC?",
@@ -4174,7 +4174,7 @@
     "exp": "a) Is not correct. Dynamic test execution requires executable code, which is not available in initial phases. b) Is correct. In initial phases, testers participate in requirement reviews, which is a form of static testing. c) Is correct. Test planning could be performed early in the SDLC before testing begins. d) Is not correct. Acceptance test execution requires a working product. e) Is not correct. Maintenance testing requires a deployed product.",
     "lo": "FL-2.1.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following are advantages of DevOps? i. Faster product release and faster time to market  ii. Increases the need for repetitive manual testing  iii. Constant availability of executable software  iv. Reduction in the number of regression tests  v. Setting up the test automation framework is inexpensive",
@@ -4188,7 +4188,7 @@
     "exp": "i. Is true. Faster product release and faster time to market is a DevOps advantage. ii. Is false. DevOps typically reduces the need for repetitive manual testing through automation. iii. Is true. Constant availability of executable software is a DevOps advantage. iv. Is false. More regression tests are needed in DevOps, not fewer. v. Is false. Setting up a test automation framework is expensive.",
     "lo": "FL-2.1.4",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "A client requirement says: 'The order must be processed in less than 10 seconds in 95% of the cases'. You created test cases measuring order processing time. What test type did you perform?",
@@ -4202,7 +4202,7 @@
     "exp": "a) Is not correct. The fact that the requirement comes from the client doesn't make it functional; these tests check 'how fast' (performance), not 'what' the system does. b) Is correct. This is an example of testing for performance efficiency, a type of non-functional testing. c) Is not correct. Even if the UI is used, the main objective is checking performance. d) Is not correct. We don't need internal structure knowledge to perform performance efficiency testing.",
     "lo": "FL-2.2.2",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Your organization's test strategy suggests that once a system is going to be retired, data migration shall be tested. As part of what test type is this testing MOST likely to be performed?",
@@ -4216,7 +4216,7 @@
     "exp": "a) Is correct. When a system is retired, this can require testing of data migration, which is a form of maintenance testing. b) Is not correct. Regression testing verifies whether a fix accidentally affected other parts of the code. c) Is not correct. Portability testing focuses on transferring the system to another environment. d) Is not correct. Integration testing focuses on interactions between components, not data migration.",
     "lo": "FL-2.3.1",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following work products can be reviewed? i. Business requirements  ii. Schedule  iii. Test budget  iv. Third-party executable code  v. User stories and their acceptance criteria",
@@ -4230,7 +4230,7 @@
     "exp": "Only third-party executable code (iv) cannot be reviewed through static testing, since the source code is not available. All other work products — business requirements, schedule, test budget, and user stories — can be reviewed.",
     "lo": "FL-3.1.1",
     "k": "K1",
-    "src": "Sample Exam"
+    "src": "Exam A"
   },
   {
     "q": "Which of the following statements (i-v) are true for static testing? i. Abnormal external behaviors are easier to identify  ii. Discrepancies from a coding standard are easier to find  iii. It identifies failures caused by defects when the software is run  iv. Its test objective is to identify defects as early as possible  v. Missing coverage for critical security requirements is easier to find and fix",
@@ -4244,6 +4244,569 @@
     "exp": "i. Is false. Abnormal external behaviors are detectable while the software is running — that's dynamic testing. ii. Is true. Deviations from coding standards are a typical defect found with static testing. iii. Is false. Identifying failures when software runs is dynamic testing, not static. iv. Is true. Identifying defects as early as possible is a test objective of static testing. v. Is true. Gaps in security requirements traceability are a typical defect found with static testing.",
     "lo": "FL-3.1.3",
     "k": "K2",
-    "src": "Sample Exam"
+    "src": "Exam A"
+  },
+  {
+    "q": "Which of the following is a typical test objective?",
+    "opts": [
+      "Finding and fixing defects in the test object",
+      "Maintaining effective communications with developers",
+      "Validating that legal requirements have been met",
+      "Building confidence in the quality of the test object"
+    ],
+    "ans": 3,
+    "exp": "a) Is not correct. Although identifying defects is an objective of testing, fixing defects is not a test activity. b) Is not correct. Maintaining effective communications with developers is useful in achieving other objectives, but it is not a primary reason for performing testing. c) Is not correct. Validating that legal requirements have been met is not a typical test objective — validation is concerned with checking whether the system meets users' and stakeholders' needs in its operational environment. Checking legal requirements is a form of verification. d) Is correct. Building confidence in the quality of the test object is achieved by executing tests that pass.",
+    "lo": "FL-1.1.1",
+    "k": "K1",
+    "src": "Exam D"
+  },
+  {
+    "q": "A designer documents a UI design that does not address disabled users (because the designer is tired). A programmer implements it correctly but omits exception handling for bonus calculations (due to time pressure). Disabled users complain and the company is fined. Bonus miscalculations go unnoticed. Which of the following statements is CORRECT?",
+    "opts": [
+      "The miscalculation of bonuses is a defect that occasionally occurs",
+      "The fine received for failing to address some disabled users is a failure",
+      "The programmer working under severe time pressure is a root cause",
+      "The design of the user interface includes a designer error"
+    ],
+    "ans": 2,
+    "exp": "a) Is not correct. The miscalculation of bonuses is a failure by the system (observable incorrect behavior), not a defect. b) Is not correct. The system not supporting disabled users is a failure, but the fine is the consequence — it appears to be the correct functioning of the regulatory system. c) Is correct. The programmer working under severe time pressure is the root cause of the error (mistake) that led to the defect (missing exception handling). d) Is not correct. The poor design of the user interface is a design defect caused by the designer's error (tiredness). The design includes a defect, not an error — the error is what the designer did, the defect is what ended up in the design document.",
+    "lo": "FL-1.2.3",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Test conditions are being used by testers to generate test cases and execute tests. Even though the test conditions remain the same, the test cases are varied each time. Which of the following 'principles of testing' is being addressed through the variation of test cases?",
+    "opts": [
+      "Tests wear out",
+      "Absence-of-defects fallacy",
+      "Early testing saves time and money",
+      "Defects cluster together"
+    ],
+    "ans": 0,
+    "exp": "a) Is correct. The 'tests wear out' principle states that repeating identical tests on unaltered code is unlikely to uncover novel defects. By varying test cases generated from the same test conditions, the tests will not be identical and the risk of tests wearing out is reduced. b) Is not correct. The 'absence-of-defects fallacy' is about ensuring users' needs are fulfilled even when no defects are found — not addressed by varying test cases. c) Is not correct. 'Early testing saves time and money' is about fixing defects early to prevent subsequent defects — addressed by starting testing as early as possible, not by varying test cases. d) Is not correct. 'Defects cluster together' is about defect distribution following a Pareto distribution — addressed by risk-based testing, not by varying test cases.",
+    "lo": "FL-1.3.1",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Match test tasks (1-4) to test activities (A-D): 1. Derive test cases from test conditions  2. Identify reusable testware  3. Organize test cases into test procedures  4. Evaluate the test basis and the test object  /  A. Test analysis  B. Test design  C. Test implementation  D. Test completion",
+    "opts": [
+      "1B, 2A, 3D, 4C",
+      "1B, 2D, 3C, 4A",
+      "1C, 2A, 3B, 4D",
+      "1C, 2D, 3A, 4B"
+    ],
+    "ans": 1,
+    "exp": "1. Deriving test cases from test conditions → Test design (B): involves using test conditions to create test cases and necessary testware. 2. Identifying reusable testware → Test completion (D): testware is identified and archived or handed to appropriate teams for reuse. 3. Organizing test cases into test procedures → Test implementation (C): test procedures are created from test cases and assembled into test suites. 4. Evaluating the test basis and the test object → Test analysis (A): the test basis is analyzed to identify test conditions; the test object's testability may also be assessed. Therefore: 1B, 2D, 3C, 4A.",
+    "lo": "FL-1.4.1",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following testware is produced as a result of performing test implementation? i. Test completion report  ii. Data held in a database used for test inputs and expected results  iii. The list of elements needed to build the test environment  iv. Documented sequences of test cases in execution order  v. Test cases",
+    "opts": [
+      "ii, iv",
+      "iii, v",
+      "i, ii, v",
+      "i, iii, iv"
+    ],
+    "ans": 0,
+    "exp": "Test implementation produces: test procedures, automated test scripts, test suites, test data, test execution schedule, and test environment elements. i. Test completion report → output of test completion. ✗ ii. Test data (data in database for inputs/expected results) → output of test implementation. ✓ iii. Test environment requirements (list of elements needed to build the environment) → output of test design. ✗ iv. Test procedures (documented sequences of test cases in execution order) → output of test implementation. ✓ v. Test cases → output of test design. ✗ Therefore only ii and iv are produced by test implementation.",
+    "lo": "FL-1.4.3",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is MOST likely to describe a task performed by someone in a test management role?",
+    "opts": [
+      "Evaluate the test basis and the test object",
+      "Define test environment requirements",
+      "Assess testability of the test object",
+      "Create the test completion report"
+    ],
+    "ans": 3,
+    "exp": "a) Is not correct. Evaluating the test basis is part of test analysis — a task performed by the testing role. b) Is not correct. Defining test environment requirements is part of test design — a task performed by the testing role. c) Is not correct. Assessing testability is part of test analysis — a task performed by the testing role. d) Is correct. The test management role primarily involves test planning, test monitoring and control, and test completion. Creating the test completion report, the prime output of test completion, is a test management role task.",
+    "lo": "FL-1.4.5",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is an advantage of the whole team approach?",
+    "opts": [
+      "Improved communication between team members",
+      "Decreased individual accountability for quality",
+      "Faster deployment of deliverables to the end users",
+      "Reduced collaboration with external business users"
+    ],
+    "ans": 0,
+    "exp": "a) Is correct. The whole team approach promotes robust communication and collaboration between team members. b) Is not correct. While the whole team approach prioritizes collective accountability for quality, each individual team member is still equally accountable. c) Is not correct. The whole team approach aims for higher quality deliverables, but does not necessarily result in faster deployment. d) Is not correct. The whole team approach has testers working with business representatives to create acceptance tests — there is no suggestion it reduces external collaboration.",
+    "lo": "FL-1.5.2",
+    "k": "K1",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following are MOST likely to be considered benefits of independence of testing? i. The testers work in a different location from the developers  ii. Testers question the assumptions programmers make while writing code  iii. A confrontational dynamic has been established between testers and developers  iv. Developers have convinced themselves that testers are mostly accountable for quality  v. Testers have different biases than those held by the developers",
+    "opts": [
+      "i, iv",
+      "ii, v",
+      "i, iii, iv",
+      "ii, iii, v"
+    ],
+    "ans": 1,
+    "exp": "i. Working in a different location from developers reduces collaboration — this is a disadvantage. ii. Testers challenging assumptions made by developers during specification and implementation — this is an advantage. iii. A confrontational dynamic is one of the main disadvantages of independence — testers may be blamed for delays. iv. Developers feeling less accountable for quality is a disadvantage of independence. v. Different biases from developers means testers identify different types of failures — this is the primary benefit of independence. Therefore, ii and v are benefits.",
+    "lo": "FL-1.5.3",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is a good testing practice that applies to all software development lifecycles?",
+    "opts": [
+      "Each test level has specific and distinct test objectives",
+      "Test implementation and execution for a given test level should start during the corresponding development phase",
+      "Testers should start test design as soon as drafts of the relevant work products become available",
+      "Every dynamic testing activity has a corresponding static testing activity"
+    ],
+    "ans": 0,
+    "exp": "a) Is correct. Each test level has specific and distinct test objectives because a different form of test object is tested at each level (e.g., single component vs. complete system). Overlapping objectives would lead to unnecessary duplication. b) Is not correct. Test analysis and test design should start during the corresponding development phase, but test implementation generally starts later and test execution starts during the test level — not all activities start during the corresponding development phase. c) Is not correct. Test design should be based on an agreed test basis, not early drafts — otherwise significant effort may be wasted on designs that later change. d) Is not correct. Quality control applies to all development activities, but there are static testing activities (e.g., static analysis) for which there is no obvious corresponding dynamic testing activity.",
+    "lo": "FL-2.1.2",
+    "k": "K1",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is an example of a test-first approach to development?",
+    "opts": [
+      "Behavior-Driven Development",
+      "Test Level Driven Development",
+      "Function-Driven Development",
+      "Performance-Driven Development"
+    ],
+    "ans": 0,
+    "exp": "a) Is correct. Behavior-Driven Development (BDD) is a well-known example of a test-first approach to development. b) Is not correct. Test Level Driven Development is not a recognized test-first approach. c) Is not correct. Function-Driven Development is not a recognized test-first approach. d) Is not correct. Performance-Driven Development is not a recognized test-first approach.",
+    "lo": "FL-2.1.3",
+    "k": "K1",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is MOST likely to be a challenge encountered when implementing DevOps?",
+    "opts": [
+      "Making sure that non-functional quality characteristics are not overlooked",
+      "Managing continuously changing test environments",
+      "The need for more manual testers with suitable experience",
+      "Setting up the test automation as part of the delivery pipeline"
+    ],
+    "ans": 3,
+    "exp": "a) Is not correct. DevOps generally increases the visibility of non-functional quality characteristics such as performance and reliability. b) Is not correct. Automated CI/CD processes used in DevOps facilitate stable test environments. c) Is not correct. Automated CI/CD processes generally reduce the need for manual testing. d) Is correct. DevOps implementation poses several challenges including the need to define and set up the delivery pipeline, introduce and maintain CI/CD tools, and establish and maintain test automation.",
+    "lo": "FL-2.1.4",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following BEST describes retrospectives?",
+    "opts": [
+      "Retrospectives allow team members to identify other team members who did not fully contribute to achieving quality as required by the whole team approach",
+      "Retrospectives give testers an opportunity to identify activities that were successful so that these are retained when potential improvements are made in the future",
+      "Retrospectives are where agile team members are allowed to voice their concerns about management and customers in a blameless environment",
+      "Retrospectives give agile team members a forum where they focus on discussing the plan and technical decisions for the next iteration"
+    ],
+    "ans": 1,
+    "exp": "a) Is not correct. Calling out individuals for not contributing will not foster team bonding and collaboration — this contradicts the purpose of retrospectives. b) Is correct. During retrospectives, the group discusses what aspects of the project were successful and should be retained, as well as areas that could be improved and how to do so. c) Is not correct. Retrospectives are not an opportunity to criticize management and customers. Test results are recorded and could be read by other stakeholders. d) Is not correct. Retrospectives focus on quality-related issues from the current iteration, not on planning or technical decisions for the next iteration — that is done in iteration planning.",
+    "lo": "FL-2.1.6",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following tests is MOST likely to be performed as part of functional testing?",
+    "opts": [
+      "The test checks that the sort function puts the elements of the list or array in ascending order",
+      "The test checks whether the sort function completes sorting within one second of starting",
+      "The test checks how easily the sort function can be changed from sorting ascending to sorting descending",
+      "The test checks that the sort function still functions correctly when moved from a 32-bit to a 64-bit architecture"
+    ],
+    "ans": 0,
+    "exp": "a) Is correct. Checking that the sort function puts elements in ascending order evaluates the functional correctness of the sort function — this is functional testing. b) Is not correct. Assessing whether the sort function completes within one second tests its performance efficiency — non-functional testing. c) Is not correct. Evaluating the ease with which the sort function can be modified tests its modifiability (maintainability) — non-functional testing. d) Is not correct. Assessing that the sort function works correctly when moved to a different architecture tests its adaptability (portability) — non-functional testing.",
+    "lo": "FL-2.2.2",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is MOST likely to be a trigger that leads to maintenance testing of a currency exchange system?",
+    "opts": [
+      "The developers reported that changing the currency exchange system was difficult and the testers decided to check if this was true",
+      "The refund option of the currency exchange system was removed as it did not always repay the correct amount to customers",
+      "The agile team has started developing a user story that adds a new customer loyalty feature to the currency exchange system",
+      "The language support option of the currency exchange system was used to enable both English and local language currency transactions"
+    ],
+    "ans": 1,
+    "exp": "a) Is not correct. Checking the ease of changing the system would be maintainability testing, not maintenance testing. b) Is correct. The removal of the refund option is a system modification (a fix), which is one of the three triggers for maintenance testing. c) Is not correct. Adding a new feature via a user story leads to testing the new feature and then regression testing — not maintenance testing. d) Is not correct. Reconfiguring the system to support additional languages is not a system modification, change to the operational environment, or system retirement — the three triggers for maintenance testing.",
+    "lo": "FL-2.3.1",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following CANNOT be examined by static testing?",
+    "opts": [
+      "Contract",
+      "Test plan",
+      "Encrypted code",
+      "Test charter"
+    ],
+    "ans": 2,
+    "exp": "a) Is not correct. A contract must be interpretable by humans and could be reviewed — a form of static testing. b) Is not correct. A test plan must be interpretable by humans and could be reviewed. c) Is correct. Most work products can be examined by static testing; however, encrypted code is too complex for human interpretation and if properly encrypted it will not be analyzable by most tools either. d) Is not correct. A test charter must be interpretable by humans and could be reviewed.",
+    "lo": "FL-3.1.1",
+    "k": "K1",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following statements about the value of static testing is CORRECT?",
+    "opts": [
+      "The defect types found by static testing are different from the defect types that can be found by dynamic testing",
+      "Dynamic testing can detect the defect types that can be found by static testing plus some additional defect types",
+      "Dynamic testing can identify some of the defects that can be found by static testing but not all of them",
+      "Static testing can identify the defect types that can be found by dynamic testing as well as some extra defect types"
+    ],
+    "ans": 2,
+    "exp": "The relationship is nuanced: some defect types can only be found by static testing (e.g., unreachable code), some can be found by both (e.g., a programming defect visible in code review that also causes an observable failure), and some can only be found by dynamic testing (e.g., performance or memory issues detectable only when executing code). a) Is not correct. Some defect types can be found by both. b) Is not correct. Dynamic testing cannot find all defects that static testing can find (e.g., unreachable code). c) Is correct. Dynamic testing can identify some defects findable by static testing (those that also cause observable failures), but not all (e.g., unreachable code, defects in non-executable work products). d) Is not correct. Static testing cannot find performance or memory issues that only manifest during execution.",
+    "lo": "FL-3.1.2",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is the CORRECT sequence in the review process? 1. Detected anomalies are deliberated upon, and determinations are reached regarding status, ownership, and next steps  2. Defects are recorded and needed updates are addressed prior to acceptance of the work product  3. Reviewers employ techniques to spot anomalies  4. The objective of the review and its schedule are established  5. Participants are provided with access to the item being reviewed",
+    "opts": [
+      "4 – 3 – 5 – 2 – 1",
+      "4 – 5 – 3 – 1 – 2",
+      "5 – 4 – 1 – 3 – 2",
+      "5 – 4 – 3 – 2 – 1"
+    ],
+    "ans": 1,
+    "exp": "The generic review process activities in logical order are: Planning (4: establishing objectives and schedule) → Review initiation (5: participants given access to the work product) → Individual review (3: reviewers employ techniques to spot anomalies) → Communication and analysis (1: anomalies are deliberated and their status/ownership determined) → Fixing and reporting (2: defects are recorded and updates addressed). Therefore the correct sequence is: 4 – 5 – 3 – 1 – 2.",
+    "lo": "FL-3.2.2",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which participant in the review process is responsible for ensuring that the review meetings run effectively and that everyone at the meetings can voice their opinions freely?",
+    "opts": [
+      "Manager",
+      "Moderator",
+      "Chairperson",
+      "Review Leader"
+    ],
+    "ans": 1,
+    "exp": "a) Is not correct. The manager is responsible for deciding what needs to be reviewed and allocating resources (staff and time) for the review. b) Is correct. The moderator (or facilitator) is responsible for ensuring review meetings run effectively, managing time, mediating discussions, and creating a safe environment where everyone can voice their opinions freely. c) Is not correct. Chairperson is not a recognized role in reviews. d) Is not correct. The review leader is responsible for overseeing the review process, selecting team members, scheduling review meetings, and ensuring the review is completed successfully.",
+    "lo": "FL-3.2.3",
+    "k": "K1",
+    "src": "Exam D"
+  },
+  {
+    "q": "You perform system testing of an e-commerce app with requirement: 'If the total cost of purchases exceeds $100, the customer gets a 5% discount on subsequent purchases. Otherwise, no discount.' Which test techniques will be MOST helpful in designing test cases?",
+    "opts": [
+      "White-box test techniques",
+      "Black-box test techniques",
+      "Experience-based test techniques",
+      "Risk-based test techniques"
+    ],
+    "ans": 1,
+    "exp": "a) Is not correct. The document specifies desired behavior without reference to internal structure, so white-box techniques will not be helpful. b) Is correct. This is a requirement specifying desired behavior — the most suitable techniques are black-box (e.g., BVA or Decision Table Testing). The wording 'exceeds $100' suggests important equivalence partition boundaries that should be tested using BVA. c) Is not correct. Although experience-based techniques can be used, black-box techniques are more suitable given the precise business rule described. d) Is not correct. Risk-based test techniques are not a recognized type of test technique.",
+    "lo": "FL-4.1.1",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Cinema ticket system: D = CY – BY. D<0: error message; 0≤D<18: student discount; 18≤D<65: no discount; D≥65: pensioner discount. Existing TCs: (BY=1990, CY=2020 → no discount) and (BY=2030, CY=2029 → error message). Which TWO test data sets should be added to achieve full valid EP coverage?",
+    "opts": [
+      "BY = 2001, CY = 2065",
+      "BY = 1900, CY = 1965",
+      "BY = 1965, CY = 1900",
+      "BY = 2011, CY = 2029",
+      "BY = 2000, CY = 2000"
+    ],
+    "ans": 4,
+    "exp": "The existing test cases cover 'no discount' (D=30) and 'error message' (D=-1). Two partitions are not yet covered: 'student discount' (0≤D<18) and 'pensioner discount' (D≥65). a) D = 2065 - 2001 = 64 → 'no discount' (already covered). b) Is correct. D = 1965 - 1900 = 65 → 'pensioner discount' (not yet covered). c) D = 1900 - 1965 = -65 → 'error message' (already covered). d) D = 2029 - 2011 = 18 → 'no discount' (already covered). e) Is correct. D = 2000 - 2000 = 0 → 'student discount' (not yet covered).",
+    "lo": "FL-4.2.1",
+    "k": "K3",
+    "src": "Exam D"
+  },
+  {
+    "q": "Temperature control system: temperature in full degrees Celsius. If 0≤temp≤2: 'temperature OK'. Lower: 'temperature too low'. Higher: 'temperature too high'. Using 2-value BVA, which set provides the highest boundary value coverage?",
+    "opts": [
+      "–1, 3",
+      "0, 2",
+      "–1, 0, 2, 3",
+      "–2, 0, 2, 4"
+    ],
+    "ans": 2,
+    "exp": "The three equivalence partitions are: {…,-2,-1} (too low), {0,1,2} (OK), {3,4,…} (too high). For 2-value BVA, all boundary values of all equivalence partitions must be covered. The boundary values are: -1 (upper bound of 'too low'), 0 (lower bound of 'OK'), 2 (upper bound of 'OK'), and 3 (lower bound of 'too high'). The correct set is: -1, 0, 2, 3 — which covers all 4 boundary values (100% 2-value BVA coverage).",
+    "lo": "FL-4.2.2",
+    "k": "K3",
+    "src": "Exam D"
+  },
+  {
+    "q": "Decision table with 7 rules (R1-R7) based on Age, Experience, Registered status → Category A/B/C/D. Existing TCs cover R2, R3, R7, R6. Which additional test case will increase decision table coverage?",
+    "opts": [
+      "66-year-old, unregistered man with no experience; expected result: category B",
+      "55-year-old, unregistered woman with 2 years of experience; expected result: category A",
+      "19-year-old, registered woman with 5 years of experience; expected result: category D",
+      "No additional test case can increase the already achieved decision table coverage"
+    ],
+    "ans": 0,
+    "exp": "TC1, TC2, TC3, TC4 cover rules R2, R3, R7, R6 respectively. Rules R1, R4, and R5 are not yet covered. a) Is correct. '66-year-old, unregistered, no experience' matches rule R4 (age >65, not registered) — not covered by existing TCs → coverage increases. b) Is not correct. '55-year-old, unregistered, 2 years experience' matches R2 (age 19-65, experience 0-4, not registered) — already covered by TC1. c) Is not correct. '19-year-old, registered, 5 years experience' matches R6 (age 0-18, registered) — already covered by TC4. d) Is not correct. Rules R1, R4, and R5 are still uncovered — coverage can be increased.",
+    "lo": "FL-4.2.3",
+    "k": "K3",
+    "src": "Exam D"
+  },
+  {
+    "q": "State transition table: S1=Requesting, S2=Confirmed, S3=Waiting list, S4=End. Events: Available, NotAvailable, ChangeRoom, Cancel, Pay. All TCs start in Requesting state. Which sequence achieves the highest valid transitions coverage?",
+    "opts": [
+      "NotAvailable, Available, ChangeRoom, NotAvailable, Cancel",
+      "Available, ChangeRoom, NotAvailable, Available, Pay",
+      "Available, ChangeRoom, Available, ChangeRoom, NotAvailable",
+      "NotAvailable, Cancel, ChangeRoom, Available, Pay"
+    ],
+    "ans": 1,
+    "exp": "There are 7 valid transitions total. a) Both 'NotAvailable' events correspond to the same S1→S3 transition — covers 4 out of 7 transitions (80%). b) Is correct. 'Available' (S1→S2), 'ChangeRoom' (S2→S1), 'NotAvailable' (S1→S3), 'Available' (S3→S2, different from first Available), 'Pay' (S2→S4) — covers 5 out of 7 transitions (highest). c) Both 'Available' events correspond to the same S1→S2 transition; both 'ChangeRoom' events correspond to the same S2→S1 transition — covers only 3 out of 7 transitions. d) After 'Cancel' the system ends in End state (S4) and no further valid transitions can be executed — infeasible test case.",
+    "lo": "FL-4.2.4",
+    "k": "K3",
+    "src": "Exam D"
+  },
+  {
+    "q": "Your test suite S for program P achieves 100% statement coverage. It consists of three test cases, each achieving 50% statement coverage. Which of the following statements is CORRECT?",
+    "opts": [
+      "Executing S will cause all possible failures in P",
+      "S achieves 100% branch coverage for P",
+      "Every executable statement in P containing a defect has been run at least once during the execution of S",
+      "After removing one test case from S, the remaining two test cases will still achieve 100% statement coverage"
+    ],
+    "ans": 2,
+    "exp": "a) Is not correct. A statement with a defect, when executed, does not have to cause a failure (e.g., x := y/z only fails when z=0). b) Is not correct. 100% statement coverage does not guarantee 100% branch coverage (e.g., an IF without ELSE can have 100% statement coverage without covering the false branch). c) Is correct. 100% statement coverage means every executable statement was executed at least once, including those containing defects. d) Is not correct. The removed test case may cover statements not covered by the other two, so the remaining two may not achieve 100% statement coverage.",
+    "lo": "FL-4.3.1",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Why does white-box testing facilitate defect detection even when the software specification is vague, outdated or incomplete?",
+    "opts": [
+      "Test cases are designed based on the structure of the test object rather than the specification",
+      "For each white-box test technique the coverage can be well-defined and easily measured",
+      "White-box test techniques are very well designed to detect omissions in the requirements",
+      "White-box test techniques can be used in both static testing and dynamic testing"
+    ],
+    "ans": 0,
+    "exp": "a) Is correct. A fundamental strength of white-box testing is that the entire software implementation is taken into account during testing. This allows detection of defects such as extra features added to the code (accidentally or deliberately) that are not supposed to be there — defects that black-box testing cannot detect, especially when the specification is vague or incomplete. b) Is not correct. The ability to measure coverage is not the reason white-box testing works with vague specifications — the achieved coverage level has more impact than the ability to measure it. c) Is not correct. If the software does not implement a requirement, white-box testing is unlikely to detect the resulting omission defect. d) Is not correct. There is no connection between being usable in both static and dynamic testing and the ability to detect defects with poor specifications.",
+    "lo": "FL-4.3.3",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is NOT anticipated by the tester while applying error guessing? Context: interest calculation with formula FA = A*(1+IR)^N.",
+    "opts": [
+      "The developer misunderstood the formula in the user story for calculating the interest",
+      "The developer wrote 'FA = A*(1+IR^N)' instead of 'FA = A*(1+IR)^N' in the source code",
+      "The developer missed the seminar on new compound interest rate legislation",
+      "The accuracy of the interest calculated by the system is not precise enough"
+    ],
+    "ans": 2,
+    "exp": "Error guessing is about anticipating errors, defects, and failures based on the tester's knowledge. a) Is not correct. This is anticipating the developer's error (a human mistake) — within scope of error guessing. b) Is not correct. This is anticipating a specific defect in the code — within scope of error guessing. c) Is correct. The developer missing a seminar on new legislation is a root cause — neither an error, defect, nor failure. This is difficult for the tester to anticipate and is not within the scope of error guessing. d) Is not correct. This is anticipating a failure (imprecise output) based on experience with similar systems — within scope of error guessing.",
+    "lo": "FL-4.4.1",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is true about exploratory testing?",
+    "opts": [
+      "Test cases are designed before the exploratory testing session starts",
+      "The tester can perform test execution, but cannot perform test design",
+      "Exploratory testing results are good predictors of the number of remaining defects",
+      "During exploratory testing the tester may use black-box test techniques"
+    ],
+    "ans": 3,
+    "exp": "a) Is not correct. In exploratory testing, test cases are usually created during the session, alongside test analysis, test implementation, and test execution — not before. b) Is not correct. In exploratory testing, tests are simultaneously designed, executed, and evaluated as the tester learns about the test object. c) Is not correct. Exploratory test results depend heavily on the tester's experience and are not reliable predictors of the number of remaining defects. d) Is correct. During exploratory testing, testers can use any test techniques they find useful, including black-box test techniques.",
+    "lo": "FL-4.4.2",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which collaborative user story writing practice enables the team to achieve a collective understanding of what needs to be delivered?",
+    "opts": [
+      "Planning poker, so that a team can achieve consensus on the effort needed to implement a user story",
+      "Reviews, so that a team can detect inconsistencies and contradictions in a user story",
+      "Iteration planning, so that user stories with the highest business value for a customer can be prioritized for implementation",
+      "Conversation, so that team members can understand how the software will be used"
+    ],
+    "ans": 3,
+    "exp": "a) Is not correct. Planning poker estimates effort for an already-written user story — it does not help understand what needs to be delivered. b) Is not correct. Reviews are not a collaborative user story writing practice. c) Is not correct. Iteration planning is a project-related practice used to plan work, not to understand what needs to be delivered. d) Is correct. Conversation explains how the software will be used and allows the team to define meaningful acceptance criteria, thus obtaining a shared vision of what should be delivered.",
+    "lo": "FL-4.5.1",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "User story: As a customer, I want to filter search results by price range. AC1: works for all app versions from 3.0 upwards. AC2: allows setting min and max price. AC3: results update dynamically as filter is adjusted. Precondition: Products A ($100) and B ($110) only. Which is the BEST test case?",
+    "opts": [
+      "Set filter $90-$100 → Product A only shown. Set max to $110 → both A and B shown.",
+      "Check default min/max prices. Add product C ($120). Refresh. Check if default max changes to $120.",
+      "Set filter $90-$115 → both A and B shown. Change currency USD to EUR → filter range changes correctly.",
+      "Test with Edge, Chrome, Opera — set filter $90-$110 → both A and B shown in all browsers."
+    ],
+    "ans": 0,
+    "exp": "a) Is correct. This test case is directly related to acceptance criteria 2 (setting a price range with min and max) and 3 (results update dynamically as the filter is adjusted). b) Is not correct. This test case checks whether the filter dynamically sets default min/max prices — not related to any of the acceptance criteria. c) Is not correct. This checks currency exchange functionality — not mentioned in the acceptance criteria. d) Is not correct. This checks browser compatibility — not mentioned in the acceptance criteria.",
+    "lo": "FL-4.5.3",
+    "k": "K3",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which TWO of the following BEST define EXIT criteria in a testing project?",
+    "opts": [
+      "Budget is approved",
+      "Budget runs out",
+      "Test basis is available",
+      "Test cases achieved at least 80% statement coverage",
+      "All test analysts are ISTQB certified at the Foundation Level"
+    ],
+    "ans": 3,
+    "exp": "a) Is not correct. Budget approval is an entry criterion — it makes no sense to approve a budget for something already done. b) Is correct. Running out of budget is a valid exit criterion — it signals the end of testing activities. c) Is not correct. Availability of the test basis is an entry criterion for testing. d) Is correct. Coverage is a measure of thoroughness — achieving a specified coverage level is a typical exit criterion. e) Is not correct. ISTQB certification of team members is an entry criterion (resource prerequisite), checked before the project starts.",
+    "lo": "FL-5.1.3",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Three-point estimation for executing 4 test cases. Best-case: 1 hour, worst-case: 8 hours, most likely: 3 hours per test case. What is the total estimate for all 4 test cases?",
+    "opts": [
+      "14 hours",
+      "3.5 hours",
+      "16 hours",
+      "12 hours"
+    ],
+    "ans": 0,
+    "exp": "Three-point estimation formula: E = (a + 4m + b) / 6, where a = optimistic, m = most likely, b = pessimistic. Single test case estimate: E = (1 + 4×3 + 8) / 6 = (1 + 12 + 8) / 6 = 21 / 6 = 3.5 hours. Total for 4 test cases: 3.5 × 4 = 14 hours.",
+    "lo": "FL-5.1.4",
+    "k": "K3",
+    "src": "Exam D"
+  },
+  {
+    "q": "Traceability matrix: TC1 covers Req1,Req3,Req4,Req7. TC2 covers Req2,Req5,Req6. TC3 covers Req5,Req6. TC4 covers Req2. Using additional coverage prioritization technique, which test case should be executed LAST?",
+    "opts": [
+      "TC1",
+      "TC2",
+      "TC3",
+      "TC4"
+    ],
+    "ans": 1,
+    "exp": "Additional coverage prioritization: each step, select the test case covering the most not-yet-covered requirements. Step 1: TC1 covers 4 requirements (Req1,Req3,Req4,Req7) — highest → execute first. Remaining: Req2, Req5, Req6. Step 2: TC3 covers 2 of remaining (Req5, Req6); TC2 covers all 3 remaining but let's check. TC2 covers Req2,Req5,Req6 = 3 new; TC3 covers Req5,Req6 = 2 new. Wait — TC3 covers 2 requirements, not 3. So TC3 is executed second (covers Req5, Req6). Remaining: Req2. Step 3: TC4 covers Req2 → execute third. Remaining: nothing new. TC2 covers no new requirements → executed last. Full order: TC1 → TC3 → TC4 → TC2.",
+    "lo": "FL-5.1.5",
+    "k": "K3",
+    "src": "Exam D"
+  },
+  {
+    "q": "How can the testing quadrants be beneficial for testing?",
+    "opts": [
+      "They help in test planning by dividing the test process into four phases, corresponding to the four basic test levels",
+      "They help in assessing the high-level coverage (e.g., requirements coverage) based on low-level coverage (e.g., code coverage)",
+      "They help non-technical stakeholders to understand the different test types and that some test types are more relevant to certain test levels than others",
+      "They help agile teams to develop a communication strategy based on classifying people according to four basic psychological types"
+    ],
+    "ans": 2,
+    "exp": "a) Is not correct. Testing quadrants have nothing to do with describing the relationships between test levels or phases. b) Is not correct. Testing quadrants cannot help in assessing any type of coverage. c) Is correct. Testing quadrants allow managers and other non-technical stakeholders to understand the relationships between test types, the activities they support (team support or product critique), and the viewpoint they focus on (business- or technology-facing). d) Is not correct. Testing quadrants is not a psychological model.",
+    "lo": "FL-5.1.7",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "For a given risk, its risk level is $1,000 and its risk likelihood is estimated as 50%. What is the risk impact?",
+    "opts": [
+      "$500",
+      "$2,000",
+      "$50,000",
+      "$200"
+    ],
+    "ans": 1,
+    "exp": "In the quantitative approach: Risk level = Risk likelihood × Risk impact. Therefore: Risk impact = Risk level / Risk likelihood = $1,000 / 0.50 = $2,000.",
+    "lo": "FL-5.2.1",
+    "k": "K1",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which TWO of the following are product risks?",
+    "opts": [
+      "Scope creep",
+      "Poor architecture",
+      "Cost-cutting",
+      "Poor tool support",
+      "Too long response time"
+    ],
+    "ans": 4,
+    "exp": "a) Is not correct. Scope creep is a project risk related to technical issues — it affects the project, not the product quality. b) Is correct. Poor architecture is a product risk — it refers to a product characteristic that could negatively affect the product's quality. c) Is not correct. Cost-cutting is a project risk related to organizational issues. d) Is not correct. Poor tool support is a project risk related to technical issues. e) Is correct. Too long response time is a product risk — it refers to a product characteristic (performance efficiency).",
+    "lo": "FL-5.2.2",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is NOT a valid purpose for a test report?",
+    "opts": [
+      "Tracking test progress and identifying areas that require further attention",
+      "Providing information on the tests executed, their results, and defects found",
+      "Providing information about each defect, such as the steps to reproduce it",
+      "Providing information on testing planned for the next period"
+    ],
+    "ans": 2,
+    "exp": "a) Is not correct. Tracking test progress and identifying areas needing attention is a valid purpose of test reports. b) Is not correct. Summarizing tests executed, results, and defects found is a valid purpose of test reports. c) Is correct (NOT a valid purpose). Providing detailed information about each defect (steps to reproduce, etc.) is the purpose of a defect report, not a test report. d) Is not correct. Providing information on testing planned for the next period is a valid purpose of test reports.",
+    "lo": "FL-5.3.2",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "A user reported a software failure. An engineer asked for the software version number. Based on the version, the team reassembled all files from that release, allowing a developer to find and fix the defect. Which of the following enabled this activity?",
+    "opts": [
+      "Risk management",
+      "Test monitoring and control",
+      "Whole team approach",
+      "Configuration management"
+    ],
+    "ans": 3,
+    "exp": "a) Is not correct. Risk management (risk analysis and risk control) deals with risks, not with configuration items — it does not support reassembling files from a specific release. b) Is not correct. Test monitoring gathers information about testing progress; test control provides corrective actions. Neither deals with managing configuration items. c) Is not correct. The whole team approach focuses on team-related issues and collaboration, not on configuration item management. d) Is correct. Configuration management provides a discipline for identifying, controlling, and tracking work products. CM keeps records of changed configuration items when a new baseline is created, allowing reversion to a previous baseline to reproduce previous test results.",
+    "lo": "FL-5.4.1",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Defect report for Book Lending System: 'Unable to Return a Book. When clicking Book Return button, the system does not register the return.' Steps to reproduce provided. Attachments empty. What is MOST likely to help the developer reproduce the failure quickly?",
+    "opts": [
+      "Adding information about which users and which books the failure affects to the Description section",
+      "Filling in the missing value for the Priority field",
+      "Adding memory dumps and database snapshots after each step to the Attachments section",
+      "Repeating the same test case for different environments and writing defect reports for each separately"
+    ],
+    "ans": 0,
+    "exp": "a) Is correct. Adding information about which specific users and which books trigger the failure allows the developer to use the same input data — making it more likely they can reproduce the failure quickly and identify the defect faster. b) Is not correct. Adding the Priority value will not help in reproducing the defect itself. c) Is not correct. Memory dumps and database snapshots after each step would be too much information — most would be useless to the developer and would make the report less readable and harder to analyze. d) Is not correct. The question asks about helping reproduce the failure in a specific environment configuration, not about documenting additional environments.",
+    "lo": "FL-5.5.1",
+    "k": "K3",
+    "src": "Exam D"
+  },
+  {
+    "q": "Given tool categories: i. Collaboration tools  ii. DevOps tools  iii. Management tools  iv. Non-functional testing tools  v. Test design and implementation tools. Which categories MOST likely facilitate test execution?",
+    "opts": [
+      "i, v",
+      "ii, iv",
+      "i, iii, v",
+      "ii, iii, iv"
+    ],
+    "ans": 1,
+    "exp": "i. Collaboration tools — facilitate communication, not test execution. ii. DevOps tools — support the delivery pipeline, workflow tracking, automated build, and CI/CD. CI/CD includes facilitation of test execution (e.g., component testing for CI). ✓ iii. Management tools — facilitate management of SDLC, requirements, tests, defects, and configuration — not test execution. iv. Non-functional testing tools — allow testers to perform non-functional testing (static and dynamic) that is difficult or impossible to perform manually. Dynamic non-functional testing includes test execution. ✓ v. Test design and implementation tools — facilitate generation of test cases, data, and procedures — not test execution itself. Therefore, ii and iv facilitate test execution.",
+    "lo": "FL-6.1.1",
+    "k": "K2",
+    "src": "Exam D"
+  },
+  {
+    "q": "Which of the following is MOST likely to be a risk of test automation?",
+    "opts": [
+      "The detection of additional high-severity defects",
+      "Providing measures that are too complicated for humans to derive",
+      "Incompatibility with the development platform",
+      "Substantially reduced test execution times"
+    ],
+    "ans": 2,
+    "exp": "a) Is not correct. Detecting additional high-severity defects is a benefit of test automation, not a risk. b) Is not correct. Providing measures too complicated for humans to derive (e.g., complex white-box coverage) is a benefit of test automation. c) Is correct. If test automation is incompatible with the development platform, it will not be able to integrate — for instance, it cannot pass test inputs to the test object or receive test results back. d) Is not correct. Substantially reduced test execution times is a benefit of test automation.",
+    "lo": "FL-6.2.1",
+    "k": "K1",
+    "src": "Exam D"
   }
 ]
