@@ -1450,7 +1450,7 @@
     </div>
     <div class="stat-card">
       <div class="sc-num white" id="sp-quizzes">0</div>
-      <div class="sc-label">קוויזים שהושלמו</div>
+      <div class="sc-label">חידונים שהושלמו</div>
     </div>
   </div>
 
@@ -1471,10 +1471,10 @@
     </div>
   </div>
 
-  <div class="stats-section-title">היסטוריית קוויזים</div>
+  <div class="stats-section-title">היסטוריית חידונים</div>
   <div class="history-list" id="sp-history">
     <div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:1rem">
-      עדיין אין היסטוריה — השלם קוויז כדי להתחיל
+      עדיין אין היסטוריה — השלם חידון כדי להתחיל
     </div>
   </div>
 
@@ -1644,7 +1644,7 @@ function setLang(lang) {
   const cards = document.querySelectorAll('#home .mode-grid .mode-card');
   if (cards.length >= 4) {
     // Random
-    cards[0].querySelector('.mode-title').textContent = he ? 'קוויז אקראי' : 'Random Quiz';
+    cards[0].querySelector('.mode-title').textContent = he ? 'חידון אקראי' : 'Random Quiz';
     cards[0].querySelector('.mode-desc').textContent  = he ? 'שאלות אקראיות מכל המאגרים. הגדר כמות ומקור.' : 'Random questions from all exam sets. Configure count & source.';
     // Exam
     cards[1].querySelector('.mode-title').textContent = he ? 'סימולציית בחינה מלאה' : 'Full Exam Simulation';
@@ -1696,7 +1696,7 @@ function setLang(lang) {
   // ── Config buttons ──
   const btnStart = document.getElementById('btn-start-quiz');
   const btnBack  = document.getElementById('btn-config-back');
-  if (btnStart) btnStart.textContent = he ? '← התחל קוויז' : 'Start Quiz →';
+  if (btnStart) btnStart.textContent = he ? '← התחל חידון' : 'Start Quiz →';
   if (btnBack)  btnBack.textContent  = he ? '→ חזרה' : '← Back';
 
   // ── Quiz buttons ──
@@ -1843,7 +1843,7 @@ function updateStatsPage() {
   const histEl = el('sp-history');
   if (histEl) {
     if (QUIZ_HISTORY.length === 0) {
-      histEl.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:1rem">עדיין אין היסטוריה — השלם קוויז כדי להתחיל</div>';
+      histEl.innerHTML = '<div style="color:var(--muted);font-size:0.85rem;text-align:center;padding:1rem">עדיין אין היסטוריה — השלם חידון כדי להתחיל</div>';
     } else {
       const modeNames = { random: '🎲 אקראי', exam: '📋 סימולציה', wrong: '⚡ שגיאות', source: '📚 לפי מקור' };
       histEl.innerHTML = [...QUIZ_HISTORY].reverse().map(h => {
@@ -1886,7 +1886,7 @@ function startMode(mode) {
   SESSION.mode = mode;
   const he = CURRENT_LANG === 'he';
   if (mode === 'random') {
-    document.getElementById('config-title').textContent = he ? '🎲 קוויז אקראי' : '🎲 Random Quiz';
+    document.getElementById('config-title').textContent = he ? '🎲 חידון אקראי' : '🎲 Random Quiz';
     showScreen('config');
   } else if (mode === 'exam') {
     if (he) {
@@ -2026,7 +2026,7 @@ function advanceOrFinish() {
 
 function confirmQuit() {
   const _quitHe = CURRENT_LANG === 'he';
-  if (confirm(_quitHe ? 'לצאת מהקוויז?' : 'Quit this quiz?')) showScreen('home');
+  if (confirm(_quitHe ? 'לצאת מהחידון?' : 'Quit this quiz?')) showScreen('home');
 }
 
 function showResults() {
