@@ -1207,7 +1207,115 @@
     .sidebar:not(.collapsed) ~ .sidebar-toggle { right: 148px; }
   }
 
-  /* ========== STATS PAGE ========== */
+  /* ========== SAVED PAGE ========== */
+  #saved-page {
+    min-height: 100vh;
+    padding: 2rem 1.5rem 6rem;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .saved-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .saved-item:hover { border-color: rgba(108,99,255,0.35); }
+
+  .saved-item-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 1rem 1.2rem 0.8rem;
+    cursor: pointer;
+  }
+
+  .saved-item-q {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text);
+    flex: 1;
+    direction: rtl;
+    text-align: right;
+  }
+
+  .saved-item-actions {
+    display: flex;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .saved-item-actions button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--muted);
+    padding: 0.2rem;
+    border-radius: 6px;
+    transition: all 0.15s;
+    line-height: 1;
+  }
+
+  .saved-item-actions button:hover { color: var(--text); background: rgba(108,99,255,0.1); }
+  .saved-item-actions .btn-unstar:hover { color: var(--warning); }
+  .saved-item-actions .btn-del-note:hover { color: var(--error); }
+
+  .saved-item-meta {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    padding: 0 1.2rem 0.8rem;
+    direction: rtl;
+  }
+
+  .saved-item-answer {
+    padding: 0.6rem 1.2rem;
+    background: rgba(67,233,123,0.06);
+    border-top: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--success);
+    direction: rtl;
+    text-align: right;
+  }
+
+  .saved-item-note {
+    padding: 0.7rem 1.2rem;
+    border-top: 1px solid var(--border);
+    background: rgba(108,99,255,0.04);
+  }
+
+  .saved-item-note textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 40px;
+    outline: none;
+    direction: rtl;
+    text-align: right;
+  }
+
+  .saved-item-note-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+  }
+
+  .saved-star-indicator { color: #ffd166; }
+  .saved-note-indicator { color: var(--accent); font-size: 0.75rem; }
   #stats-page {
     min-height: 100vh;
     padding: 2rem 1.5rem 6rem;
@@ -1732,6 +1840,28 @@
   </div>
 </div>
 
+<!-- Saved Page (Starred + Notes) -->
+<div id="saved-page" class="screen hidden has-top-bar" style="direction:rtl">
+  <div class="page-title">⭐ מסומנות ועם הערות</div>
+  <div class="page-sub" id="saved-page-sub">כל השאלות שסימנת או הוספת להן הערה</div>
+
+  <div style="display:flex;gap:0.6rem;margin-bottom:1.2rem;flex-wrap:wrap">
+    <button class="btn btn-primary" id="btn-practice-saved" onclick="navStartMode('starred')" style="font-size:0.85rem;padding:0.6rem 1.2rem">
+      ▶ תרגל הכל
+    </button>
+    <button class="btn btn-ghost" id="btn-clear-saved" onclick="clearSaved()" style="font-size:0.8rem;padding:0.6rem 1rem;border-color:rgba(255,101,132,0.3);color:var(--error)">
+      🗑 נקה רשימה
+    </button>
+  </div>
+
+  <div id="saved-list" style="display:flex;flex-direction:column;gap:0.7rem"></div>
+
+  <div id="saved-empty" class="hidden" style="text-align:center;color:var(--muted);font-size:0.9rem;padding:3rem 1rem;line-height:2">
+    אין שאלות מסומנות עדיין.<br>
+    <span style="font-size:0.8rem">סמן שאלות עם ⭐ או הוסף הערה בזמן חידון.</span>
+  </div>
+</div>
+
 <!-- Sidebar Nav -->
 <nav class="sidebar collapsed" id="global-nav">
   <div class="sidebar-logo">✦ תרגול ISTQB</div>
@@ -1764,7 +1894,7 @@
   <button class="nav-btn" onclick="navStartMode('wrong')">
     <span class="nav-icon">❌</span><span id="nav-lbl-wrong">שגיאות (<span id="nav-count-wrong">0</span>)</span>
   </button>
-  <button class="nav-btn" onclick="navStartMode('starred')">
+  <button class="nav-btn" id="nav-saved" onclick="navTo('saved-page')">
     <span class="nav-icon">⭐</span><span id="nav-lbl-starred">מסומנות ועם הערות (<span id="nav-count-starred">0</span>)</span>
   </button>
 
@@ -2101,12 +2231,11 @@ window._questionsReady = false;
 window._authReady      = false;
 
 function showScreen(id) {
-  ['loading','home','config','quiz','results','stats-page','about-page'].forEach(s => {
+  ['loading','home','config','quiz','results','stats-page','about-page','saved-page'].forEach(s => {
     const el = document.getElementById(s);
     if (el) el.classList.add('hidden');
   });
   document.getElementById(id).classList.remove('hidden');
-  // Show nav only on main pages
   const nav = document.getElementById('global-nav');
   const toggleBtn = document.getElementById('sidebar-toggle-btn');
   const logoBar = document.getElementById('top-logo-bar');
@@ -2116,11 +2245,9 @@ function showScreen(id) {
     nav.classList.toggle('hidden-nav', hide);
     if (toggleBtn) toggleBtn.style.display = hide ? 'none' : 'flex';
   }
-  // Show logo bar only on secondary pages (not home, quiz, loading, config, results)
-  const showLogo = ['stats-page','about-page'].includes(id);
+  const showLogo = ['stats-page','about-page','saved-page'].includes(id);
   if (logoBar) logoBar.classList.toggle('hidden', !showLogo);
 
-  // Show guest banner only on home, when not logged in
   const guestBanner = document.getElementById('login-wall');
   if (guestBanner && !window._currentUser) {
     guestBanner.classList.toggle('hidden', id !== 'home');
@@ -2138,13 +2265,13 @@ function toggleSidebar() {
 
 function navTo(page) {
   showScreen(page);
-  // Update active nav button
-  ['home','stats-page','about-page'].forEach(p => {
-    const key = p === 'home' ? 'nav-home' : p === 'stats-page' ? 'nav-stats' : 'nav-about';
+  ['home','stats-page','about-page','saved-page'].forEach(p => {
+    const key = p === 'home' ? 'nav-home' : p === 'stats-page' ? 'nav-stats' : p === 'about-page' ? 'nav-about' : 'nav-saved';
     const btn = document.getElementById(key);
     if (btn) btn.classList.toggle('active', p === page);
   });
   if (page === 'stats-page') updateStatsPage();
+  if (page === 'saved-page') updateSavedPage();
 }
 
 function updateStatsPage() {
@@ -2655,6 +2782,113 @@ function clearSpeedTimer() {
   if (SPEED_TIMER) { clearTimeout(SPEED_TIMER); SPEED_TIMER = null; }
   const fill = document.getElementById('speed-timer-fill');
   if (fill) { fill.style.transition = 'none'; fill.style.width = '100%'; }
+}
+
+function updateSavedPage() {
+  const he = CURRENT_LANG === 'he';
+  const letters = he ? ['א','ב','ג','ד','ה','ו'] : ['A','B','C','D','E','F'];
+
+  // Build combined index list: starred + notes
+  const notedIdxs = Object.keys(NOTES).map(Number).filter(n => !isNaN(n));
+  const combinedIdxs = [...new Set([...STARRED_IDS, ...notedIdxs])].sort((a,b) => a - b);
+
+  const list = document.getElementById('saved-list');
+  const empty = document.getElementById('saved-empty');
+  if (!list) return;
+
+  if (combinedIdxs.length === 0) {
+    list.innerHTML = '';
+    if (empty) empty.classList.remove('hidden');
+    return;
+  }
+  if (empty) empty.classList.add('hidden');
+
+  list.innerHTML = '';
+  combinedIdxs.forEach(idx => {
+    const q = ACTIVE_Q[idx];
+    if (!q) return;
+    const isStarred = STARRED_IDS.includes(idx);
+    const noteVal   = NOTES[String(idx)] || '';
+    const ansLetter = letters[q.ans] || '?';
+    const ansText   = q.opts[q.ans] || '';
+
+    const div = document.createElement('div');
+    div.className = 'saved-item';
+    div.innerHTML = `
+      <div class="saved-item-header">
+        <div class="saved-item-q">${q.q}</div>
+        <div class="saved-item-actions">
+          ${isStarred ? `<button class="btn-unstar" title="הסר כוכב" onclick="removeStar(${idx}, this)">⭐</button>` : `<span style="color:var(--muted);font-size:0.9rem;padding:0.2rem">☆</span>`}
+          <button title="הסר מהרשימה" onclick="removeFromSaved(${idx}, this.closest('.saved-item'))" style="font-size:0.85rem">✕</button>
+        </div>
+      </div>
+      <div class="saved-item-meta">
+        <span class="tag tag-src" style="font-size:0.6rem">${q.src}</span>
+        ${q.lo ? `<span class="tag tag-lo" style="font-size:0.6rem">${q.lo}</span>` : ''}
+        ${(q.k_level||q.k) ? `<span class="tag tag-k" style="font-size:0.6rem">${q.k_level||q.k}</span>` : ''}
+      </div>
+      <div class="saved-item-answer">✓ ${he ? 'תשובה נכונה' : 'Answer'}: ${ansLetter}) ${ansText}</div>
+      <div class="saved-item-note">
+        <div class="saved-item-note-label">📝 ${he ? 'הערה' : 'Note'}</div>
+        <textarea placeholder="${he ? 'הוסף הערה...' : 'Add a note...'}" data-idx="${idx}" onblur="saveNoteFromPage(this)">${noteVal}</textarea>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+
+  // Update subtitle
+  const sub = document.getElementById('saved-page-sub');
+  if (sub) sub.textContent = `${combinedIdxs.length} ${he ? 'שאלות' : 'questions'}`;
+}
+
+function saveNoteFromPage(textarea) {
+  const idx = String(textarea.dataset.idx);
+  const val = textarea.value.trim();
+  if (val) NOTES[idx] = val;
+  else delete NOTES[idx];
+  updateStarredCount();
+  persistData();
+  // If removed note and not starred, remove item from UI
+  if (!val && !STARRED_IDS.includes(Number(idx))) {
+    const item = textarea.closest('.saved-item');
+    if (item) item.style.transition = 'opacity 0.3s';
+    if (item) { item.style.opacity = '0'; setTimeout(() => updateSavedPage(), 320); }
+  }
+}
+
+function removeStar(idx, btn) {
+  const pos = STARRED_IDS.indexOf(idx);
+  if (pos >= 0) STARRED_IDS.splice(pos, 1);
+  updateStarredCount();
+  persistData();
+  // If no note either, remove from list; otherwise just update star icon
+  if (!NOTES[String(idx)]) {
+    const item = btn.closest('.saved-item');
+    if (item) { item.style.transition = 'opacity 0.3s'; item.style.opacity = '0'; setTimeout(() => updateSavedPage(), 320); }
+  } else {
+    updateSavedPage();
+  }
+}
+
+function removeFromSaved(idx, itemEl) {
+  // Remove star
+  const pos = STARRED_IDS.indexOf(idx);
+  if (pos >= 0) STARRED_IDS.splice(pos, 1);
+  // Remove note
+  delete NOTES[String(idx)];
+  updateStarredCount();
+  persistData();
+  if (itemEl) { itemEl.style.transition = 'opacity 0.3s'; itemEl.style.opacity = '0'; setTimeout(() => updateSavedPage(), 320); }
+}
+
+async function clearSaved() {
+  const he = CURRENT_LANG === 'he';
+  if (!confirm(he ? 'למחוק את כל השאלות המסומנות וההערות?' : 'Clear all starred questions and notes?')) return;
+  STARRED_IDS = [];
+  NOTES = {};
+  updateStarredCount();
+  persistData();
+  updateSavedPage();
 }
 
 loadQuestions(); // loads questions.json; init() fires only after auth resolves
