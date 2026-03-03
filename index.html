@@ -3556,13 +3556,11 @@ function renderOne(entryDir) {
 
 // Navigate without marking known/unknown
 function fcoGo(delta) {
-  const dir = delta > 0 ? 'right' : 'left';
   const cardEl = document.getElementById('fco-card');
-  const outClass = delta > 0 ? 'swipe-left' : 'swipe-right';
-  cardEl.classList.add(outClass);
+  cardEl.classList.add('swipe-right');
   setTimeout(() => {
     FCO_IDX = Math.max(0, Math.min(FC_POOL.length - 1, FCO_IDX + delta));
-    renderOne(dir);
+    renderOne('left');
   }, 280);
 }
 
