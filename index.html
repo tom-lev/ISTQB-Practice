@@ -22,6 +22,31 @@
     --warning: #ffd166;
   }
 
+  body.light-mode {
+    --bg: #f4f4f8;
+    --surface: #ffffff;
+    --card: #ffffff;
+    --border: #d8d8e8;
+    --accent: #5b53e8;
+    --accent2: #e8355a;
+    --accent3: #1db954;
+    --text: #1a1a2e;
+    --muted: #7070a0;
+    --success: #1db954;
+    --error: #e8355a;
+    --warning: #c98b00;
+  }
+
+  body.light-mode::before {
+    background-image:
+      linear-gradient(rgba(91,83,232,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,83,232,0.04) 1px, transparent 1px);
+  }
+
+  body.light-mode::after {
+    background: radial-gradient(circle, rgba(91,83,232,0.06) 0%, transparent 70%);
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
@@ -413,6 +438,76 @@
   .tag-src  { background: rgba(108,99,255,0.15); color: var(--accent); }
   .tag-k    { background: rgba(255,209,102,0.15); color: var(--warning); }
   .tag-lo   { background: rgba(67,233,123,0.1); color: var(--accent3); }
+
+  .tag-link {
+    background: rgba(108,99,255,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(108,99,255,0.25);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.18s;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 5px;
+    letter-spacing: 0.05em;
+  }
+  .tag-link:hover {
+    background: rgba(108,99,255,0.22);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .tag-link.answers {
+    background: rgba(67,233,123,0.08);
+    color: var(--accent3);
+    border-color: rgba(67,233,123,0.2);
+  }
+  .tag-link.answers:hover {
+    background: rgba(67,233,123,0.18);
+    border-color: var(--accent3);
+  }
+
+  /* Theme toggle */
+  .theme-toggle-btn {
+    position: fixed;
+    bottom: 1.2rem;
+    right: 1.2rem;
+    z-index: 150;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .theme-toggle-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: scale(1.1);
+  }
+
+  body.light-mode .sidebar {
+    background: rgba(255,255,255,0.97);
+    box-shadow: -2px 0 16px rgba(0,0,0,0.08);
+  }
+  body.light-mode .top-logo-bar .logo-home-btn {
+    background: rgba(255,255,255,0.95);
+  }
+  body.light-mode .sidebar-toggle,
+  body.light-mode .theme-toggle-btn {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
 
   .q-text {
     font-size: 1.05rem;
@@ -1555,9 +1650,51 @@
   ☰
 </button>
 
+<!-- Theme Toggle Button -->
+<button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="החלף מצב תצוגה">
+  🌙
+</button>
+
 <!-- Quiz Logic -->
 <script>
-let ALL_Q = [];
+// ── Exam source links (Hebrew) ──
+const EXAM_LINKS = {
+  "בחינה לדוגמא גרסה א'": {
+    questions: "https://drive.google.com/file/d/1ITyEyYBcyt83lotyH11FmKZxeGcZSdSG/view?usp=sharing",
+    answers:   "https://drive.google.com/file/d/1Ggu4pRLSpIKk1KUdZMkjlc5ZHbmjhe3F/view?usp=sharing"
+  },
+  "בחינה לדוגמא גרסה ב'": {
+    questions: "https://drive.google.com/file/d/1hF8k8w0KjT3Mt4y9fUalC2bmN8OV56jc/view?usp=sharing",
+    answers:   "https://drive.google.com/file/d/1HSSRsHzaL5IaeS080pNZndKJqgz-08HJ/view?usp=sharing"
+  },
+  "בחינה לדוגמא גרסה ג'": {
+    questions: "https://drive.google.com/file/d/1n-L4LTkRl7ddR6KSU11MjH5S_nTuZLH9/view?usp=sharing",
+    answers:   "https://drive.google.com/file/d/1xfUXdXLNc6kXsyBTrBuhvfMFxVGELtZK/view?usp=sharing"
+  },
+  "בחינה לדוגמא גרסה ד'": {
+    questions: "https://drive.google.com/file/d/1y_b24Eh06dfC9Vwg3MnSC0n1x6f5Rnef/view?usp=sharing",
+    answers:   "https://drive.google.com/file/d/1EFur0G3QJM1kc0AXh6sOcWA3PrcAtwNN/view?usp=sharing"
+  }
+};
+
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  document.getElementById('theme-toggle-btn').textContent = isLight ? '🌙' : '☀️';
+  localStorage.setItem('istqb_theme', isLight ? 'light' : 'dark');
+}
+
+// Load saved theme
+(function() {
+  const saved = localStorage.getItem('istqb_theme');
+  if (saved === 'light') {
+    document.body.classList.add('light-mode');
+    // Button text set after DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('theme-toggle-btn');
+      if (btn) btn.textContent = '☀️';
+    });
+  }
+})();
 let ALL_Q_HE = [];
 let ACTIVE_Q = [];  // the pool currently in use (en or he)
 let CURRENT_LANG = 'he';
@@ -1963,6 +2100,13 @@ function renderQuestion() {
   meta.innerHTML = `<span class="tag tag-src">${q.src}</span>`;
   if (q.k) meta.innerHTML += `<span class="tag tag-k">${q.k}</span>`;
   if (q.lo) meta.innerHTML += `<span class="tag tag-lo">${q.lo}</span>`;
+
+  // Add exam links if available
+  const examLinks = EXAM_LINKS[q.src];
+  if (examLinks) {
+    meta.innerHTML += `<a class="tag tag-link" href="${examLinks.questions}" target="_blank" rel="noopener">📄 שאלות</a>`;
+    meta.innerHTML += `<a class="tag tag-link answers" href="${examLinks.answers}" target="_blank" rel="noopener">✅ תשובות</a>`;
+  }
 
   document.getElementById('q-text').innerHTML = formatQuestion(q.q);
 
