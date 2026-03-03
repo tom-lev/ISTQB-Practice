@@ -2346,9 +2346,9 @@
 
     <!-- single "ידוע" button + nav -->
     <div class="fco-bottom">
-      <button class="btn btn-ghost fco-nav-btn" onclick="fcoGo(1)"  title="הבא">←</button>
-      <button class="fco-btn fco-known-solo" id="fco-known-btn" onclick="fcoMarkKnown()">⭐ ידוע</button>
       <button class="btn btn-ghost fco-nav-btn" onclick="fcoGo(-1)" title="קודם">→</button>
+      <button class="fco-btn fco-known-solo" id="fco-known-btn" onclick="fcoMarkKnown()">⭐ ידוע</button>
+      <button class="btn btn-ghost fco-nav-btn" onclick="fcoGo(1)"  title="הבא">←</button>
     </div>
   </div>
 
@@ -3556,9 +3556,9 @@ function renderOne(entryDir) {
 
 // Navigate without marking known/unknown
 function fcoGo(delta) {
-  const dir = delta > 0 ? 'left' : 'right';
+  const dir = delta > 0 ? 'right' : 'left';
   const cardEl = document.getElementById('fco-card');
-  const outClass = delta > 0 ? 'swipe-right' : 'swipe-left';
+  const outClass = delta > 0 ? 'swipe-left' : 'swipe-right';
   cardEl.classList.add(outClass);
   setTimeout(() => {
     FCO_IDX = Math.max(0, Math.min(FC_POOL.length - 1, FCO_IDX + delta));
