@@ -690,6 +690,8 @@
   /* ========== LANGUAGE TOGGLE ========== */
   .lang-toggle {
     display: flex;
+    flex-direction: row !important;
+    direction: ltr !important;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
@@ -735,14 +737,19 @@
   body.lang-he .result-hero,
   body.lang-he .rstat-label,
   body.lang-he .page-sub,
-  body.lang-he .login-sub,
-  body.lang-he .hero-sub {
+  body.lang-he .login-sub {
     direction: rtl;
     text-align: right;
   }
 
+  body.lang-he .hero-sub {
+    direction: rtl;
+    text-align: center;
+  }
+
   body.lang-he .option {
-    flex-direction: row-reverse;
+    flex-direction: row;
+    direction: rtl;
     text-align: right;
   }
 
@@ -776,6 +783,7 @@
 
   body.lang-he .logo-area {
     direction: rtl;
+    text-align: center;
   }
 
   body.lang-he .config-box {
