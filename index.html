@@ -743,6 +743,11 @@
 
   body.lang-he .option {
     flex-direction: row-reverse;
+    text-align: right;
+  }
+
+  body.lang-he .opt-text {
+    text-align: right;
   }
 
   body.lang-he .q-meta {
@@ -1251,8 +1256,8 @@
   </div>
 
   <div class="lang-toggle">
-    <button class="lang-btn active" id="lang-en-btn" onclick="setLang('en')">🇺🇸 English</button>
     <button class="lang-btn" id="lang-he-btn" onclick="setLang('he')">🇮🇱 עברית</button>
+    <button class="lang-btn" id="lang-en-btn" onclick="setLang('en')">🇺🇸 English</button>
   </div>
 
   <div class="auth-strip">
@@ -1547,7 +1552,7 @@
 let ALL_Q = [];
 let ALL_Q_HE = [];
 let ACTIVE_Q = [];  // the pool currently in use (en or he)
-let CURRENT_LANG = 'en';
+let CURRENT_LANG = 'he';
 let SESSION = { questions: [], idx: 0, correct: 0, wrong: 0, skipped: 0, answers: [], mode: '' };
 
 // One-time cleanup: remove any leftover localStorage from old version
@@ -1639,7 +1644,7 @@ function setLang(lang) {
   if (heroBadge) heroBadge.textContent = he ? '✦ הכנה ל-ISTQB CTFL' : '✦ ISTQB CTFL Prep';
 
   const heroSub = document.querySelector('#home .hero-sub');
-  if (heroSub) heroSub.textContent = he ? 'תרגול לבחינת הסמכה - רמת Foundation' : 'Foundation Level Certification Practice';
+  if (heroSub) heroSub.textContent = he ? 'הסמכת בדיקות רמה בסיסית' : 'Foundation Level Certification Practice';
 
   // ── Stats strip labels ──
   const statBestLbl = document.querySelector('#home .stats-strip .stat-item:nth-child(1) .stat-label');
@@ -1769,6 +1774,7 @@ function init() {
   updateWrongCount();
   updateAnsweredStats();
   document.getElementById('stat-best').textContent = BEST ? BEST + '%' : '—';
+  setLang('he');
   showScreen('home');
 }
 
@@ -1954,10 +1960,13 @@ function renderQuestion() {
 
   const opts = document.getElementById('options');
   opts.innerHTML = '';
-  ['A','B','C','D','E','F'].slice(0, q.opts.length).forEach((letter, i) => {
+  const _heLetters = ['א','ב','ג','ד','ה','ו'];
+  const _enLetters = ['A','B','C','D','E','F'];
+  const _letters = CURRENT_LANG === 'he' ? _heLetters : _enLetters;
+  _enLetters.slice(0, q.opts.length).forEach((letter, i) => {
     const btn = document.createElement('button');
     btn.className = 'option';
-    btn.innerHTML = `<span class="opt-letter">${letter}</span><span class="opt-text">${q.opts[i]}</span>`;
+    btn.innerHTML = `<span class="opt-letter">${_letters[i]}</span><span class="opt-text">${q.opts[i]}</span>`;
     btn.onclick = () => selectOption(i);
     opts.appendChild(btn);
   });
@@ -2111,7 +2120,7 @@ function toggleReview() {
 function buildReview() {
   const list = document.getElementById('review-list');
   list.innerHTML = '';
-  const letters = ['A','B','C','D','E','F'];
+  const letters = CURRENT_LANG === 'he' ? ['א','ב','ג','ד','ה','ו'] : ['A','B','C','D','E','F'];
   const he = CURRENT_LANG === 'he';
   SESSION.answers.forEach((a, i) => {
     const div = document.createElement('div');
