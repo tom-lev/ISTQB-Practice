@@ -120,22 +120,22 @@
 
     <div class="field" id="field-source">
       <label id="lbl-source-field">מקור</label>
-      <select id="sel-source">
-        <option value="all">All Sources</option>
-        <option value="General">General</option>
-        <option value="Exam A">Exam A</option>
-        <option value="Exam B">Exam B</option>
-        <option value="Exam C">Exam C</option>
-        <option value="Exam D">Exam D</option>
-      </select>
-      <select id="sel-source-he" class="hidden">
-        <option value="all">כל המקורות</option>
-        <option value="בחינה לדוגמא גרסה א'">בחינה לדוגמא גרסה א'</option>
-        <option value="בחינה לדוגמא גרסה ב'">בחינה לדוגמא גרסה ב'</option>
-        <option value="בחינה לדוגמא גרסה ג'">בחינה לדוגמא גרסה ג'</option>
-        <option value="בחינה לדוגמא גרסה ד'">בחינה לדוגמא גרסה ד'</option>
-        <option value="חידון מילות מפתח">חידון מילות מפתח</option>
-      </select>
+      <div id="src-checks-en" class="src-checks">
+        <label class="src-check-all"><input type="checkbox" id="src-all-en" checked onchange="toggleAllSources('en',this.checked)"> <span>All Sources</span></label>
+        <label><input type="checkbox" class="src-cb src-cb-en" value="General"> <span>General</span></label>
+        <label><input type="checkbox" class="src-cb src-cb-en" value="Exam A"> <span>Exam A</span></label>
+        <label><input type="checkbox" class="src-cb src-cb-en" value="Exam B"> <span>Exam B</span></label>
+        <label><input type="checkbox" class="src-cb src-cb-en" value="Exam C"> <span>Exam C</span></label>
+        <label><input type="checkbox" class="src-cb src-cb-en" value="Exam D"> <span>Exam D</span></label>
+      </div>
+      <div id="src-checks-he" class="src-checks hidden">
+        <label class="src-check-all"><input type="checkbox" id="src-all-he" checked onchange="toggleAllSources('he',this.checked)"> <span>כל המקורות</span></label>
+        <label><input type="checkbox" class="src-cb src-cb-he" value="בחינה לדוגמא גרסה א'"> <span>גרסה א'</span></label>
+        <label><input type="checkbox" class="src-cb src-cb-he" value="בחינה לדוגמא גרסה ב'"> <span>גרסה ב'</span></label>
+        <label><input type="checkbox" class="src-cb src-cb-he" value="בחינה לדוגמא גרסה ג'"> <span>גרסה ג'</span></label>
+        <label><input type="checkbox" class="src-cb src-cb-he" value="בחינה לדוגמא גרסה ד'"> <span>גרסה ד'</span></label>
+        <label><input type="checkbox" class="src-cb src-cb-he" value="חידון מילות מפתח"> <span>מילות מפתח</span></label>
+      </div>
     </div>
 
     <div class="field" id="field-klevel">

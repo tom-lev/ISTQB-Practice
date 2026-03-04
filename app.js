@@ -212,12 +212,12 @@ function setLang(lang) {
   }
   if (btnLogout) btnLogout.textContent = he ? 'התנתק' : 'Sign Out';
 
-  // ── Swap source dropdowns ──
-  const selEn = document.getElementById('sel-source');
-  const selHe = document.getElementById('sel-source-he');
-  if (selEn && selHe) {
-    selEn.classList.toggle('hidden', he);
-    selHe.classList.toggle('hidden', !he);
+  // ── Swap source checkboxes ──
+  const srcEn = document.getElementById('src-checks-en');
+  const srcHe = document.getElementById('src-checks-he');
+  if (srcEn && srcHe) {
+    srcEn.classList.toggle('hidden', he);
+    srcHe.classList.toggle('hidden', !he);
   }
 
   // ── Config labels ──
@@ -476,17 +476,39 @@ function startMode(mode) {
   }
 }
 
+
+// ── Get selected source values from checkboxes ──
+window.getSelectedSources = function(he) {
+  const lang = he ? 'he' : 'en';
+  const allCb = document.getElementById('src-all-' + lang);
+  if (allCb && allCb.checked) return []; // empty = all
+  return [...document.querySelectorAll('.src-cb-' + lang + ':checked')].map(cb => cb.value);
+};
+
+window.toggleAllSources = function(lang, checked) {
+  document.querySelectorAll('.src-cb-' + lang).forEach(cb => cb.checked = checked);
+};
+
+// Sync "all" checkbox when individual ones change
+document.addEventListener('change', function(e) {
+  if (e.target.classList.contains('src-cb')) {
+    const lang = e.target.classList.contains('src-cb-he') ? 'he' : 'en';
+    const allCbs = document.querySelectorAll('.src-cb-' + lang);
+    const allChecked = [...allCbs].every(cb => cb.checked);
+    const allCb = document.getElementById('src-all-' + lang);
+    if (allCb) allCb.checked = allChecked;
+  }
+});
+
 function beginQuiz() {
   const he = CURRENT_LANG === 'he';
-  const src = he
-    ? document.getElementById('sel-source-he').value
-    : document.getElementById('sel-source').value;
+  const selectedSrcs = getSelectedSources(he);
   const klevel = document.getElementById('sel-klevel').value;
   const rng = document.getElementById('rng-count');
   const count = parseInt(rng.value);
   const useAll = count >= parseInt(rng.max);
   const order = document.getElementById('sel-order').value;
-  let pool = src === 'all' ? ACTIVE_Q : ACTIVE_Q.filter(q => q.src === src);
+  let pool = selectedSrcs.length === 0 ? ACTIVE_Q : ACTIVE_Q.filter(q => selectedSrcs.includes(q.src));
   if (klevel !== 'all') pool = pool.filter(q => (q.k_level || q.k) === klevel);
   if (pool.length === 0) {
     alert(he ? 'אין שאלות התואמות את הסינון שנבחר.' : 'No questions match the selected filters.');
@@ -744,110 +766,7 @@ function retryWrong() {
   runQuiz(shuffle(wqs));
 }
 
-function renderMarkdownTable(tableText) {
-  const lines = tableText.trim().split('\n').filter(l => l.trim());
-  if (lines.length < 2) return tableText;
-  const parseRow = line => line.split('|').slice(1, -1).map(c => c.trim());
-  const isSeparator = line => /^\|[\s\-:|]+\|/.test(line);
-  let html = '<div style="overflow-x:auto;margin:0.6rem 0"><table style="border-collapse:collapse;font-size:0.88rem;min-width:100%">';
-  let inBody = false;
-  for (let i = 0; i < lines.length; i++) {
-    if (isSeparator(lines[i])) { inBody = true; continue; }
-    const cells = parseRow(lines[i]);
-    if (!cells.length) continue;
-    const tag = !inBody && i === 0 ? 'th' : 'td';
-    const rowStyle = !inBody && i === 0 ? 'background:var(--surface2,#f0f0f5)' : '';
-    html += `<tr style="${rowStyle}">` + cells.map(c =>
-      `<${tag} style="border:1px solid var(--border,#ddd);padding:0.3rem 0.6rem;text-align:right">${c}</${tag}>`
-    ).join('') + '</tr>';
-  }
-  html += '</table></div>';
-  return html;
-}
-
 function formatQuestion(text) {
-  // Handle markdown tables
-  if (text.includes('|')) {
-    // Split into segments: table blocks vs regular text
-    const segments = [];
-    const lines = text.split('\n');
-    let tableLines = [];
-    let textLines = [];
-    const flushText = () => { if (textLines.length) { segments.push({ type: 'text', content: textLines.join('\n') }); textLines = []; } };
-    const flushTable = () => { if (tableLines.length) { segments.push({ type: 'table', content: tableLines.join('\n') }); tableLines = []; } };
-    for (const line of lines) {
-      if (/^\|/.test(line.trim())) {
-        flushText();
-        tableLines.push(line);
-      } else {
-        flushTable();
-        textLines.push(line);
-      }
-    }
-    flushText(); flushTable();
-    if (segments.some(s => s.type === 'table')) {
-      return segments.map(s => s.type === 'table'
-        ? renderMarkdownTable(s.content)
-        : formatTextBlock(s.content)
-      ).join('');
-    }
-  }
-  return formatTextBlock(text);
-}
-
-function formatTextBlock(text) {
-  if (!text.trim()) return '';
-  // Handle bullet lists (• or -)
-  if (/\n[•\-]\s/.test(text) || /^[•\-]\s/.test(text.trim())) {
-    const lines = text.split('\n');
-    let html = '';
-    let bulletItems = [];
-    const flushBullets = () => {
-      if (bulletItems.length) {
-        html += `<ul style="margin:0.3rem 0 0.5rem 1.2rem;line-height:1.8">${bulletItems.map(b => `<li>${b}</li>`).join('')}</ul>`;
-        bulletItems = [];
-      }
-    };
-    for (const line of lines) {
-      const bulletMatch = line.match(/^[•\-]\s+(.*)/);
-      if (bulletMatch) {
-        bulletItems.push(bulletMatch[1]);
-      } else {
-        flushBullets();
-        if (line.trim()) html += `<span style="display:block;margin-bottom:0.4rem">${line}</span>`;
-      }
-    }
-    flushBullets();
-    return html || text;
-  }
-  // Handle \n line breaks
-  if (text.includes('\n')) {
-    const lines = text.split('\n');
-    const hasNumberedList = lines.some(l => /^\d+\./.test(l.trim()));
-    const hasLetterList = lines.some(l => /^[a-zA-Z]\)/.test(l.trim()) || /^[ivxIVX]+\./.test(l.trim()));
-    if (hasNumberedList || hasLetterList) {
-      let html = '';
-      let numItems = [];
-      let letItems = [];
-      let introLines = [];
-      const flushNums = () => { if (numItems.length) { html += `<ol style="margin:0.4rem 0 0.6rem 1.4rem;line-height:1.8">${numItems.map(x=>`<li>${x}</li>`).join('')}</ol>`; numItems=[]; } };
-      const flushLets = () => { if (letItems.length) { html += `<ul style="margin:0 0 0.4rem 1.4rem;line-height:1.8;list-style:none">${letItems.map(x=>`<li>${x}</li>`).join('')}</ul>`; letItems=[]; } };
-      for (const line of lines) {
-        const numMatch = line.match(/^(\d+)\.\s+(.*)/);
-        const letMatch = line.match(/^([a-zA-Z])\)\s+(.*)/);
-        if (numMatch) { flushLets(); if (!numItems.length && introLines.length) { html += introLines.map(l=>`<span style="display:block;margin-bottom:0.4rem">${l}</span>`).join(''); introLines=[]; } numItems.push(numMatch[2]); }
-        else if (letMatch) { flushNums(); letItems.push(`<strong>${letMatch[1]})</strong> ${letMatch[2]}`); }
-        else if (!numItems.length && !letItems.length) { introLines.push(line); }
-        else { flushNums(); flushLets(); if (line.trim()) html += `<span style="display:block;margin-top:0.3rem">${line}</span>`; }
-      }
-      if (introLines.length) html = introLines.map(l=>`<span style="display:block;margin-bottom:0.4rem">${l}</span>`).join('') + html;
-      flushNums(); flushLets();
-      return html || text;
-    }
-    // Plain multiline text
-    return text.split('\n').filter(l => l.trim()).map(l => `<span style="display:block;margin-bottom:0.35rem">${l}</span>`).join('');
-  }
-  // Original logic for single-line with slash separator
   if (!text.includes('/')) return formatInlineList(text);
   const parts = text.split(/\s*\/\s*/);
   const intro_and_nums = parts[0];

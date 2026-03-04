@@ -1937,3 +1937,39 @@
     .fco-content { font-size: 1.05rem; }
   }
 
+/* ── Source multi-select checkboxes ── */
+.src-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  margin-top: 0.3rem;
+}
+.src-checks label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 2rem;
+  border: 1.5px solid var(--border, #ddd);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: background 0.15s, border-color 0.15s;
+  user-select: none;
+  white-space: nowrap;
+}
+.src-checks label:has(input:checked) {
+  background: var(--accent, #6c63ff);
+  border-color: var(--accent, #6c63ff);
+  color: #fff;
+}
+.src-checks label:hover {
+  border-color: var(--accent, #6c63ff);
+}
+.src-checks input[type=checkbox] {
+  display: none;
+}
+.src-check-all {
+  font-weight: 700 !important;
+}
+
