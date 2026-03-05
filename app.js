@@ -167,6 +167,9 @@ async function loadQuestions() {
       try { ALL_GLOSSARY = await respGlossary.json(); } catch(e) {}
     }
 
+    // ── Merge admin edits from Firestore ──
+    await applyAdminEdits();
+
     window._questionsReady = true;
     if (window._authReady) init();
   } catch(e) {
@@ -181,6 +184,33 @@ async function loadQuestions() {
     } catch(e2) {
       document.getElementById('loading').innerHTML = '<span style="color:#ff6584">⚠ Could not load questions.json</span>';
     }
+  }
+}
+
+// ── Load admin edits from Firestore and apply over the base JSON ──
+async function applyAdminEdits() {
+  try {
+    const { getFirestore, collection, getDocs } =
+      await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    // Re-use the already-initialised app via a global reference set by firebase.js
+    const db = window._firestoreDb;
+    if (!db) return; // firebase not loaded yet — skip silently
+
+    const snap = await getDocs(collection(db, "editedQuestions"));
+    if (snap.empty) return;
+
+    snap.forEach(docSnap => {
+      const idx  = parseInt(docSnap.id, 10);
+      const data = docSnap.data();
+      if (!isNaN(idx) && data.lang === 'he' && ALL_Q_HE[idx]) {
+        ALL_Q_HE[idx] = { ...ALL_Q_HE[idx], ...data };
+      } else if (!isNaN(idx) && data.lang !== 'he' && ALL_Q[idx]) {
+        ALL_Q[idx] = { ...ALL_Q[idx], ...data };
+      }
+    });
+    console.log(`[ADMIN] Applied ${snap.size} edited question(s) from Firestore`);
+  } catch(e) {
+    console.warn('[ADMIN] Could not load edits from Firestore:', e);
   }
 }
 

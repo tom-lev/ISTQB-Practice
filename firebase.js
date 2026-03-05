@@ -20,6 +20,7 @@ import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.7.1/fire
   const db       = getFirestore(app);
   const auth     = getAuth(app);
   const provider = new GoogleAuthProvider();
+  window._firestoreDb = db; // expose for app.js admin edits
 
   // ── Save user data to Firestore ──
   let _saveInProgress = false;
