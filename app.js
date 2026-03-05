@@ -87,14 +87,16 @@ window._currentUser     = null;
 // Called whenever data changes
 async function persistData() {
   if (window._fbSaveUserData && window._currentUser) {
-    window._fbSaveUserData({
-      wrongIds:    WRONG_IDS,
-      best:        BEST,
-      answeredIds: ANSWERED_IDS,
-      uniqueIds:   UNIQUE_IDS,
-      starredIds:  STARRED_IDS,
-      notes:       NOTES
-    }).catch(console.error);
+    try {
+      await window._fbSaveUserData({
+        wrongIds:    WRONG_IDS,
+        best:        BEST,
+        answeredIds: ANSWERED_IDS,
+        uniqueIds:   UNIQUE_IDS,
+        starredIds:  STARRED_IDS,
+        notes:       NOTES
+      });
+    } catch(e) { console.error('persistData failed:', e); }
   }
 }
 
@@ -632,7 +634,7 @@ function toggleMultiOption(btn, q) {
   }
 }
 
-function submitMultiAnswer(q) {
+async function submitMultiAnswer(q) {
   const selectedBtns = document.querySelectorAll('.option.selected');
   const chosen = Array.from(selectedBtns).map(b => parseInt(b.dataset.idx)).sort((a,b)=>a-b);
   const correct = [...q.ans].sort((a,b)=>a-b);
@@ -668,7 +670,7 @@ function submitMultiAnswer(q) {
     if (gIdx >= 0 && !WRONG_IDS.includes(gIdx)) WRONG_IDS.push(gIdx);
   }
 
-  persistData();
+  await persistData();
   updateAnsweredStats();
 
   if (q.exp) {
@@ -680,7 +682,7 @@ function submitMultiAnswer(q) {
   document.getElementById('btn-next').classList.remove('hidden');
 }
 
-function selectOption(idx) {
+async function selectOption(idx) {
   const opts = document.querySelectorAll('.option');
   if (opts[0].classList.contains('disabled')) return;
 
@@ -711,7 +713,7 @@ function selectOption(idx) {
     }
   }
 
-  persistData();
+  await persistData();
   updateAnsweredStats();
 
   if (q.exp) {
@@ -746,7 +748,7 @@ function confirmQuit() {
   if (confirm(_quitHe ? 'לצאת מהחידון?' : 'Quit this quiz?')) showScreen('home');
 }
 
-function showResults() {
+async function showResults() {
   clearExamTimer();
   showScreen('results');
   const total = SESSION.questions.length;
@@ -756,7 +758,7 @@ function showResults() {
 
   if (!BEST || pct > BEST) {
     BEST = pct;
-    persistData();
+    await persistData();
     document.getElementById('stat-best').textContent = BEST + '%';
   }
 
@@ -964,7 +966,7 @@ function updateStarredCount() {
   if (navEl) navEl.textContent = combinedCount;
 }
 
-function toggleStar() {
+async function toggleStar() {
   const q = SESSION.questions[SESSION.idx];
   const gIdx = ACTIVE_Q.indexOf(q);
   if (gIdx < 0) return;
@@ -982,10 +984,10 @@ function toggleStar() {
   starBtn.style.transform = 'scale(1.4)';
   setTimeout(() => starBtn.style.transform = 'scale(1)', 200);
   updateStarredCount();
-  persistData();
+  await persistData();
 }
 
-function saveNote() {
+async function saveNote() {
   const q = SESSION.questions[SESSION.idx];
   if (!q) return;
   const gIdx = ACTIVE_Q.indexOf(q);
@@ -993,11 +995,11 @@ function saveNote() {
   const val = document.getElementById('note-input').value.trim();
   if (val) NOTES[String(gIdx)] = val;
   else delete NOTES[String(gIdx)];
-  persistData();
+  await persistData();
 }
 
 // ── Speed Mode Timer ──
-function startSpeedTimer() {
+async function startSpeedTimer() {
   clearSpeedTimer();
   const fill = document.getElementById('speed-timer-fill');
   if (fill) { fill.style.transition = 'none'; fill.style.width = '100%'; }
@@ -1024,7 +1026,7 @@ function startSpeedTimer() {
       document.getElementById('btn-skip').classList.add('hidden');
       document.getElementById('btn-next').classList.remove('hidden');
       document.getElementById('note-area').classList.remove('hidden');
-      persistData();
+      persistData().catch(console.error);
       updateAnsweredStats();
       // Auto-advance after 1.5s
       setTimeout(() => advanceOrFinish(), 1500);
@@ -1142,13 +1144,13 @@ function updateSavedPage() {
   if (sub) sub.textContent = `${combinedIdxs.length} ${he ? 'שאלות' : 'questions'}`;
 }
 
-function saveNoteFromPage(textarea) {
+async function saveNoteFromPage(textarea) {
   const idx = String(textarea.dataset.idx);
   const val = textarea.value.trim();
   if (val) NOTES[idx] = val;
   else delete NOTES[idx];
   updateStarredCount();
-  persistData();
+  await persistData();
   // If removed note and not starred, remove item from UI
   if (!val && !STARRED_IDS.includes(Number(idx))) {
     const item = textarea.closest('.saved-item');
@@ -1157,11 +1159,11 @@ function saveNoteFromPage(textarea) {
   }
 }
 
-function removeStar(idx, btn) {
+async function removeStar(idx, btn) {
   const pos = STARRED_IDS.indexOf(idx);
   if (pos >= 0) STARRED_IDS.splice(pos, 1);
   updateStarredCount();
-  persistData();
+  await persistData();
   // If no note either, remove from list; otherwise just update star icon
   if (!NOTES[String(idx)]) {
     const item = btn.closest('.saved-item');
@@ -1171,14 +1173,14 @@ function removeStar(idx, btn) {
   }
 }
 
-function removeFromSaved(idx, itemEl) {
+async function removeFromSaved(idx, itemEl) {
   // Remove star
   const pos = STARRED_IDS.indexOf(idx);
   if (pos >= 0) STARRED_IDS.splice(pos, 1);
   // Remove note
   delete NOTES[String(idx)];
   updateStarredCount();
-  persistData();
+  await persistData();
   if (itemEl) { itemEl.style.transition = 'opacity 0.3s'; itemEl.style.opacity = '0'; setTimeout(() => updateSavedPage(), 320); }
 }
 
@@ -1188,7 +1190,7 @@ async function clearSaved() {
   STARRED_IDS = [];
   NOTES = {};
   updateStarredCount();
-  persistData();
+  await persistData();
   updateSavedPage();
 }
 
