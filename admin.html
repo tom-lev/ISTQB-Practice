@@ -124,19 +124,39 @@ main { overflow-y: auto; padding: 1.25rem; display: flex; flex-direction: column
 .ql-snow button:hover .ql-fill,   .ql-snow .ql-active .ql-fill   { fill:   var(--accent) !important; }
 
 /* Answer options */
-.opts-grid { display: flex; flex-direction: column; gap: 0.6rem; }
+.opts-grid { display: flex; flex-direction: column; gap: 0.75rem; }
 .opt-row { display: flex; align-items: flex-start; gap: 0.65rem; }
 .opt-letter {
   width: 28px; height: 28px; min-width: 28px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
   background: var(--surface); border: 1.5px solid var(--border); color: var(--muted);
-  cursor: pointer; transition: all 0.18s; margin-top: 3px; user-select: none;
-  title: "לחץ לסמן כתשובה נכונה";
+  cursor: pointer; transition: all 0.18s; margin-top: 32px; user-select: none;
 }
 .opt-letter:hover { border-color: var(--success); color: var(--success); }
 .opt-letter.correct { background: rgba(45,212,160,0.12); border-color: var(--success); color: var(--success); }
-.opt-row textarea { resize: vertical; min-height: 38px; line-height: 1.45; }
+
+/* Mini Quill per answer */
+.opt-quill-wrap .ql-toolbar.ql-snow {
+  background: var(--surface) !important; border-color: var(--border) !important;
+  border-radius: 7px 7px 0 0; padding: 3px 6px;
+}
+.opt-quill-wrap .ql-container.ql-snow {
+  background: var(--bg) !important; border-color: var(--border) !important;
+  border-radius: 0 0 7px 7px; min-height: 42px;
+}
+.opt-quill-wrap .ql-editor {
+  color: var(--text) !important; font-family: var(--sans) !important;
+  font-size: 0.86rem; direction: rtl; min-height: 36px; padding: 6px 10px;
+}
+.opt-quill-wrap .ql-editor.ql-blank::before {
+  color: var(--muted) !important; font-style: normal !important; right: 10px; left: auto;
+}
+.opt-quill-wrap .ql-snow .ql-stroke { stroke: var(--muted) !important; }
+.opt-quill-wrap .ql-snow .ql-fill  { fill:   var(--muted) !important; }
+.opt-quill-wrap .ql-snow .ql-picker-label { color: var(--muted) !important; }
+.opt-quill-wrap .ql-snow button:hover .ql-stroke { stroke: var(--accent) !important; }
+.opt-quill-wrap .ql-snow .ql-active .ql-stroke  { stroke: var(--accent) !important; }
 .opt-hint { font-size: 0.7rem; color: var(--muted); margin-top: 0.25rem; padding-right: 0.5rem; }
 
 /* Image section */
@@ -387,6 +407,7 @@ let EDITED_MAP     = {};
 let CURRENT_IDX    = null;
 let CURRENT_IS_NEW = false;
 let quill          = null;
+let optQuills      = [];
 let filterCache    = [];
 let unsavedChanges = false;
 let _adminInited   = false;   // guard — prevent double init
@@ -608,22 +629,62 @@ function populateEditor(q, idx) {
     }
   }
 
-  // Options
+  // Options — each gets its own mini Quill editor
   const grid = document.getElementById('opts-grid');
   grid.innerHTML = '';
-  const opts = q.opts && q.opts.length ? q.opts : ['', '', '', ''];
+  // Destroy old opt quillers
+  optQuills = [];
+  const opts     = q.opts     && q.opts.length     ? q.opts     : ['', '', '', ''];
   opts.forEach((opt, oi) => {
     const isCorrect = oi === q.ans;
     const row = document.createElement('div');
     row.className = 'opt-row';
     row.innerHTML = `
-      <div class="opt-letter${isCorrect ? ' correct' : ''}" 
+      <div class="opt-letter${isCorrect ? ' correct' : ''}"
            data-oi="${oi}" onclick="setCorrect(${oi})" title="לחץ לסמן כתשובה נכונה">
         ${String.fromCharCode(65 + oi)}
       </div>
-      <textarea rows="2" data-oi="${oi}" oninput="markUnsaved()">${opt}</textarea>
+      <div class="opt-quill-wrap" style="flex:1;">
+        <div id="opt-quill-${oi}"></div>
+      </div>
     `;
     grid.appendChild(row);
+  });
+
+  // Init each opt Quill after DOM is set
+  opts.forEach((opt, oi) => {
+    const oq = new Quill(`#opt-quill-${oi}`, {
+      theme: 'snow',
+      placeholder: `תשובה ${String.fromCharCode(65 + oi)}...`,
+      modules: {
+        toolbar: {
+          container: [
+            ['bold', 'italic', 'underline'],
+            [{ 'direction': 'rtl' }],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
+            ['clean']
+          ],
+          handlers: {
+            direction: function(value) {
+              const format = this.quill.getFormat();
+              const currentDir = format.direction || 'rtl';
+              const newDir   = currentDir === 'rtl' ? 'ltr' : 'rtl';
+              const newAlign = newDir === 'ltr' ? 'left' : 'right';
+              this.quill.format('direction', newDir, 'user');
+              this.quill.format('align', newAlign, 'user');
+              markUnsaved();
+            }
+          }
+        }
+      }
+    });
+    if (opt && opt.startsWith('<')) {
+      oq.root.innerHTML = opt;
+    } else {
+      oq.setText(opt || '');
+    }
+    oq.on('text-change', () => markUnsaved());
+    optQuills[oi] = oq;
   });
 
   // Meta
@@ -696,7 +757,7 @@ async function saveQuestion() {
   if (!quill) return;
 
   const qText = quill.root.innerHTML.trim();
-  const opts  = [...document.querySelectorAll('.opt-row textarea')].map(t => t.value.trim());
+  const opts  = optQuills.map(oq => oq.root.innerHTML.trim());
   const ansEl = document.querySelector('.opt-letter.correct');
   const ans   = ansEl ? parseInt(ansEl.dataset.oi) : 0;
   const payload = {
