@@ -22,18 +22,33 @@ import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.7.1/fire
   const provider = new GoogleAuthProvider();
 
   // ── Save user data to Firestore ──
+  let _saveInProgress = false;
+
+  // Keep page alive while saving
+  window.addEventListener('beforeunload', (e) => {
+    if (_saveInProgress) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+
   window._fbSaveUserData = async function({ wrongIds, best, answeredIds, uniqueIds, starredIds, notes }) {
     const uid = window._currentUser?.uid;
     if (!uid) return;
-    await setDoc(doc(db, "users", uid), {
-      wrongIds,
-      best:        best        ?? null,
-      answeredIds: answeredIds ?? [],
-      uniqueIds:   uniqueIds   ?? [],
-      starredIds:  starredIds  ?? [],
-      notes:       notes       ?? {},
-      updatedAt:   serverTimestamp()
-    }, { merge: true });
+    _saveInProgress = true;
+    try {
+      await setDoc(doc(db, "users", uid), {
+        wrongIds,
+        best:        best        ?? null,
+        answeredIds: answeredIds ?? [],
+        uniqueIds:   uniqueIds   ?? [],
+        starredIds:  starredIds  ?? [],
+        notes:       notes       ?? {},
+        updatedAt:   serverTimestamp()
+      }, { merge: true });
+    } finally {
+      _saveInProgress = false;
+    }
   };
 
   // ── Clear all stats from Firestore (overwrite + delete history sub-collection) ──
@@ -132,16 +147,16 @@ import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.7.1/fire
       if (btnLogin)  btnLogin.classList.add('hidden');
       if (btnLogout) btnLogout.classList.remove('hidden');
 
-      // Save/update profile
-      await setDoc(doc(db, "users", user.uid), {
+      // Load data from Firestore FIRST, then update profile (merge won't overwrite other fields)
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) await window.loadCloudData(snap.data());
+
+      // Save/update profile metadata only (merge:true won't touch starredIds etc.)
+      setDoc(doc(db, "users", user.uid), {
         name: user.displayName,
         email: user.email,
         lastLogin: serverTimestamp()
-      }, { merge: true });
-
-      // Load data from Firestore
-      const snap = await getDoc(doc(db, "users", user.uid));
-      if (snap.exists()) await window.loadCloudData(snap.data());
+      }, { merge: true }).catch(console.error);
       await fetchQuizHistory(user.uid);
 
       // Init app now that we have both auth + data
