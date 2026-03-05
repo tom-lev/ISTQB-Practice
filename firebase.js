@@ -34,6 +34,7 @@ import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.7.1/fire
 
   window._fbSaveUserData = async function({ wrongIds, best, answeredIds, uniqueIds, starredIds, notes }) {
     const uid = window._currentUser?.uid;
+    console.log('[FIREBASE] _fbSaveUserData called, uid:', uid, 'starredIds:', JSON.stringify(starredIds));
     if (!uid) return;
     _saveInProgress = true;
     try {
@@ -149,6 +150,7 @@ import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.7.1/fire
 
       // Load data from Firestore FIRST, then update profile (merge won't overwrite other fields)
       const snap = await getDoc(doc(db, "users", user.uid));
+      console.log('[FIREBASE] Loaded from Firestore:', JSON.stringify(snap.data()?.starredIds));
       if (snap.exists()) await window.loadCloudData(snap.data());
 
       // Save/update profile metadata only (merge:true won't touch starredIds etc.)

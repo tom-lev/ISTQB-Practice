@@ -93,6 +93,7 @@ async function persistData() {
     return;
   }
   _pendingPersist = false;
+  console.log('[PERSIST] Saving starredIds:', JSON.stringify(STARRED_IDS));
   try {
     await window._fbSaveUserData({
       wrongIds:    WRONG_IDS,
@@ -103,6 +104,7 @@ async function persistData() {
       notes:       NOTES
     });
   } catch(e) { console.error('persistData failed:', e); }
+  console.log('[PERSIST] Save complete');
 }
 
 // Called after login — load cloud data directly into memory
@@ -987,6 +989,9 @@ async function toggleStar() {
   } else {
     STARRED_IDS.push(gIdx);
   }
+  console.log('[STAR] STARRED_IDS after toggle:', JSON.stringify(STARRED_IDS));
+  console.log('[STAR] _fbSaveUserData ready?', !!window._fbSaveUserData);
+  console.log('[STAR] user logged in?', !!window._currentUser);
   const isStarred = STARRED_IDS.includes(gIdx);
   const starBtn = document.getElementById('btn-star');
   starBtn.textContent = isStarred ? '⭐' : '☆';
