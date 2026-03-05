@@ -450,11 +450,23 @@ async function initAdmin() {
         container: [
           ['bold', 'italic', 'underline'],
           [{ 'color': [] }],
+          [{ 'direction': 'rtl' }],
+          [{ 'indent': '-1' }, { 'indent': '+1' }],
           ['image'],
           ['clean']
         ],
         handlers: {
-          image: insertImageByUrl
+          image: insertImageByUrl,
+          direction: function(value) {
+            // Toggle paragraph direction between RTL and LTR
+            const format = this.quill.getFormat();
+            const currentDir = format.direction || 'rtl';
+            const newDir = currentDir === 'rtl' ? 'ltr' : 'rtl';
+            const newAlign = newDir === 'ltr' ? 'left' : 'right';
+            this.quill.format('direction', newDir, 'user');
+            this.quill.format('align', newAlign, 'user');
+            markUnsaved();
+          }
         }
       }
     }
