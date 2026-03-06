@@ -819,26 +819,15 @@ function reportQuestion() {
   const q = SESSION.questions?.[SESSION.idx];
   if (!q) return;
 
-  const qIndex = ACTIVE_Q.indexOf(q) + 1;
-  const qText  = q.q?.replace(/<[^>]*>/g, '').trim() || '';
-  const src    = q.src   || '';
-  const qNum   = q.q_num || '';
-  const lo     = q.lo    || '';
+  const qNum   = q.q_num || (ACTIVE_Q.indexOf(q) + 1);
+  const src    = q.src || '';
 
-  const subject = `[ISTQB] בעיה בשאלה ${qIndex}${qNum ? ' (מס\' ' + qNum + ')' : ''}`;
-  const body    =
-`שלום,
+  // Extract exam letter from src e.g. "בחינה לדוגמא גרסה א'" → "א'"
+  const letterMatch = src.match(/גרסה\s+([\u05d0-\u05ea]'?)/);
+  const examLetter  = letterMatch ? letterMatch[1] : src;
 
-מצאתי בעיה בשאלה הבאה:
-
-מספר שאלה: ${qIndex}${qNum ? ' (q_num: ' + qNum + ')' : ''}
-מקור: ${src}
-LO: ${lo}
-טקסט: ${qText.slice(0, 300)}
-
-תיאור הבעיה:
-[פרט כאן את הבעיה]
-`;
+  const subject = `בעיה בשאלה מס ${qNum} מתוך בחינה לדוגמא ${examLetter}`;
+  const body    = `שלום,\n\nמצאתי בעיה בשאלה מס ${qNum} מתוך בחינה לדוגמא ${examLetter}.\n\nתיאור הבעיה:\n[פרט כאן את הבעיה]\n`;
 
   const gmailUrl = `https://mail.google.com/mail/?view=cm&to=tomer9tomer%40gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   window.open(gmailUrl, '_blank');
