@@ -1040,8 +1040,16 @@ function formatQuestion(text) {
 }
 
 function formatExplanation(text) {
-  // Rich HTML from Quill admin editor — render as-is
-  if (/<[a-z][\s\S]*>/i.test(text)) return text;
+  // If saved as Quill HTML — extract plain text first, then format
+  if (/<[a-z][\s\S]*>/i.test(text)) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = text;
+    // Preserve line breaks: replace block elements with newlines
+    tmp.querySelectorAll('p, br, li, div').forEach(el => {
+      el.insertAdjacentText('afterend', '\n');
+    });
+    text = tmp.textContent.trim();
+  }
 
   // Plain-text structured format: optional intro + a) b) c) d) lines
   const optionRegex = /^([a-d])\)\s*/i;
