@@ -622,6 +622,7 @@
     line-height: 1.7;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid rgba(108,99,255,0.15);
+    text-align: left;
   }
 
   .exp-options {
@@ -638,12 +639,13 @@
     border-radius: 8px;
     background: rgba(255,255,255,0.03);
     border: 1px solid transparent;
-    transition: background 0.15s;
+    text-align: left;
+    direction: ltr;
   }
 
   .exp-row-correct {
-    background: rgba(45,212,160,0.08);
-    border-color: rgba(45,212,160,0.25);
+    background: rgba(45,212,160,0.06);
+    border-color: rgba(45,212,160,0.2);
   }
 
   .exp-letter {
@@ -670,11 +672,11 @@
   .exp-body {
     flex: 1;
     line-height: 1.6;
-    color: #b0b0c8;
+    color: #c8c8e0;
   }
 
   .exp-row-correct .exp-body {
-    color: #d0f0e8;
+    color: #c8c8e0;
   }
 
   .exp-tag {
@@ -929,7 +931,6 @@
   body.lang-he .q-card,
   body.lang-he .q-text,
   body.lang-he .opt-text,
-  body.lang-he .explanation,
   body.lang-he .config-box,
   body.lang-he .review-q,
   body.lang-he .review-answers,
@@ -943,6 +944,22 @@
   body.lang-he .login-sub {
     direction: rtl;
     text-align: right;
+  }
+
+  /* Explanation is always LTR (English text) — override lang-he */
+  body.lang-he .explanation {
+    direction: ltr;
+    text-align: left;
+  }
+  body.lang-he .explanation strong {
+    direction: rtl;
+    text-align: right;
+  }
+  body.lang-he .exp-row,
+  body.lang-he .exp-body,
+  body.lang-he .exp-intro {
+    direction: ltr;
+    text-align: left;
   }
 
   body.lang-he .hero-sub {
