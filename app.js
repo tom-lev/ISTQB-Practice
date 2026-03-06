@@ -1040,15 +1040,81 @@ function formatQuestion(text) {
 }
 
 function formatExplanation(text) {
-  // If exp is rich HTML (saved by admin Quill editor) — use as-is
+  // Rich HTML from Quill admin editor — render as-is
   if (/<[a-z][\s\S]*>/i.test(text)) return text;
-  // Legacy plain-text format
-  const parts = text.split(/(?=\b[a-e]\)\s)/i).filter(p => p.trim());
-  if (parts.length <= 1) return `<span class="exp-line">${text}</span>`;
-  return parts.map(part => {
-    const isCorrect = /is correct/i.test(part);
-    return `<span class="exp-line ${isCorrect ? 'exp-correct' : ''}">${part.trim()}</span>`;
-  }).join('');
+
+  // Plain-text structured format: optional intro + a) b) c) d) lines
+  const optionRegex = /^([a-d])\)\s*/i;
+  const lines = text.split(/\n/).map(l => l.trim()).filter(Boolean);
+
+  // Split into intro lines and option lines
+  const introLines = [];
+  const optionLines = [];
+  let inOptions = false;
+
+  for (const line of lines) {
+    if (optionRegex.test(line)) inOptions = true;
+    if (inOptions) optionLines.push(line);
+    else introLines.push(line);
+  }
+
+  // If no structured options found, fall back to splitting on a) b) c) d) inline
+  if (!optionLines.length) {
+    const parts = text.split(/(?=\b[a-d]\)\s)/i).filter(p => p.trim());
+    if (parts.length <= 1) return `<div class="exp-intro">${text}</div>`;
+    const intro = '';
+    return parts.map(part => {
+      const letter = (part.match(/^([a-d])\)/i) || [])[1] || '';
+      const isCorrect = /is correct/i.test(part);
+      const body = part.replace(/^[a-d]\)\s*/i, '').trim();
+      return buildExpRow(letter, body, isCorrect);
+    }).join('');
+  }
+
+  let html = '';
+
+  // Intro paragraph
+  if (introLines.length) {
+    html += `<div class="exp-intro">${introLines.join(' ')}</div>`;
+  }
+
+  // Option rows — each option may span multiple lines (join them)
+  // First, group lines by option letter
+  const groups = [];
+  for (const line of optionLines) {
+    const m = line.match(/^([a-d])\)\s*(.*)/i);
+    if (m) {
+      groups.push({ letter: m[1].toLowerCase(), text: m[2] });
+    } else if (groups.length) {
+      groups[groups.length - 1].text += ' ' + line;
+    }
+  }
+
+  html += '<div class="exp-options">';
+  for (const g of groups) {
+    const isCorrect = /is correct/i.test(g.text);
+    html += buildExpRow(g.letter, g.text.trim(), isCorrect);
+  }
+  html += '</div>';
+
+  return html;
+}
+
+function buildExpRow(letter, body, isCorrect) {
+  // Separate "IS CORRECT" / "is correct" tag from the rest of the body
+  const tagMatch = body.match(/^(.*?)\s*\bis correct\b\.?\s*(.*)/i);
+  let displayBody = body;
+  if (tagMatch) {
+    const before = tagMatch[1].trim();
+    const after  = tagMatch[2].trim();
+    displayBody  = [before, after].filter(Boolean).join(' — ');
+  }
+  return `
+    <div class="exp-row ${isCorrect ? 'exp-row-correct' : ''}">
+      <span class="exp-letter">${letter.toUpperCase()}</span>
+      <span class="exp-body">${displayBody}</span>
+      ${isCorrect ? '<span class="exp-tag">✓ נכון</span>' : ''}
+    </div>`;
 }
 
 function shuffle(arr) {
