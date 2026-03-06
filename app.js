@@ -202,33 +202,57 @@ async function loadQuestions() {
 // ── Load admin edits from Firestore and apply over the base JSON ──
 async function applyAdminEdits(retryCount = 0) {
   try {
-    const { getFirestore, collection, getDocs } =
-      await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-    const db = window._firestoreDb;
-    if (!db) return;
+    const projectId = 'istqb-practice-app';
+    const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/editedQuestions?pageSize=300`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const json = await resp.json();
+    if (!json.documents) return;
 
-    const snap = await getDocs(collection(db, "editedQuestions"));
-    if (snap.empty) return;
-
-    snap.forEach(docSnap => {
-      const idx  = parseInt(docSnap.id, 10);
-      const data = docSnap.data();
-      if (!isNaN(idx) && data.lang === 'he' && ALL_Q_HE[idx]) {
+    let count = 0;
+    for (const docSnap of json.documents) {
+      // Extract index from document name e.g. ".../editedQuestions/42" → 42
+      const idx  = parseInt(docSnap.name.split('/').pop(), 10);
+      const data = firestoreDocToObj(docSnap.fields);
+      if (isNaN(idx)) continue;
+      if (data.lang === 'he' && ALL_Q_HE[idx]) {
         ALL_Q_HE[idx] = { ...ALL_Q_HE[idx], ...data };
-      } else if (!isNaN(idx) && data.lang !== 'he' && ALL_Q[idx]) {
+        count++;
+      } else if (data.lang !== 'he' && ALL_Q[idx]) {
         ALL_Q[idx] = { ...ALL_Q[idx], ...data };
+        count++;
       }
-    });
-    console.log(`[ADMIN] Applied ${snap.size} edited question(s) from Firestore`);
+    }
+    console.log(`[ADMIN] Applied ${count} edited question(s) from Firestore REST`);
   } catch(e) {
     if (retryCount < 3) {
-      const delay = (retryCount + 1) * 2000; // 2s, 4s, 6s
-      console.warn(`[ADMIN] Firestore unavailable, retrying in ${delay/1000}s...`);
+      const delay = (retryCount + 1) * 2000;
+      console.warn(`[ADMIN] Firestore REST unavailable, retrying in ${delay/1000}s...`);
       setTimeout(() => applyAdminEdits(retryCount + 1), delay);
     } else {
-      console.warn('[ADMIN] Could not load edits from Firestore after retries:', e);
+      console.warn('[ADMIN] Could not load edits after retries:', e);
     }
   }
+}
+
+// Convert Firestore REST field format to plain JS object
+function firestoreDocToObj(fields) {
+  if (!fields) return {};
+  const obj = {};
+  for (const [key, val] of Object.entries(fields)) {
+    obj[key] = firestoreValueToJs(val);
+  }
+  return obj;
+}
+function firestoreValueToJs(val) {
+  if (val.stringValue  !== undefined) return val.stringValue;
+  if (val.integerValue !== undefined) return parseInt(val.integerValue, 10);
+  if (val.doubleValue  !== undefined) return val.doubleValue;
+  if (val.booleanValue !== undefined) return val.booleanValue;
+  if (val.nullValue    !== undefined) return null;
+  if (val.arrayValue   !== undefined) return (val.arrayValue.values || []).map(firestoreValueToJs);
+  if (val.mapValue     !== undefined) return firestoreDocToObj(val.mapValue.fields);
+  return null;
 }
 
 function setLang(lang) {
