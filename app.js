@@ -810,6 +810,34 @@ async function selectOption(idx) {
   document.getElementById('score-live').textContent = `✓ ${SESSION.correct} · ✗ ${SESSION.wrong}`;
 }
 
+function reportQuestion() {
+  const q = SESSION.questions?.[SESSION.idx];
+  if (!q) return;
+
+  const qIndex  = ACTIVE_Q.indexOf(q) + 1;
+  const qText   = q.q?.replace(/<[^>]*>/g, '').trim() || '';
+  const src     = q.src  || '';
+  const qNum    = q.q_num || '';
+  const lo      = q.lo   || '';
+
+  const subject = encodeURIComponent(`[ISTQB] בעיה בשאלה ${qIndex}${qNum ? ' (מס\' ' + qNum + ')' : ''}`);
+  const body    = encodeURIComponent(
+`שלום,
+
+מצאתי בעיה בשאלה הבאה:
+
+מספר שאלה: ${qIndex}${qNum ? ' (q_num: ' + qNum + ')' : ''}
+מקור: ${src}
+LO: ${lo}
+טקסט: ${qText.slice(0, 300)}
+
+תיאור הבעיה:
+[פרט כאן את הבעיה]
+`);
+
+  window.open(`mailto:tomer9tomer@gmail.com?subject=${subject}&body=${body}`);
+}
+
 function skipQuestion() {
   clearSpeedTimer();
   SESSION.skipped++;
