@@ -1040,62 +1040,48 @@ function formatQuestion(text) {
 }
 
 function formatExplanation(text) {
-  // If saved as Quill HTML — extract plain text first, then format
+  // If saved as Quill HTML — extract plain text first
   if (/<[a-z][\s\S]*>/i.test(text)) {
     const tmp = document.createElement('div');
     tmp.innerHTML = text;
-    // Preserve line breaks: replace block elements with newlines
     tmp.querySelectorAll('p, br, li, div').forEach(el => {
       el.insertAdjacentText('afterend', '\n');
     });
     text = tmp.textContent.trim();
   }
 
-  // Plain-text structured format: optional intro + a) b) c) d) lines
-  const optionRegex = /^([a-d])\)\s*/i;
-  const lines = text.split(/\n/).map(l => l.trim()).filter(Boolean);
+  // Normalize: insert newline before each option marker (a) b) c) d))
+  // handles both "...text a) next..." and already-newlined formats
+  text = text.replace(/\s+([a-d]\))\s+/gi, (_, letter) => `\n${letter} `);
 
-  // Split into intro lines and option lines
+  // Split into lines and parse
+  const lines = text.split(/\n/).map(l => l.trim()).filter(Boolean);
+  const optionRegex = /^([a-d])\)\s*/i;
+
   const introLines = [];
-  const optionLines = [];
+  const groups = [];
   let inOptions = false;
 
   for (const line of lines) {
-    if (optionRegex.test(line)) inOptions = true;
-    if (inOptions) optionLines.push(line);
-    else introLines.push(line);
+    const m = line.match(/^([a-d])\)\s*(.*)/i);
+    if (m) {
+      inOptions = true;
+      groups.push({ letter: m[1].toLowerCase(), text: m[2] });
+    } else if (inOptions && groups.length) {
+      groups[groups.length - 1].text += ' ' + line;
+    } else {
+      introLines.push(line);
+    }
   }
 
-  // If no structured options found, fall back to splitting on a) b) c) d) inline
-  if (!optionLines.length) {
-    const parts = text.split(/(?=\b[a-d]\)\s)/i).filter(p => p.trim());
-    if (parts.length <= 1) return `<div class="exp-intro">${text}</div>`;
-    const intro = '';
-    return parts.map(part => {
-      const letter = (part.match(/^([a-d])\)/i) || [])[1] || '';
-      const isCorrect = /is correct/i.test(part);
-      const body = part.replace(/^[a-d]\)\s*/i, '').trim();
-      return buildExpRow(letter, body, isCorrect);
-    }).join('');
+  // Fallback: no structured options found
+  if (!groups.length) {
+    return `<div class="exp-intro">${text}</div>`;
   }
 
   let html = '';
-
-  // Intro paragraph
   if (introLines.length) {
     html += `<div class="exp-intro">${introLines.join(' ')}</div>`;
-  }
-
-  // Option rows — each option may span multiple lines (join them)
-  // First, group lines by option letter
-  const groups = [];
-  for (const line of optionLines) {
-    const m = line.match(/^([a-d])\)\s*(.*)/i);
-    if (m) {
-      groups.push({ letter: m[1].toLowerCase(), text: m[2] });
-    } else if (groups.length) {
-      groups[groups.length - 1].text += ' ' + line;
-    }
   }
 
   html += '<div class="exp-options">';
