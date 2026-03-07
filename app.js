@@ -1140,7 +1140,22 @@ function formatExplanation(text) {
 
   let html = '';
   if (introLines.length) {
-    html += `<div class="exp-intro">${introLines.join(' ')}</div>`;
+    // Check if any line contains bullet points — render as proper list
+    const joined = introLines.join(' ');
+    if (joined.includes('•')) {
+      // Split on bullet, render as styled list
+      const parts = joined.split('•').map(s => s.trim()).filter(Boolean);
+      // First part before any bullet is a header
+      const hasBulletFirst = joined.trimStart().startsWith('•');
+      const header = hasBulletFirst ? '' : parts[0];
+      const items  = hasBulletFirst ? parts : parts.slice(1);
+      html += `<div class="exp-intro">`;
+      if (header) html += `<div style="margin-bottom:0.4rem">${header}</div>`;
+      if (items.length) html += `<ul class="exp-bullets">${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+      html += `</div>`;
+    } else {
+      html += `<div class="exp-intro">${introLines.join(' ')}</div>`;
+    }
   }
 
   html += '<div class="exp-options">';
