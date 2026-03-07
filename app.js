@@ -122,9 +122,9 @@ async function persistData() {
 // Called after login — load cloud data directly into memory
 async function loadCloudData(data) {
   if (!data) return;
-  // Use sessionStorage as the source of truth within a browser session.
-  // If sessionStorage has data, it means the user already interacted this session
-  // and we should use that instead of the (possibly stale) Firestore snapshot.
+  // sessionStorage = same browser/device this session → always preferred (it's the freshest local state)
+  // No sessionStorage = new device/browser → load from Firestore
+  // We do NOT write back to Firestore when restoring from sessionStorage (it's just a refresh)
   const sessionKey = 'istqb_session_data';
   const sessionRaw = sessionStorage.getItem(sessionKey);
   if (sessionRaw) {
@@ -137,8 +137,11 @@ async function loadCloudData(data) {
       STARRED_IDS  = local.starredIds  ?? [];
       NOTES        = local.notes       ?? {};
       console.log('[LOAD] Restored from sessionStorage, starredIds count:', STARRED_IDS.length);
-      // Push to Firestore in case it's ahead
-      await persistData();
+      window._cloudDataReady = true;
+      const bestElS = document.getElementById('stat-best');
+      if (bestElS) bestElS.textContent = BEST ? BEST + '%' : '—';
+      updateWrongCount(); updateAnsweredStats(); updateStarredCount();
+      // Do NOT call persistData here — no need to re-save on a plain refresh
       return;
     } catch(e) { sessionStorage.removeItem(sessionKey); }
   }
