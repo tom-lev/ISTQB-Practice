@@ -635,6 +635,13 @@
     text-align: left;
   }
 
+  .exp-bullets {
+    margin: 0.3rem 0 0 1.2rem;
+    padding: 0;
+    line-height: 1.8;
+  }
+  .exp-bullets li { color: #2a2a4a; }
+
   .exp-options {
     display: flex;
     flex-direction: column;
