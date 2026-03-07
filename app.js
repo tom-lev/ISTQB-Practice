@@ -798,7 +798,7 @@ async function submitMultiAnswer(q) {
 
   if (q.exp) {
     const exp = document.getElementById('explanation');
-    exp.innerHTML = `<strong>${CURRENT_LANG === 'he' ? 'הסבר' : 'Explanation'}</strong>${formatExplanation(q.exp)}`;
+    exp.innerHTML = `<strong>${CURRENT_LANG === 'he' ? 'הסבר' : 'Explanation'}</strong>${formatExplanation(q.exp, q.ans)}`;
     exp.classList.remove('hidden');
   }
   document.getElementById('btn-skip').classList.add('hidden');
@@ -842,7 +842,7 @@ async function selectOption(idx) {
   if (q.exp) {
     const exp = document.getElementById('explanation');
     const _expHe = CURRENT_LANG === 'he';
-    exp.innerHTML = `<strong>${_expHe ? 'הסבר' : 'Explanation'}</strong>${formatExplanation(q.exp)}`;
+    exp.innerHTML = `<strong>${_expHe ? 'הסבר' : 'Explanation'}</strong>${formatExplanation(q.exp, q.ans)}`;
     exp.classList.remove('hidden');
   }
 
@@ -1117,7 +1117,10 @@ function htmlToLines(html) {
   return result.trim();
 }
 
-function formatExplanation(text) {
+function formatExplanation(text, ans) {
+  // Build set of correct letter indices
+  const ansArr = Array.isArray(ans) ? ans : (ans !== undefined ? [ans] : []);
+  const correctLetters = new Set(ansArr.map(i => String.fromCharCode(97 + i))); // 0→'a', 1→'b'...
   // If saved as Quill HTML — extract plain text preserving line breaks
   if (/<[a-z][\s\S]*>/i.test(text)) {
     text = htmlToLines(text);
@@ -1187,7 +1190,9 @@ function formatExplanation(text) {
 
   html += '<div class="exp-options">';
   for (const g of groups) {
-    const isCorrect = /is correct/i.test(g.text);
+    const isCorrect = correctLetters.size > 0
+      ? correctLetters.has(g.letter.toLowerCase())
+      : /^is correct/i.test(g.text.trim()); // fallback if no ans passed
     html += buildExpRow(g.letter, g.text.trim(), isCorrect);
   }
   html += '</div>';
