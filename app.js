@@ -141,7 +141,6 @@ window.loadCloudData = async function(data) {
       const bestElS = document.getElementById('stat-best');
       if (bestElS) bestElS.textContent = BEST ? BEST + '%' : '—';
       updateWrongCount(); updateAnsweredStats(); updateStarredCount();
-      // Flush any saves queued before cloud data was ready (e.g. starred before Firestore loaded)
       if (_pendingPersist) await persistData();
       return;
     } catch(e) { sessionStorage.removeItem(sessionKey); }
