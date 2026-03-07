@@ -528,14 +528,20 @@
     color: var(--text);
     margin-bottom: 1.8rem;
     font-weight: 400;
-    overflow-x: auto;
     max-width: 100%;
   }
 
-  .q-text table {
+  .q-text img {
     max-width: 100%;
-    overflow-x: auto;
+    height: auto;
     display: block;
+  }
+
+  .q-text table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
   }
 
   .options { display: flex; flex-direction: column; gap: 0.75rem; }
