@@ -425,11 +425,27 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  .q-meta {
+  .q-meta-row {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 0.5rem;
     margin-bottom: 1.2rem;
     flex-wrap: wrap;
+  }
+
+  .q-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .q-icon-btns {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    flex-shrink: 0;
   }
 
   .tag {
@@ -1011,6 +1027,15 @@
 
   body.lang-he .q-meta {
     flex-direction: row-reverse;
+    justify-content: flex-start;
+  }
+
+  body.lang-he .q-meta-row {
+    flex-direction: row-reverse;
+  }
+
+  body.lang-he .q-icon-btns {
+    order: -1;
   }
 
   body.lang-he .q-footer {
