@@ -1819,7 +1819,9 @@ document.addEventListener('keydown', e => {
   console.warn  = (...a) => { _origWarn(...a); capture('WARN', a); };
   console.error = (...a) => { _origErr(...a);  capture('ERR',  a); };
 
-  document.addEventListener('DOMContentLoaded', () => {
+  // Only show debug panel for the admin user
+  function _maybeShowDebug() {
+    if (window._currentUser?.email !== 'tomer9tomer@gmail.com') return;
     const panel = document.createElement('div');
     panel.id = '_dbg_panel';
     panel.style.cssText = 'display:none;position:fixed;bottom:0;left:0;right:0;height:50vh;background:#111;color:#0f0;font-size:11px;font-family:monospace;z-index:99999;overflow-y:auto;padding:8px;white-space:pre-wrap;word-break:break-all';
@@ -1834,10 +1836,25 @@ document.addEventListener('keydown', e => {
       p.style.display = p.style.display === 'none' ? 'block' : 'none';
       const el = document.getElementById('_dbg_content');
       if (el) el.textContent = logs.join('\n');
-      // scroll to bottom
       setTimeout(() => { p.scrollTop = p.scrollHeight; }, 50);
     };
     document.body.appendChild(btn);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Poll until auth resolves, then show debug if eligible
+    const interval = setInterval(() => {
+      if (window._currentUser !== undefined) {
+        clearInterval(interval);
+        _maybeShowDebug();
+      }
+    }, 300);
+    // Fallback: also trigger when auth state changes
+    const _origInit = window.init;
+    window.init = function(...args) {
+      _maybeShowDebug();
+      return _origInit?.apply(this, args);
+    };
   });
 })();
 
