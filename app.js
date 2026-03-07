@@ -1123,10 +1123,9 @@ function formatExplanation(text) {
     text = htmlToLines(text);
   }
 
-  // Normalize: insert newline before option markers ONLY when they appear as standalone
-  // e.g. "...text a) next..." but NOT inside parentheses like "(1 – C)"
-  // Rule: split only if the letter is preceded by whitespace (not a digit/dash/letter)
-  text = text.replace(/(?<![(\d\w–-])\s+([a-e]\))\s+/gi, (_, letter) => `\n${letter} `);
+  // Normalize: insert newline before option markers a) b) c) d) e)
+  // Block only when preceded by digit/dash (inside parens like "(3 – B)")
+  text = text.replace(/(?<![\d–-])\s+([a-e]\))\s*/gi, (_, letter) => `\n${letter} `);
 
   // Split on transition words like "Thus:" "Therefore:" "So:"
   text = text.replace(/\s+(Thus|Therefore|So|Hence|Note):/gi, (_, word) => `\n${word}:`);
