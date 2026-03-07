@@ -53,9 +53,10 @@
     <p class="hero-sub">Foundation Level Certification Practice</p>
   </div>
 
-  <!-- lang-toggle hidden: only Hebrew available -->
-  <span id="lang-he-btn" style="display:none"></span>
-  <span id="lang-en-btn" style="display:none"></span>
+  <div class="lang-toggle">
+    <button class="lang-btn" id="lang-he-btn" onclick="setLang('he')">🇮🇱 עברית</button>
+    <button class="lang-btn" id="lang-en-btn" onclick="setLang('en')">🇺🇸 English</button>
+  </div>
 
   <div class="auth-strip">
     <div id="user-info" style="font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--muted)">טוען מצב התחברות...</div>
@@ -105,7 +106,7 @@
     </div>
     <div class="mode-card teal" onclick="navTo('flashcards-page')">
       <div class="mode-icon">🃏</div>
-      <div class="mode-title" id="mc-title-flash">פלאשקארדס</div>
+      <div class="mode-title" id="mc-title-flash">כרטיסיות</div>
       <div class="mode-desc" id="mc-desc-flash">324 מושגי מפתח — הפוך כל כרטיס לראות את ההגדרה.</div>
       <div class="mode-count" id="mc-count-flash">324 מושגים</div>
     </div>
