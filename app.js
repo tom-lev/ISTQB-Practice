@@ -1098,15 +1098,29 @@ function formatQuestion(text) {
   return md2html(text);
 }
 
+function htmlToLines(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  let result = '';
+  function walk(node) {
+    if (node.nodeType === 3) { // text node
+      result += node.textContent;
+    } else if (node.nodeType === 1) {
+      const tag = node.tagName.toLowerCase();
+      const isBlock = /^(p|div|li|br|h[1-6])$/.test(tag);
+      if (isBlock && result && !result.endsWith('\n')) result += '\n';
+      node.childNodes.forEach(walk);
+      if (isBlock && !result.endsWith('\n')) result += '\n';
+    }
+  }
+  tmp.childNodes.forEach(walk);
+  return result.trim();
+}
+
 function formatExplanation(text) {
-  // If saved as Quill HTML — extract plain text first
+  // If saved as Quill HTML — extract plain text preserving line breaks
   if (/<[a-z][\s\S]*>/i.test(text)) {
-    const tmp = document.createElement('div');
-    tmp.innerHTML = text;
-    tmp.querySelectorAll('p, br, li, div').forEach(el => {
-      el.insertAdjacentText('afterend', '\n');
-    });
-    text = tmp.textContent.trim();
+    text = htmlToLines(text);
   }
 
   // Normalize: insert newline before option markers ONLY when they appear as standalone
@@ -1116,9 +1130,6 @@ function formatExplanation(text) {
 
   // Split on transition words like "Thus:" "Therefore:" "So:"
   text = text.replace(/\s+(Thus|Therefore|So|Hence|Note):/gi, (_, word) => `\n${word}:`);
-
-  // Also split on roman numeral markers: " i. " " ii. " " iii. " " iv. " " v. "
-  text = text.replace(/\s+(v?i{1,3}|iv|v|vi{0,3})\.\s+/gi, (_, num) => `\n${num}. `);
 
   // Split into lines and parse
   const lines = text.split(/\n/).map(l => l.trim()).filter(Boolean);
