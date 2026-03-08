@@ -2444,7 +2444,9 @@
   border-color: var(--accent);
   border-style: solid;
 }
-.exam-src-all-tile:has(input:checked) * {
+.exam-src-all-tile:has(input:checked) *,
+.exam-src-all-tile:has(input:checked) .exam-src-tile-name,
+.exam-src-all-tile:has(input:checked) .exam-src-tile-icon {
   color: #fff !important;
 }
 .exam-src-all-tile:has(input:checked) .exam-src-tile-tag {
@@ -2474,6 +2476,9 @@
   font-weight: 600;
   color: var(--text);
   flex: 1;
+}
+.exam-src-all-tile:has(input:checked) .exam-src-tile-name {
+  color: #fff;
 }
 .exam-src-tile-tag {
   font-size: 0.65rem;
