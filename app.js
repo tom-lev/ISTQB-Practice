@@ -928,40 +928,32 @@ function renderQuestion() {
   const isAnswered = existingAnswer !== null;
   const isExam = SESSION.mode === 'exam';
 
-  if (isAnswered && isExam) {
-    // Show the question in read-only state with correct/wrong highlighted
+  if (isAnswered && isExam && !existingAnswer.skipped) {
+    // Answered (not skipped) — show in read-only state with correct/wrong highlighted
     const allOptBtns = opts.querySelectorAll('.option:not(.multi-confirm)');
     allOptBtns.forEach(b => b.classList.add('disabled'));
 
-    if (existingAnswer.skipped) {
-      // Skipped — show correct answer
-      if (!Array.isArray(q.ans)) {
-        const correctBtn = opts.children[q.ans + (Array.isArray(q.ans) ? 0 : 0)];
-        if (correctBtn) correctBtn.classList.add('correct');
-      }
+    // Was answered — restore visual state
+    if (existingAnswer.chosenMulti) {
+      allOptBtns.forEach(b => {
+        const i = parseInt(b.dataset.idx);
+        const wasChosen = existingAnswer.chosenMulti.includes(i);
+        const correct = Array.isArray(q.ans) ? q.ans : [q.ans];
+        const isAns = correct.includes(i);
+        if (wasChosen && isAns) b.classList.add('correct');
+        else if (wasChosen) b.classList.add('wrong');
+        else if (isAns) b.classList.add('correct');
+      });
     } else {
-      // Was answered — restore visual state
-      if (existingAnswer.chosenMulti) {
-        allOptBtns.forEach(b => {
-          const i = parseInt(b.dataset.idx);
-          const wasChosen = existingAnswer.chosenMulti.includes(i);
-          const correct = Array.isArray(q.ans) ? q.ans : [q.ans];
-          const isAns = correct.includes(i);
-          if (wasChosen && isAns) b.classList.add('correct');
-          else if (wasChosen) b.classList.add('wrong');
-          else if (isAns) b.classList.add('correct');
-        });
-      } else {
-        const chosenBtn = opts.children[existingAnswer.chosen];
-        if (chosenBtn) chosenBtn.classList.add(existingAnswer.correct ? 'correct' : 'wrong');
-        if (!existingAnswer.correct && !Array.isArray(q.ans)) {
-          const correctBtn = opts.children[q.ans];
-          if (correctBtn) correctBtn.classList.add('correct');
-        }
+      const chosenBtn = opts.children[existingAnswer.chosen];
+      if (chosenBtn) chosenBtn.classList.add(existingAnswer.correct ? 'correct' : 'wrong');
+      if (!existingAnswer.correct && !Array.isArray(q.ans)) {
+        const correctBtn = opts.children[q.ans];
+        if (correctBtn) correctBtn.classList.add('correct');
       }
     }
 
-    if (q.exp && !existingAnswer.skipped) {
+    if (q.exp) {
       exp.innerHTML = `<strong>${CURRENT_LANG === 'he' ? 'הסבר' : 'Explanation'}</strong>${formatExplanation(q.exp, q.ans)}`;
       exp.classList.remove('hidden');
     }
@@ -971,6 +963,8 @@ function renderQuestion() {
     document.getElementById('btn-next').classList.add('hidden');
     updateExamFooter();
   } else {
+    // Unanswered or previously skipped — show as fully answerable
+    // (skipped state will be cleared when user actually submits an answer)
     document.getElementById('btn-skip').classList.remove('hidden');
     document.getElementById('btn-next').classList.add('hidden');
     updateExamFooter();
@@ -1045,6 +1039,12 @@ async function submitMultiAnswer(q) {
   const correct = [...q.ans].sort((a,b)=>a-b);
   const isCorrect = JSON.stringify(chosen) === JSON.stringify(correct);
 
+  // If this question was previously skipped, undo that skip count
+  if (SESSION.answers[SESSION.idx]?.skipped) {
+    SESSION.skipped = Math.max(0, SESSION.skipped - 1);
+    SESSION.answers[SESSION.idx] = null;
+  }
+
   const allBtns = document.querySelectorAll('.option:not(.multi-confirm)');
   allBtns.forEach(b => b.classList.add('disabled'));
   const confirmBtn = document.getElementById('multi-confirm');
@@ -1097,6 +1097,12 @@ async function selectOption(idx) {
 
   const q = SESSION.questions[SESSION.idx];
   opts.forEach(o => o.classList.add('disabled'));
+
+  // If this question was previously skipped, undo that skip count
+  if (SESSION.answers[SESSION.idx]?.skipped) {
+    SESSION.skipped = Math.max(0, SESSION.skipped - 1);
+    SESSION.answers[SESSION.idx] = null;
+  }
 
   // Track answered stats
   const gIdx = ACTIVE_Q.indexOf(q);
