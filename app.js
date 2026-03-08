@@ -800,6 +800,11 @@ function navigateToExamQuestion(idx) {
   const ans = SESSION.answers[idx];
   // Can only navigate to already-answered/skipped questions
   if (ans === null) return;
+  // If the question was skipped (not answered), reset it so user can answer it now
+  if (ans.skipped) {
+    SESSION.answers[idx] = null;
+    SESSION.skipped = Math.max(0, SESSION.skipped - 1);
+  }
   SESSION.idx = idx;
   renderQuestion();
 }
@@ -808,6 +813,11 @@ window.goBackExam = function() {
   // Find the previous answered/skipped question
   for (let i = SESSION.idx - 1; i >= 0; i--) {
     if (SESSION.answers[i] !== null) {
+      // If it was skipped, reset so user can answer it
+      if (SESSION.answers[i].skipped) {
+        SESSION.answers[i] = null;
+        SESSION.skipped = Math.max(0, SESSION.skipped - 1);
+      }
       SESSION.idx = i;
       renderQuestion();
       return;
