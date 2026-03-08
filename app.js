@@ -915,7 +915,7 @@ function reportGeneral() {
   }
 }
 
-
+function skipQuestion() {
   clearSpeedTimer();
   SESSION.skipped++;
   SESSION.answers.push({ q: SESSION.questions[SESSION.idx], chosen: -1, correct: false, skipped: true });
