@@ -2431,8 +2431,13 @@
 .exam-src-all-tile {
   grid-column: 1 / -1;
   border-color: var(--accent);
-  border-style: dashed;
-  background: rgba(108,99,255,0.05);
+  border-style: solid;
+  background: rgba(108,99,255,0.1);
+}
+.exam-src-all-tile .exam-src-tile-tag {
+  background: rgba(108,99,255,0.15);
+  color: var(--accent);
+  border-color: var(--accent);
 }
 .exam-src-all-tile:has(input:checked) {
   background: var(--accent);
