@@ -1952,6 +1952,8 @@
     background: var(--card);
     border-color: rgba(108,99,255,0.22);
     gap: 0.8rem;
+    justify-content: center !important;
+    align-items: center !important;
   }
 
   .fco-back {
@@ -1985,6 +1987,11 @@
     color: var(--text);
     direction: rtl;
     line-height: 1.45;
+    margin: auto;
+  }
+
+  .fco-front .fco-content {
+    margin: auto;
   }
 
   .fco-back .fco-content {
