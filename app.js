@@ -893,7 +893,29 @@ function reportQuestion() {
   }
 }
 
-function skipQuestion() {
+function reportGeneral() {
+  const subject = `דיווח על בעיה כללית – ISTQB Practice`;
+  const body =
+    `שלום,\n\nרציתי לדווח על בעיה כללית באתר.\n\n` +
+    `סוג הבעיה (מחק את הלא רלוונטי):\n` +
+    `[ ] באג / תקלה טכנית\n` +
+    `[ ] בעיה בעיצוב / תצוגה\n` +
+    `[ ] בעיה בהתחברות / שמירת נתונים\n` +
+    `[ ] הצעה לשיפור\n` +
+    `[ ] אחר\n\n` +
+    `תיאור הבעיה:\n[פרט כאן]\n\n` +
+    `דפדפן / מכשיר:\n[לדוגמא: Chrome על Windows / Safari על iPhone]\n`;
+
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.location.href = `mailto:tomer9tomer@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  } else {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&to=tomer9tomer%40gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(gmailUrl, '_blank');
+  }
+}
+
+
   clearSpeedTimer();
   SESSION.skipped++;
   SESSION.answers.push({ q: SESSION.questions[SESSION.idx], chosen: -1, correct: false, skipped: true });
