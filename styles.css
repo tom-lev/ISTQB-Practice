@@ -2513,4 +2513,6 @@
 /* Light mode tweaks */
 body.light-mode .exam-src-tile { background: #f7f7fb; }
 body.light-mode .exam-src-all-tile { background: rgba(91,83,232,0.04); }
+body.light-mode .exam-src-tile:has(input:checked) { background: var(--accent); }
+body.light-mode .exam-src-all-tile:has(input:checked) { background: var(--accent); }
 body.light-mode .exam-klevel-strip { background: #f7f7fb; }
