@@ -966,7 +966,7 @@ function renderQuestion() {
       exp.classList.remove('hidden');
     }
 
-    // Footer: show back + finish (if all answered) or skip/next depending on position
+    // Footer: back button + "continue to next unanswered" button
     document.getElementById('btn-skip').classList.add('hidden');
     document.getElementById('btn-next').classList.add('hidden');
     updateExamFooter();
@@ -1001,11 +1001,25 @@ function updateExamFooter() {
   const hasPrev = SESSION.answers.slice(0, SESSION.idx).some(a => a !== null);
   document.getElementById('btn-back-exam').classList.toggle('hidden', !hasPrev);
 
-  // Finish button: show on last unanswered question OR if all answered
+  // Finish button: show only when all questions are answered
   const allAnswered = SESSION.answers.every(a => a !== null);
-  const isLastUnanswered = !SESSION.answers.slice(SESSION.idx + 1).some(a => a === null);
-  const showFinish = isAnswered && (allAnswered || isLastUnanswered);
-  document.getElementById('btn-finish-exam').classList.toggle('hidden', !showFinish);
+  document.getElementById('btn-finish-exam').classList.toggle('hidden', !allAnswered);
+
+  // "Next unanswered" button: show when viewing an already-answered question and there are still unanswered ones
+  const hasUnanswered = SESSION.answers.some(a => a === null);
+  const btnNext = document.getElementById('btn-next');
+  if (isAnswered && hasUnanswered) {
+    // Repurpose btn-next as "continue to next unanswered"
+    btnNext.classList.remove('hidden');
+    btnNext.textContent = 'המשך ←';
+    btnNext.onclick = advanceOrFinish;
+  } else if (!isAnswered) {
+    // Fresh unanswered question — skip/next handled by answer logic
+    btnNext.classList.add('hidden');
+  } else {
+    // All answered, just show finish
+    btnNext.classList.add('hidden');
+  }
 }
 
 function toggleMultiOption(btn, q) {
