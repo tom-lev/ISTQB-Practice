@@ -1319,11 +1319,26 @@ function buildReview() {
     if (a.skipped) {
       answerLine = `<span style="color:var(--warning)">⊘ ${he ? 'דולג' : 'Skipped'}</span>`;
     } else {
-      answerLine = `<span class="${a.correct ? 'review-correct' : 'review-wrong'}">
-        ${a.correct ? '✓' : '✗'} ${he ? 'תשובתך' : 'Your answer'}: ${letters[a.chosen] || '?'}) ${a.q.opts[a.chosen] || ''}
-      </span>`;
-      if (!a.correct) {
-        answerLine += ` &nbsp; <span class="review-correct">✓ ${he ? 'נכון' : 'Correct'}: ${letters[a.q.ans]}) ${a.q.opts[a.q.ans]}</span>`;
+      // Multi-answer question
+      if (a.chosenMulti && Array.isArray(a.chosenMulti)) {
+        const chosenLabels = a.chosenMulti.map(i => `${letters[i] || '?'}) ${a.q.opts[i] || ''}`).join(', ');
+        answerLine = `<span class="${a.correct ? 'review-correct' : 'review-wrong'}">
+          ${a.correct ? '✓' : '✗'} ${he ? 'תשובתך' : 'Your answer'}: ${chosenLabels}
+        </span>`;
+        if (!a.correct) {
+          const correctArr = Array.isArray(a.q.ans) ? a.q.ans : [a.q.ans];
+          const correctLabels = correctArr.map(i => `${letters[i] || '?'}) ${a.q.opts[i] || ''}`).join(', ');
+          answerLine += ` &nbsp; <span class="review-correct">✓ ${he ? 'נכון' : 'Correct'}: ${correctLabels}</span>`;
+        }
+      } else {
+        // Single-answer question
+        answerLine = `<span class="${a.correct ? 'review-correct' : 'review-wrong'}">
+          ${a.correct ? '✓' : '✗'} ${he ? 'תשובתך' : 'Your answer'}: ${letters[a.chosen] || '?'}) ${a.q.opts[a.chosen] || ''}
+        </span>`;
+        if (!a.correct) {
+          const correctIdx = Array.isArray(a.q.ans) ? a.q.ans[0] : a.q.ans;
+          answerLine += ` &nbsp; <span class="review-correct">✓ ${he ? 'נכון' : 'Correct'}: ${letters[correctIdx]}) ${a.q.opts[correctIdx]}</span>`;
+        }
       }
     }
     div.innerHTML = `
