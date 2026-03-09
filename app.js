@@ -2672,6 +2672,8 @@ function streakRestart() {
   if (overlay) overlay.classList.add('hidden');
   startMode('streak');
 }
+
+function streakQuit() {
   const overlay = document.getElementById('streak-gameover');
   if (overlay) overlay.classList.add('hidden');
   // Restore UI
