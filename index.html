@@ -126,6 +126,15 @@
         </div>
         <div class="hq-count" id="mc-count-speed" style="color:#ffaa33;background:rgba(255,160,50,0.1)">10–90 שנ׳</div>
       </div>
+      <div class="hq-card" onclick="startMode('streak')">
+        <div class="hq-accent-bar" style="background:#ff6b35"></div>
+        <div class="hq-icon">🔥</div>
+        <div class="hq-body">
+          <div class="hq-title">מצב רצף</div>
+          <div class="hq-desc">טעות אחת — המשחק נגמר. עד כמה רחוק תגיע?</div>
+        </div>
+        <div class="hq-count" id="streak-best-home" style="color:#ff6b35;background:rgba(255,107,53,0.1)">שיא: —</div>
+      </div>
     </div>
   </div>
 
@@ -307,6 +316,28 @@
     </div>
     <div class="prog-text" id="prog-text">1 / 20</div>
     <div class="score-badge" id="score-live">✓ 0 · ✗ 0</div>
+  </div>
+
+  <!-- Streak counter bar (only visible in streak mode) -->
+  <div id="streak-bar" class="hidden" style="direction:rtl;text-align:center;padding:0.5rem 0;margin:-0.3rem 0 0.4rem">
+    <span id="streak-counter" style="font-family:'Space Mono',monospace;font-size:1.6rem;font-weight:700;color:#ff6b35">🔥 0</span>
+    <span id="streak-best-badge" style="font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--muted);margin-right:0.8rem">שיא: —</span>
+  </div>
+
+  <!-- Streak Game Over overlay -->
+  <div id="streak-gameover" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem 2rem;text-align:center;direction:rtl;max-width:340px;width:90%">
+      <div style="font-size:3.5rem;margin-bottom:0.3rem">💥</div>
+      <div style="font-size:1rem;color:var(--muted);margin-bottom:0.5rem">הרצף נשבר!</div>
+      <div id="streak-final" style="font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:#ff6b35;line-height:1;margin-bottom:0.3rem">0</div>
+      <div style="font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem">שאלות ברצף</div>
+      <div id="streak-new-best" class="hidden" style="background:rgba(255,107,53,0.12);border:1px solid rgba(255,107,53,0.3);border-radius:10px;padding:0.5rem 1rem;margin-bottom:1rem;font-size:0.85rem;color:#ff6b35">🏆 שיא חדש!</div>
+      <div id="streak-prev-best-line" style="font-size:0.78rem;color:var(--muted);margin-bottom:1.4rem"></div>
+      <div style="display:flex;gap:0.7rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="startMode('streak')" style="background:#ff6b35;border-color:#ff6b35">🔥 שחק שוב</button>
+        <button class="btn btn-ghost" onclick="streakQuit()">← בית</button>
+      </div>
+    </div>
   </div>
 
   <!-- Exam question navigation bar -->
@@ -734,6 +765,9 @@
   </button>
   <button class="nav-btn" onclick="navStartMode('speed')">
     <span class="nav-icon">⚡</span><span id="nav-lbl-speed">בזק</span>
+  </button>
+  <button class="nav-btn" onclick="navStartMode('streak')">
+    <span class="nav-icon">🔥</span><span>רצף</span>
   </button>
 
   <div class="nav-section-label">תרגול מושגים</div>
