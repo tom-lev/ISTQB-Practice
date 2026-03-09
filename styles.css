@@ -154,6 +154,18 @@
   .btn-google:hover { border-color: var(--accent); color: var(--accent); }
 
   /* Mode cards */
+  .home-section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+    padding-right: 0.2rem;
+    width: 100%;
+    max-width: 860px;
+  }
+
   .mode-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -2634,4 +2646,3 @@ body.light-mode .exam-klevel-strip { background: #f7f7fb; }
     50%  { transform: scale(1.06); }
     100% { transform: scale(1); }
   }
-
