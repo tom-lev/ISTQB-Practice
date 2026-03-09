@@ -2667,7 +2667,11 @@ function streakGameOver() {
   SFX.quizFail();
 }
 
-function streakQuit() {
+function streakRestart() {
+  const overlay = document.getElementById('streak-gameover');
+  if (overlay) overlay.classList.add('hidden');
+  startMode('streak');
+}
   const overlay = document.getElementById('streak-gameover');
   if (overlay) overlay.classList.add('hidden');
   // Restore UI
