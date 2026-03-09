@@ -440,7 +440,7 @@ window._questionsReady = false;
 window._authReady      = false;
 
 function showScreen(id) {
-  ['loading','home','config','exam-config','quiz','results','stats-page','about-page','saved-page','flashcards-page'].forEach(s => {
+  ['loading','home','config','exam-config','quiz','results','stats-page','about-page','saved-page','flashcards-page','glossary-game-page','match-game-page'].forEach(s => {
     const el = document.getElementById(s);
     if (el) el.classList.add('hidden');
   });
@@ -454,7 +454,7 @@ function showScreen(id) {
     nav.classList.toggle('hidden-nav', hide);
     if (toggleBtn) toggleBtn.style.display = hide ? 'none' : 'flex';
   }
-  const showLogo = ['stats-page','about-page','saved-page','flashcards-page'].includes(id);
+  const showLogo = ['stats-page','about-page','saved-page','flashcards-page','glossary-game-page','match-game-page'].includes(id);
   if (logoBar) logoBar.classList.toggle('hidden', !showLogo);
   const guestBanner = document.getElementById('login-wall');
   if (guestBanner && !window._currentUser) {
@@ -473,7 +473,7 @@ function toggleSidebar() {
 
 function navTo(page) {
   showScreen(page);
-  ['home','stats-page','about-page','saved-page','flashcards-page'].forEach(p => {
+  ['home','stats-page','about-page','saved-page','flashcards-page','glossary-game-page','match-game-page'].forEach(p => {
     const key = p === 'home' ? 'nav-home'
               : p === 'stats-page' ? 'nav-stats'
               : p === 'about-page' ? 'nav-about'
@@ -2231,3 +2231,323 @@ document.addEventListener('keydown', e => {
 })();
 
 loadQuestions(); // loads questions.json; init() fires only after auth resolves
+
+// ═══════════════════════════════════════════════════════════════
+// GLOSSARY QUIZ GAME
+// ═══════════════════════════════════════════════════════════════
+
+let GG_POOL = [];       // shuffled questions for this session
+let GG_IDX  = 0;        // current question index
+let GG_CORRECT = 0;     // correct answers
+let GG_ANSWERED = false;// has the user answered the current q
+
+function startGlossaryGame() {
+  if (!ALL_GLOSSARY || ALL_GLOSSARY.length < 4) {
+    alert('המילון לא נטען עדיין. נסה שוב.');
+    return;
+  }
+  // Build pool: 20 questions, alternating term→def and def→term randomly
+  const pool = shuffle([...ALL_GLOSSARY]).slice(0, 20);
+  GG_POOL = pool.map(item => {
+    const mode = Math.random() < 0.5 ? 'term2def' : 'def2term';
+    return { item, mode };
+  });
+  GG_IDX = 0;
+  GG_CORRECT = 0;
+  GG_ANSWERED = false;
+
+  // Show page
+  document.getElementById('gg-end').classList.add('hidden');
+  document.getElementById('gg-question-card').classList.remove('hidden');
+  document.getElementById('gg-options').classList.remove('hidden');
+  navTo('glossary-game-page');
+  ggRenderQuestion();
+}
+
+function endGlossaryGame() {
+  navTo('flashcards-page');
+}
+
+function ggRenderQuestion() {
+  if (GG_IDX >= GG_POOL.length) {
+    ggShowEnd();
+    return;
+  }
+  GG_ANSWERED = false;
+  const { item, mode } = GG_POOL[GG_IDX];
+  const total = GG_POOL.length;
+
+  // Progress
+  document.getElementById('gg-progress-text').textContent = `${GG_IDX + 1} / ${total}`;
+  document.getElementById('gg-progress-fill').style.width = ((GG_IDX / total) * 100) + '%';
+  document.getElementById('gg-score-text').textContent = `✓ ${GG_CORRECT}`;
+  document.getElementById('gg-feedback').classList.add('hidden');
+  document.getElementById('gg-next-btn').classList.add('hidden');
+
+  // Question text
+  const typeLabel = document.getElementById('gg-question-type-label');
+  const questionText = document.getElementById('gg-question-text');
+  if (mode === 'term2def') {
+    typeLabel.textContent = 'מה ההגדרה של המושג?';
+    questionText.textContent = item.term;
+    questionText.style.fontSize = '1.15rem';
+  } else {
+    typeLabel.textContent = 'לאיזה מושג מתאימה ההגדרה?';
+    questionText.textContent = item.definition;
+    questionText.style.fontSize = '0.88rem';
+  }
+
+  // Pick 3 distractors
+  const distractors = shuffle(ALL_GLOSSARY.filter(x => x.id !== item.id)).slice(0, 3);
+  const options = shuffle([item, ...distractors]);
+
+  // Render options
+  const optEl = document.getElementById('gg-options');
+  optEl.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'gg-option-btn';
+    btn.textContent = mode === 'term2def' ? opt.definition : opt.term;
+    btn.dataset.id = opt.id;
+    btn.addEventListener('click', () => ggAnswer(opt.id === item.id, btn));
+    optEl.appendChild(btn);
+  });
+}
+
+function ggAnswer(isCorrect, btn) {
+  if (GG_ANSWERED) return;
+  GG_ANSWERED = true;
+  if (isCorrect) GG_CORRECT++;
+
+  // Style all buttons
+  const optEl = document.getElementById('gg-options');
+  const { item } = GG_POOL[GG_IDX];
+  const mode = GG_POOL[GG_IDX].mode;
+  optEl.querySelectorAll('.gg-option-btn').forEach(b => {
+    const bid = parseInt(b.dataset.id);
+    if (bid === item.id) {
+      b.classList.add('gg-correct');
+    } else if (b === btn && !isCorrect) {
+      b.classList.add('gg-wrong');
+    }
+    b.disabled = true;
+  });
+
+  // Feedback
+  const fb = document.getElementById('gg-feedback');
+  fb.classList.remove('hidden');
+  if (isCorrect) {
+    fb.textContent = '✓ נכון!';
+    fb.style.cssText = 'background:rgba(67,233,123,0.12);color:var(--success);text-align:center;padding:0.7rem;border-radius:12px;margin-bottom:0.8rem;font-size:0.9rem;border:1px solid rgba(67,233,123,0.3)';
+  } else {
+    const correctOpt = mode === 'term2def' ? item.definition : item.term;
+    fb.innerHTML = `✗ לא נכון. <span style="color:var(--success)">התשובה הנכונה:</span> ${correctOpt}`;
+    fb.style.cssText = 'background:rgba(255,101,132,0.1);color:var(--error);text-align:center;padding:0.7rem;border-radius:12px;margin-bottom:0.8rem;font-size:0.88rem;border:1px solid rgba(255,101,132,0.3)';
+  }
+  document.getElementById('gg-next-btn').classList.remove('hidden');
+}
+
+function ggNextQuestion() {
+  GG_IDX++;
+  ggRenderQuestion();
+}
+
+function ggShowEnd() {
+  document.getElementById('gg-question-card').classList.add('hidden');
+  document.getElementById('gg-options').classList.add('hidden');
+  document.getElementById('gg-feedback').classList.add('hidden');
+  document.getElementById('gg-next-btn').classList.add('hidden');
+  document.getElementById('gg-end').classList.remove('hidden');
+
+  const total = GG_POOL.length;
+  const pct = Math.round((GG_CORRECT / total) * 100);
+  document.getElementById('gg-end-score').textContent = `${GG_CORRECT} / ${total} נכונות (${pct}%)`;
+  let msg = '';
+  if (pct >= 90) msg = '🔥 מושלם! שלטת במיליון מושגים!';
+  else if (pct >= 70) msg = '👍 כל הכבוד! תוצאה טובה מאוד.';
+  else if (pct >= 50) msg = '📚 סביר — כדאי לחזור על הכרטיסיות.';
+  else msg = '💪 יש מקום לשיפור. תמשיך לתרגל!';
+  document.getElementById('gg-end-msg').textContent = msg;
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// MATCH GAME
+// ═══════════════════════════════════════════════════════════════
+
+let MG_PAIRS = [];          // current 5 pairs [{id, term, definition}]
+let MG_SELECTED = null;     // {type:'term'|'def', id, el}
+let MG_MATCHED = new Set(); // matched ids
+let MG_ERRORS = 0;
+let MG_TOTAL_MATCHED = 0;
+let MG_TOTAL_ROUNDS = 0;
+let MG_TIMER_START = 0;
+let MG_TIMER_INT = null;
+let MG_TOTAL_SETS = 0;
+
+const MG_SET_SIZE = 5;
+
+function startMatchGame() {
+  if (!ALL_GLOSSARY || ALL_GLOSSARY.length < MG_SET_SIZE) {
+    alert('המילון לא נטען עדיין.');
+    return;
+  }
+  MG_TOTAL_MATCHED = 0;
+  MG_TOTAL_ROUNDS = 0;
+  MG_ERRORS = 0;
+  MG_TOTAL_SETS = Math.floor(ALL_GLOSSARY.length / MG_SET_SIZE); // how many sets available
+  MG_REMAINING_POOL = shuffle([...ALL_GLOSSARY]);
+
+  document.getElementById('mg-end').classList.add('hidden');
+  document.getElementById('mg-board').classList.remove('hidden');
+  navTo('match-game-page');
+  mgNextRound();
+}
+
+function endMatchGame() {
+  clearInterval(MG_TIMER_INT);
+  navTo('flashcards-page');
+}
+
+function mgNextRound() {
+  MG_MATCHED = new Set();
+  MG_SELECTED = null;
+  MG_TOTAL_ROUNDS++;
+
+  // Take next 5 items
+  if (!MG_REMAINING_POOL || MG_REMAINING_POOL.length < MG_SET_SIZE) {
+    MG_REMAINING_POOL = shuffle([...ALL_GLOSSARY]);
+  }
+  MG_PAIRS = MG_REMAINING_POOL.splice(0, MG_SET_SIZE);
+
+  // Update header
+  document.getElementById('mg-round-text').textContent = `סט ${MG_TOTAL_ROUNDS}`;
+  document.getElementById('mg-score-text').textContent = `✓ ${MG_TOTAL_MATCHED} זוגות`;
+  document.getElementById('mg-progress-fill').style.width = '0%';
+  document.getElementById('mg-feedback').classList.add('hidden');
+
+  // Start timer
+  clearInterval(MG_TIMER_INT);
+  MG_TIMER_START = Date.now();
+  MG_TIMER_INT = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - MG_TIMER_START) / 1000);
+    const m = Math.floor(elapsed / 60);
+    const s = elapsed % 60;
+    const el = document.getElementById('mg-timer');
+    if (el) el.textContent = `⏱ ${m}:${String(s).padStart(2,'0')}`;
+  }, 500);
+
+  mgRenderBoard();
+}
+
+function mgRenderBoard() {
+  const board = document.getElementById('mg-board');
+  board.innerHTML = '';
+
+  const terms = shuffle([...MG_PAIRS]);
+  const defs  = shuffle([...MG_PAIRS]);
+
+  // Left col: terms, Right col: definitions
+  terms.forEach(p => {
+    const btn = document.createElement('button');
+    btn.className = 'mg-tile mg-term';
+    btn.dataset.id   = p.id;
+    btn.dataset.type = 'term';
+    btn.textContent  = p.term;
+    btn.addEventListener('click', () => mgSelect(btn));
+    board.appendChild(btn);
+  });
+  defs.forEach(p => {
+    const btn = document.createElement('button');
+    btn.className = 'mg-tile mg-def';
+    btn.dataset.id   = p.id;
+    btn.dataset.type = 'def';
+    btn.textContent  = p.definition;
+    btn.addEventListener('click', () => mgSelect(btn));
+    board.appendChild(btn);
+  });
+}
+
+function mgSelect(el) {
+  if (el.classList.contains('mg-matched') || el.classList.contains('mg-wrong')) return;
+
+  const type = el.dataset.type;
+  const id   = parseInt(el.dataset.id);
+
+  if (!MG_SELECTED) {
+    // First selection
+    MG_SELECTED = { type, id, el };
+    el.classList.add('mg-active');
+    return;
+  }
+
+  if (MG_SELECTED.el === el) {
+    // Deselect same
+    el.classList.remove('mg-active');
+    MG_SELECTED = null;
+    return;
+  }
+
+  if (MG_SELECTED.type === type) {
+    // Same column — switch selection
+    MG_SELECTED.el.classList.remove('mg-active');
+    MG_SELECTED = { type, id, el };
+    el.classList.add('mg-active');
+    return;
+  }
+
+  // Check match
+  MG_SELECTED.el.classList.remove('mg-active');
+  const prevEl = MG_SELECTED.el;
+  const prevId = MG_SELECTED.id;
+  MG_SELECTED = null;
+
+  if (prevId === id) {
+    // ✓ Match!
+    prevEl.classList.add('mg-matched');
+    el.classList.add('mg-matched');
+    MG_MATCHED.add(id);
+    MG_TOTAL_MATCHED++;
+    document.getElementById('mg-score-text').textContent = `✓ ${MG_TOTAL_MATCHED} זוגות`;
+    document.getElementById('mg-progress-fill').style.width = ((MG_MATCHED.size / MG_SET_SIZE) * 100) + '%';
+
+    // Flash green
+    [prevEl, el].forEach(b => {
+      b.classList.add('mg-flash-correct');
+      setTimeout(() => b.classList.remove('mg-flash-correct'), 500);
+    });
+
+    // Round complete?
+    if (MG_MATCHED.size === MG_SET_SIZE) {
+      setTimeout(mgRoundComplete, 600);
+    }
+  } else {
+    // ✗ Wrong
+    MG_ERRORS++;
+    [prevEl, el].forEach(b => {
+      b.classList.add('mg-wrong');
+      setTimeout(() => b.classList.remove('mg-wrong'), 800);
+    });
+  }
+}
+
+function mgRoundComplete() {
+  clearInterval(MG_TIMER_INT);
+  const elapsed = Math.floor((Date.now() - MG_TIMER_START) / 1000);
+  const m = Math.floor(elapsed / 60);
+  const s = elapsed % 60;
+
+  const fb = document.getElementById('mg-feedback');
+  fb.classList.remove('hidden');
+  fb.textContent = `✓ הושלם ב-${m}:${String(s).padStart(2,'0')} עם ${MG_ERRORS} שגיאות בסט זה`;
+  fb.style.cssText = 'text-align:center;padding:0.6rem;border-radius:10px;margin-bottom:0.8rem;font-size:0.88rem;background:rgba(67,233,123,0.12);color:var(--success);border:1px solid rgba(67,233,123,0.3)';
+
+  MG_ERRORS = 0; // reset per-round errors
+
+  setTimeout(() => {
+    mgNextRound();
+  }, 1800);
+}
+
+let MG_REMAINING_POOL = [];
+
