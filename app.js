@@ -1069,10 +1069,12 @@ async function submitMultiAnswer(q) {
   if (isCorrect) {
     SESSION.correct++;
     SESSION.answers[SESSION.idx] = { q, chosen: chosen[0], correct: true, chosenMulti: chosen };
+    SFX.correct();
   } else {
     SESSION.wrong++;
     SESSION.answers[SESSION.idx] = { q, chosen: chosen[0], correct: false, chosenMulti: chosen };
     if (gIdx >= 0 && !WRONG_IDS.includes(gIdx)) WRONG_IDS.push(gIdx);
+    SFX.wrong();
   }
 
   await persistData();
@@ -1115,6 +1117,7 @@ async function selectOption(idx) {
     opts[idx].classList.add('correct');
     SESSION.correct++;
     SESSION.answers[SESSION.idx] = { q, chosen: idx, correct: true };
+    SFX.correct();
   } else {
     opts[idx].classList.add('wrong');
     opts[q.ans].classList.add('correct');
@@ -1124,6 +1127,7 @@ async function selectOption(idx) {
     if (globalIdx >= 0 && !WRONG_IDS.includes(globalIdx)) {
       WRONG_IDS.push(globalIdx);
     }
+    SFX.wrong();
   }
 
   await persistData();
@@ -1195,7 +1199,7 @@ function skipQuestion() {
   advanceOrFinish();
 }
 
-function nextQuestion() { advanceOrFinish(); }
+function nextQuestion() { SFX.nextQuestion(); advanceOrFinish(); }
 
 function advanceOrFinish() {
   if (SESSION.mode === 'exam') {
@@ -1242,6 +1246,8 @@ async function showResults() {
   const pct = Math.round((SESSION.correct / total) * 100);
   const pass = pct >= 65;
   const he = CURRENT_LANG === 'he';
+
+  setTimeout(() => pass ? SFX.quizWin() : SFX.quizFail(), 300);
 
   if (!BEST || pct > BEST) {
     BEST = pct;
@@ -1941,6 +1947,7 @@ function renderGrid() {
       </div>`;
     card.addEventListener('click', e => {
       if (e.target.classList.contains('fc-known-btn')) return;
+      SFX.flipCard();
       card.classList.toggle('flipped');
     });
     grid.appendChild(card);
@@ -2003,7 +2010,7 @@ function renderOne(entryDir) {
 
   // Tap to flip
   const stage = document.getElementById('fco-stage');
-  stage.onclick = () => cardEl.classList.toggle('flipped');
+  stage.onclick = () => { SFX.flipCard(); cardEl.classList.toggle('flipped'); };
 
   // Touch/swipe support
   fcInitSwipe(stage);
@@ -2027,6 +2034,7 @@ function fcoMarkKnown() {
     FC_KNOWN.delete(item.id);
   } else {
     FC_KNOWN.add(item.id);
+    SFX.markKnown();
   }
   updateFcProgress();
   // Update card + button state without navigating
@@ -2317,7 +2325,12 @@ function ggRenderQuestion() {
 function ggAnswer(isCorrect, btn) {
   if (GG_ANSWERED) return;
   GG_ANSWERED = true;
-  if (isCorrect) GG_CORRECT++;
+  if (isCorrect) {
+    GG_CORRECT++;
+    SFX.correct();
+  } else {
+    SFX.wrong();
+  }
 
   // Style all buttons
   const optEl = document.getElementById('gg-options');
@@ -2514,6 +2527,7 @@ function mgSelect(el) {
     el.classList.add('mg-matched');
     MG_MATCHED.add(id);
     MG_TOTAL_MATCHED++;
+    SFX.match();
     document.getElementById('mg-score-text').textContent = `✓ ${MG_TOTAL_MATCHED} זוגות`;
     document.getElementById('mg-progress-fill').style.width = ((MG_MATCHED.size / MG_SET_SIZE) * 100) + '%';
 
@@ -2530,6 +2544,7 @@ function mgSelect(el) {
   } else {
     // ✗ Wrong
     MG_ERRORS++;
+    SFX.matchWrong();
     [prevEl, el].forEach(b => {
       b.classList.add('mg-wrong');
       setTimeout(() => b.classList.remove('mg-wrong'), 800);
@@ -2539,6 +2554,7 @@ function mgSelect(el) {
 
 function mgRoundComplete() {
   clearInterval(MG_TIMER_INT);
+  SFX.roundComplete();
   const elapsed = Math.floor((Date.now() - MG_TIMER_START) / 1000);
   const m = Math.floor(elapsed / 60);
   const s = elapsed % 60;
@@ -2556,3 +2572,126 @@ function mgRoundComplete() {
 }
 
 let MG_REMAINING_POOL = [];
+
+
+// ═══════════════════════════════════════════════════════════════
+// SOUND ENGINE  (Web Audio API — zero dependencies)
+// ═══════════════════════════════════════════════════════════════
+
+const SFX = (() => {
+  let ctx = null;
+  let muted = false;
+
+  function getCtx() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+
+  // Core tone builder
+  function tone({ freq = 440, freq2, type = 'sine', gain = 0.18, attack = 0.005,
+                   decay = 0.08, sustain = 0.6, release = 0.18, duration = 0.25 } = {}) {
+    if (muted) return;
+    try {
+      const c = getCtx();
+      const osc = c.createOscillator();
+      const env = c.createGain();
+      osc.connect(env);
+      env.connect(c.destination);
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, c.currentTime);
+      if (freq2) osc.frequency.linearRampToValueAtTime(freq2, c.currentTime + duration);
+
+      env.gain.setValueAtTime(0, c.currentTime);
+      env.gain.linearRampToValueAtTime(gain, c.currentTime + attack);
+      env.gain.linearRampToValueAtTime(gain * sustain, c.currentTime + attack + decay);
+      env.gain.setValueAtTime(gain * sustain, c.currentTime + duration - release);
+      env.gain.linearRampToValueAtTime(0, c.currentTime + duration);
+
+      osc.start(c.currentTime);
+      osc.stop(c.currentTime + duration + 0.01);
+    } catch(e) {}
+  }
+
+  function chord(freqs, opts = {}) {
+    freqs.forEach((f, i) => setTimeout(() => tone({ freq: f, ...opts }), i * (opts.stagger || 0)));
+  }
+
+  // ── Public sounds ──
+
+  function correct() {
+    // Bright two-note ding: root + fifth
+    tone({ freq: 523.25, type: 'triangle', gain: 0.14, duration: 0.18, attack: 0.003, release: 0.12 });
+    setTimeout(() => tone({ freq: 783.99, type: 'triangle', gain: 0.12, duration: 0.22, attack: 0.003, release: 0.18 }), 80);
+  }
+
+  function wrong() {
+    // Low dull thud
+    tone({ freq: 220, freq2: 160, type: 'sawtooth', gain: 0.12, duration: 0.22, attack: 0.003, decay: 0.05, sustain: 0.3, release: 0.15 });
+  }
+
+  function match() {
+    // Satisfying pop + shimmer
+    tone({ freq: 660, type: 'sine', gain: 0.13, duration: 0.12, attack: 0.002, release: 0.1 });
+    setTimeout(() => tone({ freq: 880, type: 'sine', gain: 0.09, duration: 0.15, attack: 0.002, release: 0.13 }), 55);
+  }
+
+  function matchWrong() {
+    // Short buzz
+    tone({ freq: 180, freq2: 140, type: 'square', gain: 0.08, duration: 0.15, attack: 0.002, release: 0.1 });
+  }
+
+  function roundComplete() {
+    // Rising arpeggio
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((f, i) => setTimeout(() => tone({ freq: f, type: 'triangle', gain: 0.11, duration: 0.18, attack: 0.003, release: 0.14 }), i * 90));
+  }
+
+  function nextQuestion() {
+    // Soft neutral tick
+    tone({ freq: 380, type: 'sine', gain: 0.06, duration: 0.08, attack: 0.002, release: 0.06 });
+  }
+
+  function quizWin() {
+    // Triumphant fanfare
+    const melody = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5];
+    const delays =  [0,       120,    240,    380,    480,    560];
+    melody.forEach((f, i) => setTimeout(() => tone({ freq: f, type: 'triangle', gain: 0.13, duration: 0.22, attack: 0.003, release: 0.16 }), delays[i]));
+  }
+
+  function quizFail() {
+    // Descending sad tones
+    const notes = [392, 349.23, 311.13, 261.63];
+    notes.forEach((f, i) => setTimeout(() => tone({ freq: f, type: 'sine', gain: 0.1, duration: 0.28, attack: 0.005, release: 0.22 }), i * 130));
+  }
+
+  function flipCard() {
+    // Light whoosh-click
+    tone({ freq: 800, freq2: 400, type: 'sine', gain: 0.05, duration: 0.1, attack: 0.001, release: 0.09 });
+  }
+
+  function markKnown() {
+    // Soft star chime
+    tone({ freq: 1046.5, type: 'sine', gain: 0.08, duration: 0.15, attack: 0.003, release: 0.13 });
+  }
+
+  function navClick() {
+    tone({ freq: 440, type: 'sine', gain: 0.04, duration: 0.06, attack: 0.001, release: 0.05 });
+  }
+
+  function toggleMute() { muted = !muted; return muted; }
+  function isMuted() { return muted; }
+
+  return { correct, wrong, match, matchWrong, roundComplete, nextQuestion,
+           quizWin, quizFail, flipCard, markKnown, navClick, toggleMute, isMuted };
+})();
+
+// Expose globally
+window.SFX = SFX;
+
+window.toggleSfx = function() {
+  const muted = SFX.toggleMute();
+  const btn = document.getElementById('sfx-switch-btn');
+  if (btn) btn.classList.toggle('on', !muted);
+};
