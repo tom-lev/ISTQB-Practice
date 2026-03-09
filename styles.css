@@ -2669,6 +2669,15 @@ body.light-mode .exam-klevel-strip { background: #f7f7fb; }
    MATCH GAME
 ═══════════════════════════════════════════════ */
 
+  #match-game-page,
+  #glossary-game-page {
+    padding: 64px 1.5rem 3rem;
+    max-width: 780px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
   #mg-board {
     display: grid;
     grid-template-columns: 1fr 1fr;
