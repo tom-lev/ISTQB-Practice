@@ -2406,7 +2406,7 @@ function startMatchGame() {
 
 function endMatchGame() {
   clearInterval(MG_TIMER_INT);
-  navTo('flashcards-page');
+  navTo('home');
 }
 
 function mgNextRound() {
@@ -2445,26 +2445,32 @@ function mgRenderBoard() {
   board.innerHTML = '';
 
   const terms = shuffle([...MG_PAIRS]);
-  const defs  = shuffle([...MG_PAIRS]);
 
-  // Left col: terms, Right col: definitions
-  terms.forEach(p => {
-    const btn = document.createElement('button');
-    btn.className = 'mg-tile mg-term';
-    btn.dataset.id   = p.id;
-    btn.dataset.type = 'term';
-    btn.textContent  = p.term;
-    btn.addEventListener('click', () => mgSelect(btn));
-    board.appendChild(btn);
-  });
-  defs.forEach(p => {
-    const btn = document.createElement('button');
-    btn.className = 'mg-tile mg-def';
-    btn.dataset.id   = p.id;
-    btn.dataset.type = 'def';
-    btn.textContent  = p.definition;
-    btn.addEventListener('click', () => mgSelect(btn));
-    board.appendChild(btn);
+  // Ensure defs order never matches terms order (no same-row pair)
+  let defs;
+  let attempts = 0;
+  do {
+    defs = shuffle([...MG_PAIRS]);
+    attempts++;
+  } while (attempts < 20 && defs.some((d, i) => d.id === terms[i].id));
+
+  // Render as rows: each row has one term tile and one def tile
+  terms.forEach((p, i) => {
+    const termBtn = document.createElement('button');
+    termBtn.className = 'mg-tile mg-term';
+    termBtn.dataset.id   = p.id;
+    termBtn.dataset.type = 'term';
+    termBtn.textContent  = p.term;
+    termBtn.addEventListener('click', () => mgSelect(termBtn));
+    board.appendChild(termBtn);
+
+    const defBtn = document.createElement('button');
+    defBtn.className = 'mg-tile mg-def';
+    defBtn.dataset.id   = defs[i].id;
+    defBtn.dataset.type = 'def';
+    defBtn.textContent  = defs[i].definition;
+    defBtn.addEventListener('click', () => mgSelect(defBtn));
+    board.appendChild(defBtn);
   });
 }
 
