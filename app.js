@@ -443,6 +443,7 @@ window._authReady      = false;
 function showScreen(id) {
   // Stop speed timer whenever leaving quiz screen (clearSpeedTimer defined later, use vars directly)
   if (id !== 'quiz') {
+    _tickActive = false; // kill any in-flight scheduleTick closure
     if (SPEED_TIMER)        { clearTimeout(SPEED_TIMER);        SPEED_TIMER = null; }
     if (SPEED_TICK_TIMEOUT) { clearTimeout(SPEED_TICK_TIMEOUT); SPEED_TICK_TIMEOUT = null; }
   }
@@ -1703,9 +1704,11 @@ async function saveNote() {
 }
 
 // ── Speed Mode Timer ──
+let _tickActive = false; // flag to kill the tick loop from inside
 
 async function startSpeedTimer() {
   clearSpeedTimer();
+  _tickActive = true; // new session — allow ticking
   const fill = document.getElementById('speed-timer-fill');
   if (fill) { fill.style.transition = 'none'; fill.style.width = '100%'; }
   // Trigger reflow then animate
@@ -1719,6 +1722,7 @@ async function startSpeedTimer() {
   const totalMs   = SPEED_SECONDS * 1000;
 
   function scheduleTick() {
+    if (!_tickActive) return; // stopped — do not reschedule
     const elapsed  = Date.now() - startedAt;
     const progress = Math.min(elapsed / totalMs, 1); // 0.0 → 1.0
     const interval = 2000 - progress * 1750;         // 2000ms → 250ms
@@ -1759,6 +1763,7 @@ async function startSpeedTimer() {
 }
 
 function clearSpeedTimer() {
+  _tickActive = false; // kill any in-flight scheduleTick closure
   if (SPEED_TIMER)        { clearTimeout(SPEED_TIMER);        SPEED_TIMER = null; }
   if (SPEED_TICK_TIMEOUT) { clearTimeout(SPEED_TICK_TIMEOUT); SPEED_TICK_TIMEOUT = null; }
   const fill = document.getElementById('speed-timer-fill');
