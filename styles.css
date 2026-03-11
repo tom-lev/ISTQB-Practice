@@ -365,7 +365,7 @@
   }
 
   /* ========== CONFIG ========== */
-  #config, #exam-config {
+  #config, #exam-config, #streak-config {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
