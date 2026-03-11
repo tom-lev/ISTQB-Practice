@@ -76,9 +76,10 @@ let UNIQUE_IDS   = [];
 let QUIZ_HISTORY = [];
 let STARRED_IDS  = [];   // ⭐ starred question indices
 let NOTES        = {};   // { questionIndex: "note text" }
-let SPEED_MODE    = false;
-let SPEED_SECONDS = 30; // default 30s, configurable 10–90
-let SPEED_TIMER  = null;
+let SPEED_MODE         = false;
+let SPEED_SECONDS      = 30; // default 30s, configurable 10–90
+let SPEED_TIMER        = null;
+let SPEED_TICK_TIMEOUT = null;
 
 // ── Firestore bridge (set by Firebase module once ready) ──
 window._fbSaveUserData  = null;
@@ -440,6 +441,12 @@ window._questionsReady = false;
 window._authReady      = false;
 
 function showScreen(id) {
+  // Stop speed timer whenever leaving quiz screen (clearSpeedTimer defined later, use vars directly)
+  if (id !== 'quiz') {
+    _tickActive = false; // kill any in-flight scheduleTick closure
+    if (SPEED_TIMER)        { clearTimeout(SPEED_TIMER);        SPEED_TIMER = null; }
+    if (SPEED_TICK_TIMEOUT) { clearTimeout(SPEED_TICK_TIMEOUT); SPEED_TICK_TIMEOUT = null; }
+  }
   ['loading','home','config','exam-config','streak-config','quiz','results','stats-page','about-page','saved-page','flashcards-page','glossary-game-page','match-game-page'].forEach(s => {
     const el = document.getElementById(s);
     if (el) el.classList.add('hidden');
@@ -1697,18 +1704,41 @@ async function saveNote() {
 }
 
 // ── Speed Mode Timer ──
+let _tickActive = false; // flag to kill the tick loop from inside
+
 async function startSpeedTimer() {
   clearSpeedTimer();
+  _tickActive = true; // new session — allow ticking
   const fill = document.getElementById('speed-timer-fill');
   if (fill) { fill.style.transition = 'none'; fill.style.width = '100%'; }
   // Trigger reflow then animate
   setTimeout(() => {
     if (fill) { fill.style.transition = `width ${SPEED_SECONDS}s linear`; fill.style.width = '0%'; }
   }, 50);
+
+  // ── Adaptive tick sound ──
+  // Tick interval shrinks from 2000ms (calm) to 250ms (urgent) as time runs out
+  const startedAt = Date.now();
+  const totalMs   = SPEED_SECONDS * 1000;
+
+  function scheduleTick() {
+    if (!_tickActive) return; // stopped — do not reschedule
+    const elapsed  = Date.now() - startedAt;
+    const progress = Math.min(elapsed / totalMs, 1); // 0.0 → 1.0
+    const interval = 2000 - progress * 1750;         // 2000ms → 250ms
+    SFX.timerTick(progress);
+    if (progress < 1) {
+      SPEED_TICK_TIMEOUT = setTimeout(scheduleTick, interval);
+    }
+  }
+  // Start first tick after a short delay so it doesn't clash with question render sound
+  SPEED_TICK_TIMEOUT = setTimeout(scheduleTick, 600);
+
   SPEED_TIMER = setTimeout(() => {
     // Time's up — count as wrong, move on
     const opts = document.querySelectorAll('.option');
     if (opts.length && !opts[0].classList.contains('disabled')) {
+      SFX.timerAlarm();
       const q = SESSION.questions[SESSION.idx];
       opts.forEach(o => o.classList.add('disabled'));
       opts[q.ans].classList.add('correct');
@@ -1733,7 +1763,9 @@ async function startSpeedTimer() {
 }
 
 function clearSpeedTimer() {
-  if (SPEED_TIMER) { clearTimeout(SPEED_TIMER); SPEED_TIMER = null; }
+  _tickActive = false; // kill any in-flight scheduleTick closure
+  if (SPEED_TIMER)        { clearTimeout(SPEED_TIMER);        SPEED_TIMER = null; }
+  if (SPEED_TICK_TIMEOUT) { clearTimeout(SPEED_TICK_TIMEOUT); SPEED_TICK_TIMEOUT = null; }
   const fill = document.getElementById('speed-timer-fill');
   if (fill) { fill.style.transition = 'none'; fill.style.width = '100%'; }
 }
@@ -2888,11 +2920,27 @@ const SFX = (() => {
     tone({ freq: 440, type: 'sine', gain: 0.04, duration: 0.06, attack: 0.001, release: 0.05 });
   }
 
+  // Timer tick — gentle pulse, grows subtly as time runs out
+  // progress: 0.0 (just started) → 1.0 (time is up)
+  function timerTick(progress) {
+    // Soft sine chime: warm and mellow throughout, slightly higher near end
+    const freq = 480 + Math.pow(progress, 1.5) * 160; // 480Hz → 640Hz
+    const gain = 0.044 + progress * 0.053;             // very quiet → gentle (+35%)
+    const duration = 0.13 + (1 - progress) * 0.08;    // longer/softer early, shorter near end
+    tone({ freq, type: 'sine', gain, duration, attack: 0.01, decay: 0.06, sustain: 0.25, release: duration * 0.75 });
+  }
+
+  // Gentle end-of-time chime — two soft descending notes
+  function timerAlarm() {
+    tone({ freq: 520, type: 'sine', gain: 0.125, duration: 0.24, attack: 0.012, release: 0.20 });
+    setTimeout(() => tone({ freq: 370, type: 'sine', gain: 0.084, duration: 0.32, attack: 0.012, release: 0.26 }), 200);
+  }
+
   function toggleMute() { muted = !muted; return muted; }
   function isMuted() { return muted; }
 
   return { correct, wrong, match, matchWrong, roundComplete, nextQuestion,
-           quizWin, quizFail, flipCard, markKnown, navClick, toggleMute, isMuted };
+           quizWin, quizFail, flipCard, markKnown, navClick, timerTick, timerAlarm, toggleMute, isMuted };
 })();
 
 // Expose globally
