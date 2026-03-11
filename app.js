@@ -446,6 +446,17 @@ function showScreen(id) {
   });
   document.getElementById(id).classList.remove('hidden');
   window.scrollTo(0, 0);
+
+  // Reset streak UI when leaving quiz
+  if (id !== 'quiz' && SESSION.mode === 'streak') {
+    const streakBar  = document.getElementById('streak-bar');
+    const scoreBadge = document.getElementById('score-live');
+    const overlay    = document.getElementById('streak-gameover');
+    if (streakBar)  streakBar.classList.add('hidden');
+    if (scoreBadge) scoreBadge.classList.remove('hidden');
+    if (overlay)    overlay.classList.add('hidden');
+  }
+
   const nav = document.getElementById('global-nav');
   const toggleBtn = document.getElementById('sidebar-toggle-btn');
   const logoBar = document.getElementById('top-logo-bar');
@@ -2610,11 +2621,9 @@ function getStreakSelectedSources() {
 window.beginStreakMode = function() {
   const sources = getStreakSelectedSources();
   const klevel  = document.getElementById('streak-sel-klevel')?.value || 'all';
-
   let pool = [...ACTIVE_Q];
   if (sources.length > 0) pool = pool.filter(q => sources.includes(q.src));
   if (klevel !== 'all')   pool = pool.filter(q => (q.k_level || q.k) === klevel);
-
   const he = CURRENT_LANG === 'he';
   if (pool.length === 0) {
     alert(he ? 'אין שאלות עבור הסינון שנבחר.' : 'No questions match the selected filters.');
@@ -2706,7 +2715,6 @@ function streakGameOver() {
     const chosenText = chosenIdxs.length > 0
       ? chosenIdxs.map(i => `${letters[i]}) ${q.opts[i]}`).join(' + ')
       : (he ? 'לא נבחר' : 'None');
-
     document.getElementById('streak-wrong-q').textContent = q.q.length > 100 ? q.q.slice(0, 100) + '…' : q.q;
     document.getElementById('streak-wrong-correct').textContent = `✓ ${he ? 'נכון' : 'Correct'}: ${correctText}`;
     document.getElementById('streak-wrong-chosen').textContent  = `✗ ${he ? 'בחרת' : 'You chose'}: ${chosenText}`;
@@ -2725,6 +2733,12 @@ function streakRestart() {
   showScreen('streak-config');
 }
 
+function streakRestart() {
+  const overlay = document.getElementById('streak-gameover');
+  if (overlay) overlay.classList.add('hidden');
+  startMode('streak');
+}
+
 function streakQuit() {
   const overlay = document.getElementById('streak-gameover');
   if (overlay) overlay.classList.add('hidden');
@@ -2736,22 +2750,7 @@ function streakQuit() {
   navTo('home');
 }
 
-// Make sure streak UI resets when leaving quiz normally
-const _origShowScreen = window.showScreen;
-window.showScreen = function(id) {
-  if (id !== 'quiz' && SESSION.mode === 'streak') {
-    const streakBar  = document.getElementById('streak-bar');
-    const scoreBadge = document.getElementById('score-live');
-    const overlay    = document.getElementById('streak-gameover');
-    if (streakBar)  streakBar.classList.add('hidden');
-    if (scoreBadge) scoreBadge.classList.remove('hidden');
-    if (overlay)    overlay.classList.add('hidden');
-  }
-  // Always hide streak-config when switching screens
-  const streakCfg = document.getElementById('streak-config');
-  if (streakCfg && id !== 'streak-config') streakCfg.classList.add('hidden');
-  if (_origShowScreen) return _origShowScreen.call(this, id);
-};
+// (streak UI cleanup is now handled inside showScreen directly)
 
 
 // ═══════════════════════════════════════════════════════════════
