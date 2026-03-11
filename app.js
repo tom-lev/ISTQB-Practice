@@ -1089,6 +1089,7 @@ async function submitMultiAnswer(q) {
   }
   document.getElementById('btn-skip').classList.add('hidden');
   document.getElementById('btn-next').classList.remove('hidden');
+  document.getElementById('score-live').textContent = `✓ ${SESSION.correct} · ✗ ${SESSION.wrong}`;
   updateExamFooter();
   if (SESSION.mode === 'exam') renderExamNavBar();
 }
@@ -2626,7 +2627,7 @@ function streakOnCorrect() {
 function updateStreakDisplay() {
   const el = document.getElementById('streak-counter');
   if (el) {
-    const emoji = STREAK_CURRENT >= 20 ? '🏆' : STREAK_CURRENT >= 10 ? '🔥' : STREAK_CURRENT >= 5 ? '⚡' : '🔥';
+    const emoji = STREAK_CURRENT >= 20 ? '🏆' : STREAK_CURRENT >= 10 ? '⚡' : '🔥';
     el.textContent = `${emoji} ${STREAK_CURRENT}`;
     // Pulse animation on update
     el.style.transform = 'scale(1.3)';
