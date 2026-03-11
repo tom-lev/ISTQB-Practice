@@ -2747,6 +2747,9 @@ window.showScreen = function(id) {
     if (scoreBadge) scoreBadge.classList.remove('hidden');
     if (overlay)    overlay.classList.add('hidden');
   }
+  // Always hide streak-config when switching screens
+  const streakCfg = document.getElementById('streak-config');
+  if (streakCfg && id !== 'streak-config') streakCfg.classList.add('hidden');
   if (_origShowScreen) return _origShowScreen.call(this, id);
 };
 
