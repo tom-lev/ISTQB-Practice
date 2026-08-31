@@ -64,21 +64,6 @@ ISTQB-Practice/
 
 ---
 
-## 🚀 הרצה מקומית
-
-מכיוון שמדובר באפליקציה סטטית (ללא build step), ניתן להריץ אותה מקומית בקלות:
-
-```bash
-git clone https://github.com/tom-lev/ISTQB-Practice.git
-cd ISTQB-Practice
-python3 -m http.server 8000
-# ואז פתחו http://localhost:8000
-```
-
-> לשם עבודה מלאה של סנכרון הענן (Google Sign-In), יש להגדיר פרויקט Firebase משלכם ולעדכן את פרטי ההגדרה ב-`firebase.js`. ללא הגדרה כזו האפליקציה תמשיך לעבוד במצב אורח, ללא שמירת התקדמות.
-
----
-
 ## 📖 אודות ISTQB CTFL
 
 ISTQB (International Software Testing Qualifications Board) היא הסמכה בינלאומית לבודקי תוכנה. רמת ה-Foundation Level (CTFL) היא רמת הכניסה, ומוכיחה ידע בסיסי בתורת בדיקות התוכנה. האפליקציה נבנתה כדי לסייע בהכנה לבחינה זו בעברית, ומכילה שאלות מ-5 מקורות: בחינות לדוגמה גרסאות א'–ד' וחידון מילות מפתח.
@@ -88,9 +73,3 @@ ISTQB (International Software Testing Qualifications Board) היא הסמכה ב
 ## 🐛 דיווח על בעיות
 
 נמצאה שגיאה בשאלה או בעיה באפליקציה? ניתן לדווח ישירות דרך כפתור הדיווח (⚑) בתוך האפליקציה, או לפתוח [Issue בגיטהאב](https://github.com/tom-lev/ISTQB-Practice/issues).
-
----
-
-## 📄 רישיון
-
-לא צוין רישיון בריפו. כל הזכויות שמורות ל-tom-lev, אלא אם צוין אחרת.
